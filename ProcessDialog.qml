@@ -18,7 +18,7 @@ Dialog {
     property alias processTitle: processTitle.text
 
     property int timerCount: 0
-    property int duringSeconds: 10
+    property int duringSeconds: 0
 
     property int cmds_index : 0
     property int cmd_delay : 0
@@ -66,16 +66,6 @@ Dialog {
                 from: 0.0
                 to: 1.0
                 duration: duringSeconds*1000
-                // onFinished: {
-                //     timerCount = 0
-
-                //     cmds_index = 0
-                //     cmd_delay = 0
-
-                //     processBar.processValue = 0
-                //     processTimer.stop()
-                //     rootProcess.accept()
-                // }
             }
         }
     }
@@ -93,7 +83,7 @@ Dialog {
                 cmds_index++
             }
             timerCount++
-            if(duringSeconds === timerCount){
+            if(cmds_index === Tendzone.Commands_List[operation]["Commands"].length){
                 timerCount = 0
                 cmds_index = 0
                 cmd_delay = 0

@@ -11,8 +11,8 @@ ApplicationWindow {
 
     title: `${Application.name} (${Application.version})`
 
-    width: Screen.width
-    height: Screen.height
+    width: 700
+    height: 400
 
     visibility:settingDialog.settings.fullscreen? Window.FullScreen : Window.Windowed
 
@@ -58,10 +58,10 @@ ApplicationWindow {
         }
     }
 
-    Splash {
-       id:splashWindow
-        visible: true
-    }
+    // Splash {
+    //    id:splashWindow
+    //     visible: true
+    // }
 
     SettingDialog{ id: settingDialog }
 

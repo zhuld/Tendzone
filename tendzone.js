@@ -268,7 +268,7 @@ const TJHospital = {
     }
 }
 
-const Commands_List = Haishi
+const Commands_List = TJHospital
 
 function startCmds(cmd){
     if(Commands_List[cmd]["Confirm"]){
@@ -286,7 +286,7 @@ function startCmds(cmd){
 
 function getCmdsDuring(cmds){
     var during = 0
-    for (var i = 0; i < Commands_List[cmds]["Commands"].length; i++){
+    for (var i = 0; i < Commands_List[cmds]["Commands"].length-1; i++){
         during += Commands_List[cmds]["Commands"][i].Delay
     }
     return during
@@ -541,8 +541,12 @@ function messageCheck(message) {
             //console.info("电锁状态",root.lockPower)
         } else if ((codeCompare(message, uuid_HOST_PARAMS, 2) & //主机 0x1100
                     (codeCompare(message, id_Machine_Name, 4)))) {  // 0x0000
-            const decoder = new TextDecoder('utf-8')
-            settingDialog.settings.roomNumber = decoder.decode(message.silice(8,48))
+            var messageArray = new Uint8Array(message.slice(8,48))
+            var dataString = "";
+            for (var i = 0; i < messageArray.length; i++) {
+                dataString += String.fromCharCode(messageArray[i]);
+            }
+            settingDialog.settings.roomNumber = dataString
             settingDialog.roomNumber.text = settingDialog.settings.roomNumber
             settingDialog.settings.sync()
         }
