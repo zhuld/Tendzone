@@ -4,21 +4,19 @@ import QtWebSockets
 
 import "./tendzone.js" as Tendzone
 
-//import QtQuick.Controls.Material
+import QtQuick.Controls.Fusion
 
 ApplicationWindow {
     id:root
 
     title: `${Application.name} (${Application.version})`
 
-    width: 700
-    height: 400
+    width: Screen.width
+    height: Screen.height
 
     visibility:settingDialog.settings.fullscreen? Window.FullScreen : Window.Windowed
 
     visible: true
-
-    opacity: 0
 
     background: Rectangle{
         gradient: Gradient {
@@ -58,6 +56,11 @@ ApplicationWindow {
                 break
             }
         }
+    }
+
+    Splash {
+       id:splashWindow
+        visible: true
     }
 
     SettingDialog{ id: settingDialog }
@@ -116,7 +119,7 @@ ApplicationWindow {
                 id: statusTimer
                 height: parent.height
                 font.pixelSize: height
-                color: "#33B5E5"
+                color: socket.status == WebSocket.Open ? "#33B5E5" :"red"
                 text: Qt.formatDateTime(new Date(),"yyyy-MM-dd hh:mm")
             }
         }
@@ -129,7 +132,7 @@ ApplicationWindow {
             Rectangle{
                 width: parent.width/8
                 height: width
-                anchors.top: mainButtonLeft.top
+                anchors.top: parent.top
                 color: "transparent"
             }
             Column{
@@ -372,19 +375,4 @@ ApplicationWindow {
         }
     }
 
-    Splash {
-        id:splashWindow
-        visible: true
-
-        onTimeout:windowShow.start()
-    }
-
-    NumberAnimation {
-        id:windowShow
-        target: root
-        properties: "opacity"
-        from: 0
-        to: 1
-        duration: 2000
-    }
 }

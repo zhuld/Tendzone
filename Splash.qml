@@ -1,5 +1,5 @@
 import QtQuick
-
+import QtQuick.Controls.Fusion
 Window {
     id: splash
     color: "transparent"
@@ -7,11 +7,10 @@ Window {
     modality: Qt.ApplicationModal
     flags: Qt.SplashScreen
     property int timeoutInterval: 2000
-    property int closeInterval: 2000
     signal timeout
 
-    width: 700
-    height: 450
+    width: Screen.width
+    height: Screen.height
 
     Image {
         id: splashImage
@@ -30,28 +29,25 @@ Window {
             GradientStop { position: 1.0; color: "#12B545" }
             GradientStop { position: 0.0; color: "#2233B5E5" }
         }
-        PropertyAnimation {
+        NumberAnimation {
             id: processAnimation
             target: splashProcessBar
             property: "processValue"
             from: 0.0
             to: 1.0
             duration: splash.timeoutInterval
-            onFinished: {
-                splashClose.start()
-                splash.timeout()
-            }
         }
     }
 
-    PropertyAnimation {
-        id:splashClose
-        target: splash
-        properties: "opacity"
-        from: 1
-        to: 0
-        duration: splash.closeInterval
-        onFinished: splash.visible = false
+    Timer{
+        id: splashTimer
+        interval: splash.timeoutInterval
+        running: true
+        onTriggered:  {
+            splash.timeout()
+            splash.close()
+        }
     }
+
     Component.onCompleted: processAnimation.start()
 }

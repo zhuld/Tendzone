@@ -14,7 +14,8 @@ Image {
     MouseArea{
         id:mouseArea
         anchors.fill: parent
-        pressAndHoldInterval:1000
+
+        //pressAndHoldInterval:1000
         onPressAndHold: {
             if(settings.password ===""){
                 settingDialog.open()

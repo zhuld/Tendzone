@@ -3,7 +3,8 @@ import QtQuick.Controls
 import QtCore
 
 import "./tendzone.js" as Tendzone
-//import QtQuick.Controls.Fusion
+
+import QtQuick.Controls.Fusion
 
 Dialog {
     id:rootSetting

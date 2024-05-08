@@ -1,10 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 
-//import QtQuick.Controls.Fusion
+import QtQuick.Controls.Fusion
 
 Dialog {
-    id:root
+    id:rootPassword
     anchors.centerIn: parent
 
     readonly property real ratio: 0.7
@@ -54,9 +54,9 @@ Dialog {
         }
         Text {
             id: password
-            width: parent.width*0.8
+            width: parent.width
             height: parent.height*0.1
-            anchors.horizontalCenter: parent.horizontalCenter
+            //horizontalAlignment: parent.horizontalCenter
             verticalAlignment: Text.AlignBottom
             horizontalAlignment : Text.AlignHCenter
             font.pixelSize: height

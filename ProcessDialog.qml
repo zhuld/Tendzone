@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 import "./tendzone.js" as Tendzone
 
-//import QtQuick.Controls.Fusion
+import QtQuick.Controls.Fusion
 
 Dialog {
     id:rootProcess
@@ -42,7 +42,7 @@ Dialog {
             id:processLabel
             width: parent.width
             height: parent.height*0.5
-            text: "执行操作中。。。"
+            text: "执行操作中..."
             font.pixelSize: height*0.4
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -66,16 +66,16 @@ Dialog {
                 from: 0.0
                 to: 1.0
                 duration: duringSeconds*1000
-                onFinished: {
-                    timerCount = 0
+                // onFinished: {
+                //     timerCount = 0
 
-                    cmds_index = 0
-                    cmd_delay = 0
+                //     cmds_index = 0
+                //     cmd_delay = 0
 
-                    processBar.processValue = 0
-                    processTimer.stop()
-                    rootProcess.accept()
-                }
+                //     processBar.processValue = 0
+                //     processTimer.stop()
+                //     rootProcess.accept()
+                // }
             }
         }
     }
@@ -93,6 +93,15 @@ Dialog {
                 cmds_index++
             }
             timerCount++
+            if(duringSeconds === timerCount){
+                timerCount = 0
+                cmds_index = 0
+                cmd_delay = 0
+
+                processBar.processValue = 0
+                processTimer.stop()
+                rootProcess.accept()
+            }
         }
     }
 
