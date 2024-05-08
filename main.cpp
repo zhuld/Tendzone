@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Zhuld");
     app.setOrganizationDomain("zld.com");
     app.setApplicationName("Tendzone Control");
-    app.setApplicationVersion("V0.3.00");
+    app.setApplicationVersion("V0.4.00");
 
     engine.load(url);
 

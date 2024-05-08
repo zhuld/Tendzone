@@ -29,9 +29,10 @@ Dialog {
     closePolicy: Popup.NoAutoClose
 
     Column{
-
         id:base
         anchors.fill: parent
+        anchors.margins: width*0.02
+
         Text {
             id:passwordTitle
             width: parent.width
@@ -91,10 +92,9 @@ Dialog {
                 ListElement { name: "\u2714" }
             }
             delegate: Button{
-                width: parent.width*0.3
+                width: parent.width*0.33
                 height: width
                 font.pixelSize: width*0.4
-
                 text: name
                 onClicked: {
                     switch (name){

@@ -11,7 +11,7 @@ Item {
             PropertyChanges {
                 target: systemOff; text: "下课" }
             PropertyChanges {
-                target: lang; text: "E" }
+                target: lang; text: "EN" }
             PropertyChanges {
                 target: signalLabel; text: "信号切换" }
             PropertyChanges {

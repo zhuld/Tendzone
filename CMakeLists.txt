@@ -6,7 +6,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
-#find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
 qt_add_executable(Tendzone
     main.cpp
@@ -28,7 +27,6 @@ qt_add_qml_module(Tendzone
     QML_FILES SocketStatus.qml
     QML_FILES WSServer.qml
     QML_FILES tendzone.js
-    QML_FILES Splash.qml
     RESOURCES pic/splash.jpg
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -51,7 +51,6 @@ Dialog {
             font.pixelSize: height*0.8
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignLeft
-            color: "#334535"
         }
         ScrollView{
             width: parent.width
