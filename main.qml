@@ -70,7 +70,7 @@ ApplicationWindow {
     WSServer{
         id: server
         onBinReceived: function(message){
-            info.text = "Recived:"+message
+            info.text = "Received:"+message
         }
     }
 
@@ -103,10 +103,10 @@ ApplicationWindow {
                 socketStatusTimer.restart()
                 socket.active = false
             }else if (socket.status == WebSocket.Open){
-                Tendzone.runCmd(Tendzone.Command.subHDMIProjector)
-                Tendzone.runCmd(Tendzone.Command.subHDMIExtend)
-                Tendzone.runCmd(Tendzone.Command.subPowerParm)
-                Tendzone.runCmd(Tendzone.Command.subMachineName)
+                Tendzone.runCmd(Tendzone.Command.subHDMIProjector,true)
+                Tendzone.runCmd(Tendzone.Command.subHDMIExtend,true)
+                Tendzone.runCmd(Tendzone.Command.subPowerParm,true)
+                Tendzone.runCmd(Tendzone.Command.subMachineName,true)
             }
         }
         active: false
@@ -146,9 +146,8 @@ ApplicationWindow {
 
             Rectangle{
                 width: parent.width/8
-                height: width
-                //anchors.top: parent.top
-                //color: "transparent"
+                height: parent.height
+                color: "transparent"
             }
             Column{
                 id: mainButtonLeft
@@ -173,25 +172,31 @@ ApplicationWindow {
                     color: "#33B5E5"
                     visible: settings.whiteboard? false:true
                 }
-                Button{
+                DelayButton{
                     id:whiteBoard
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.8
                     height: parent.height*0.3
                     font.pixelSize: height/3
                     text: "白板上课"
-                    onClicked: Tendzone.startCmds("WhiteBoard")
+                    delay: 500
+                    onReleased: checked = false
+                    onActivated: Tendzone.startCmds("WhiteBoard")
                     visible: settings.whiteboard? true:false
+                    opacity: enabled? 1:0.5
                     enabled: socket.status===WebSocket.Open ? true:false
                 }
-                Button{
+                DelayButton{
                     id:systemOn
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.8
                     height: settings.whiteboard? parent.height*0.3 : parent.height*0.4
                     font.pixelSize: height/3
                     text: "上课"
-                    onClicked: Tendzone.startCmds("SystemOn")
+                    delay: 500
+                    onReleased: checked = false
+                    onActivated: Tendzone.startCmds("SystemOn")
+                    opacity: enabled? 1:0.5
                     enabled: socket.status===WebSocket.Open ? true:false
                 }
             }
@@ -218,14 +223,17 @@ ApplicationWindow {
                     color: "#33B5E5"
                     text: settings.roomNumber
                 }
-                Button{
+                DelayButton{
                     id:systemOff
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.8
                     height: parent.height*0.4
                     font.pixelSize: height/3
                     text: "下课"
-                    onClicked: Tendzone.startCmds("SystemOff")
+                    delay: 500
+                    onReleased: checked = false
+                    onActivated: Tendzone.startCmds("SystemOff")
+                    opacity: enabled? 1:0.5
                     enabled: socket.status===WebSocket.Open ? true:false
                 }
             }
@@ -256,10 +264,9 @@ ApplicationWindow {
                     height: width
                     font.pixelSize: height*0.4
                     text: "\u266C"
-                    onClicked: {
-                        //volumeDialog.position =
-                        volumeDialog.visible = true
-                    }
+                    onClicked:volumeDialog.visible = true
+                    opacity: enabled? 1:0.5
+                    enabled: socket.status===WebSocket.Open ? true:false
                 }
             }
         }
@@ -300,16 +307,18 @@ ApplicationWindow {
                         font.pixelSize: height*0.3
                         text:"台式机"
                         onClicked:Tendzone.startCmds("ProjectorPC")
+                        opacity: enabled? 1:0.5
                         enabled: socket.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_PC
                     }
                     Button{
-                        id:lantop
+                        id:laptop
                         width: settings.wireless? parent.width*0.29 :parent.width*0.4
                         height: parent.height*0.5
                         font.pixelSize: height*0.3
                         text: "笔记本"
-                        onClicked:Tendzone.startCmds("ProjectorLantop")
+                        onClicked:Tendzone.startCmds("ProjectorLaptop")
+                        opacity: enabled? 1:0.5
                         enabled: socket.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_Laptop
                     }
@@ -321,6 +330,7 @@ ApplicationWindow {
                         text: "无线投屏"
                         onClicked: Tendzone.startCmds("ProjectorWireless")
                         visible: settings.wireless? true:false
+                        opacity: enabled? 1:0.5
                         enabled: socket.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_Wireless
                     }
@@ -346,27 +356,32 @@ ApplicationWindow {
                 }
 
                 Row{
-
                     width: parent.width
                     height: parent.height*0.7
                     leftPadding: width*0.05
                     spacing: width*0.1
-                    Button{
+                    DelayButton{
                         id:projectorOn
                         width: parent.width*0.40
                         height: parent.height*0.5
                         font.pixelSize: height*0.3
                         text: "投影机开"
-                        onClicked: Tendzone.startCmds("ProjectorOn")
+                        delay: 500
+                        onReleased: checked = false
+                        onActivated: Tendzone.startCmds("ProjectorOn")
+                        opacity: enabled? 1:0.5
                         enabled: socket.status===WebSocket.Open ? true:false
                     }
-                    Button{
+                    DelayButton{
                         id:projectorOff
                         width: parent.width*0.40
                         height: parent.height*0.5
                         font.pixelSize: height*0.3
                         text: "投影机关"
-                        onClicked: Tendzone.startCmds("ProjectorOff")
+                        delay: 500
+                        onReleased: checked = false
+                        onActivated: Tendzone.startCmds("ProjectorOff")
+                        opacity: enabled? 1:0.5
                         enabled: socket.status===WebSocket.Open ? true:false
                     }
                 }
@@ -399,10 +414,6 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        // Qt.application.setOrganizationName("Zhuld");
-        // Qt.application.setOrganizationDomain("zld.com");
-        // Qt.application.setApplicationName("Tendzone Control");
-        // Qt.application.setApplicationVersion("V0.4.00");
         socket.active = true
         if(settings.lockPassword != ""){
             passwordDialog.passtype = PasswordDialog.Type.LockScreen

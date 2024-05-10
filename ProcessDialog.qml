@@ -97,7 +97,8 @@ Dialog {
         triggeredOnStart: true
         onTriggered:{
             if(cmd_delay === timerCount){
-                Tendzone.runCmd(Tendzone.Commands_List[operation]["Commands"][cmds_index].Name)
+                Tendzone.runCmd(Tendzone.Commands_List[operation]["Commands"][cmds_index].Name,
+                                Tendzone.Commands_List[operation]["Commands"][cmds_index].Value)
 
                 cmd_delay += Tendzone.Commands_List[operation]["Commands"][cmds_index].Delay
 

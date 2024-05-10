@@ -14,7 +14,7 @@ WebSocketServer {
             //console.info("Server Text receive:", message);
         });
         webSocket.onBinaryMessageReceived.connect(function(message) {
-            //console.info("Server Bin Received:", new Uint8Array(message))
+            console.info("Server Bin Received:", new Uint8Array(message))
             binReceived(new Uint8Array(message))
 
         });

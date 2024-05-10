@@ -16,9 +16,6 @@ Dialog {
     property int maxVolume
 
     property alias volumeLabel: volumeBarLabel.text
-    //property string message: value
-
-    //property int volume: -10
 
     modal: true;
     x:parent.width*0.9-width
@@ -57,7 +54,18 @@ Dialog {
                 if (newVol != settingDialog.settings.volume){
                     settingDialog.settings.volume = newVol
                     settingDialog.settings.sync()
-                    Tendzone.globalVolumeSet(15-newVol)
+                    Tendzone.runCmd(Tendzone.Command.globalVolume, 15-newVol)
+                }
+            }
+
+            ToolTip {
+                parent: volumeBar.handle
+                width: volumeBar.width/2
+                height: width
+                visible: volumeBar.pressed
+                Text {
+                    text: ((1-volumeBar.visualPosition)*(maxVolume- miniVolume))+miniVolume
+                    font.pixelSize: parent.height*0.8
                 }
             }
 

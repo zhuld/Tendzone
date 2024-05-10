@@ -6,11 +6,8 @@ const op_code_REPORT = 0x8004;
 const uuid_HOST_PARAMS = 0x1100;
 const uuid_NET_PARAMS = 0x1101;
 const uuid_BLE_PARAMS = 0x1200;
-const uuid_AUDIO_PARAM = 0x1303;
-//const uuid_AUDIO_INPUT = 0x1303;
-//const uuid_AUDIO_OUTPUT = 0x1303;
-//const uuid_GLOBAL_VOL = 0x1303;
 const uuid_IR_MIC_CONFIG = 0x1302;
+const uuid_AUDIO_PARAM = 0x1303;
 
 const uuid_HDMI_PARAMS = 0x1400;
 const uuid_POWER_PARAMS = 0x1500;
@@ -77,38 +74,22 @@ const val_Up = 0x01;
 const val_Down = 0x02;
 
 const Command = {
-    Projector_On: Symbol("Projector_On"),
-    Projector_Off: Symbol("Projector_Off"),
-    Extension_On: Symbol("Extension_On"),
-    Extension_Off: Symbol("Extension_Off"),
-    Lock_On: Symbol("Lock_On"),
-    Lock_Off: Symbol("Lock_Off"),
-    Amp_On: Symbol("Amp_On"),
-    Amp_Off: Symbol("Amp_Off"),
-    Mubu_Up: Symbol("Mubu_Up"),
-    Mubu_Stop: Symbol("Mubu_Stop"),
-    Mubu_Down: Symbol("Mubu_Down"),
-    Uart_1_Projector_On: Symbol("Uart_1_Projector_On"),
-    Uart_1_Projector_Off: Symbol("Uart_1_Projector_Off"),
-    Uart_2_Projector_On: Symbol("Uart_2_Projector_On"),
-    Uart_2_Projector_Off: Symbol("Uart_2_Projector_Off"),
-    Projector_PC: Symbol("Projector_PC"),
-    Projector_Lantop: Symbol("Projector_Lantop"),
-    Projector_Wireless: Symbol("Projector_Wireless"),
-    Projector_Camera: Symbol("Projector_Camera"),
-    Extender_PC: Symbol("Extender_PC"),
-    Extender_Lantop: Symbol("Extender_Lantop"),
-    Extender_Wireless: Symbol("Extender_Wireless"),
-    Extender_Camera: Symbol("Extender_Camera"),
-    Monitor_PC: Symbol("Monitor_PC"),
-    Monitor_Lantop: Symbol("Monitor_Lantop"),
-    Monitor_Wireless: Symbol("Monitor_Wireless"),
-    Monitor_Camera: Symbol("Monitor_Camera"),
+    Projector: Symbol("Projector"),
+    Extension: Symbol("Extension"),
+    Lock: Symbol("Lock"),
+    Amp: Symbol("Amp"),
+    Mubu: Symbol("Mubu"),
+    Uart_1_Projector: Symbol("Uart_1_Projector"),
+    Uart_2_Projector: Symbol("Uart_2_Projector"),
+    Projector_HDMI: Symbol("Projector_HDMI"),
+    Extender_HDMI: Symbol("Extender_HDMI"),
+    Monitor_HDMI: Symbol("Monitor_HDMI"),
     subHDMIProjector: Symbol("subHDMIProjector"),
     subHDMIExtend: Symbol("subHDMIExtend"),
     subPowerParm: Symbol("subPowerParm"),
     subMachineName: Symbol("subMachineName"),
     reboot: Symbol("reboot"),
+    globalVolume: Symbol("globalVolume")
 }
 
 const Projectors = ["Epson","Sony"]
@@ -124,94 +105,92 @@ const Projectors_Code = {
     ]
 }
 
-
-
 const TJHospital = {
     Logo:{Url:"pic/tjhospital.png"},
     WhiteBoard:{
         Confirm:true,
         Commands:[
-            {Name: Command.Lock_Off, Delay: 1},
-            {Name: Command.Extension_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Uart_2_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Uart_2_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
-            {Name: Command.Monitor_PC, Delay: 1},
-            {Name: Command.Amp_On, Delay: 1},
+            {Name: Command.Lock, Value: val_Off, Delay: 1},
+            {Name: Command.Extension, Value: val_On, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Mubu, Value: val_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_Off, Delay: 25},
+            {Name: Command.Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Monitor_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Amp, Value: val_Off, Delay: 1},
         ]
     },
     SystemOn:{
         Confirm:true,
         Commands:[
-            {Name: Command.Lock_On, Delay: 1},
-            {Name: Command.Extension_On, Delay: 1},
-            {Name: Command.Projector_On, Delay: 1},
-            {Name: Command.Mubu_Down, Delay: 10},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_2_Projector_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_2_Projector_On, Delay: 25},
-            {Name: Command.Monitor_PC, Delay: 1},
-            {Name: Command.Projector_PC, Delay: 1},
-            {Name: Command.Extender_PC, Delay: 1},
-            {Name: Command.Amp_On, Delay: 1},
+            {Name: Command.Lock, Value: val_On, Delay: 1},
+            {Name: Command.Extension, Value: val_On, Delay: 1},
+            {Name: Command.Projector, Value: val_On, Delay: 1},
+            {Name: Command.Mubu, Value: val_Down, Delay: 10},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_On, Delay: 25},
+            {Name: Command.Monitor_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Extender_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Amp, Value: val_On, Delay: 1},
         ]
     },
     SystemOff:{
         Confirm:true,
         Commands:[
-            {Name: Command.Amp_Off, Delay: 1},
-            {Name: Command.Lock_Off, Delay: 1},
-            {Name: Command.Extension_Off, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Uart_2_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Uart_2_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
+            {Name: Command.Amp, Value: val_Off, Delay: 1},
+            {Name: Command.Lock, Value: val_Off, Delay: 1},
+            {Name: Command.Extension, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Mubu, Value: val_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_Off, Delay: 25},
+            {Name: Command.Projector, Value: val_Off, Delay: 1},
         ]
     },
     ProjectorOn:{
         Confirm:true,
         Commands:[
-            {Name: Command.Projector_On, Delay: 1},
-            {Name: Command.Mubu_Down, Delay: 10},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_2_Projector_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_2_Projector_On, Delay: 1},
+            {Name: Command.Projector, Value: val_On, Delay: 1},
+            {Name: Command.Mubu, Value: val_Down, Delay: 10},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_On, Delay: 1},
         ]
     },
     ProjectorOff:{
         Confirm:true,
         Commands:[
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Uart_2_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Uart_2_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Mubu, Value: val_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_2_Projector, Value: val_Off, Delay: 25},
+            {Name: Command.Projector, Value: val_Off, Delay: 1},
         ]
     },
     ProjectorPC:{
         Commands:[
-            {Name: Command.Projector_PC, Delay: 1},
-            {Name: Command.Extender_PC, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Extender_HDMI, Value: val_PC, Delay: 1},
         ]
     },
-    ProjectorLantop:{
+    ProjectorLaptop:{
         Commands:[
-            {Name: Command.Projector_Lantop, Delay: 1},
-            {Name: Command.Extender_Lantop, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_Laptop, Delay: 1},
+            {Name: Command.Extender_HDMI, Value: val_Laptop, Delay: 1},
         ]
     },
     ProjectorWireless:{
         Commands:[
-            {Name: Command.Projector_Wireless, Delay: 1},
-            {Name: Command.Extender_Wireless, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_Wireless, Delay: 1},
+            {Name: Command.Extende_HDMI, Value: val_Wireless, Delay: 1},
         ]
     }
 }
@@ -220,89 +199,89 @@ const Haishi = {
     WhiteBoard:{
         Confirm:true,
         Commands:[
-            {Name: Command.Lock_Off, Delay: 1},
-            {Name: Command.Extension_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
-            {Name: Command.Monitor_PC, Delay: 1},
-            {Name: Command.Amp_On, Delay: 1},
+            {Name: Command.Lock, Value: val_Off, Delay: 1},
+            {Name: Command.Extension, Value: val_On, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Mubu, Value: val_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 25},
+            {Name: Command.Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Monitor_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Amp, Value: val_On, Delay: 1},
         ]
     },
     SystemOn:{
         Confirm:true,
         Commands:[
-            {Name: Command.Lock_On, Delay: 1},
-            {Name: Command.Extension_On, Delay: 1},
-            {Name: Command.Projector_On, Delay: 1},
-            {Name: Command.Mubu_Down, Delay: 10},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_On, Delay: 25},
-            {Name: Command.Monitor_PC, Delay: 1},
-            {Name: Command.Projector_PC, Delay: 1},
-            {Name: Command.Amp_On, Delay: 1},
+            {Name: Command.Lock, Value: val_On, Delay: 1},
+            {Name: Command.Extension, Value: val_On, Delay: 1},
+            {Name: Command.Projector, Value: val_On, Delay: 1},
+            {Name: Command.Mubu, Value: val_Down, Delay: 10},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 25},
+            {Name: Command.Monitor_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Projecto_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Amp, Value: val_On, Delay: 1},
         ]
     },
     SystemOff:{
         Confirm:true,
         Commands:[
-            {Name: Command.Amp_Off, Delay: 1},
-            {Name: Command.Lock_Off, Delay: 1},
-            {Name: Command.Extension_Off, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
+            {Name: Command.Amp, Value: val_Off, Delay: 1},
+            {Name: Command.Lock, Value: val_Off, Delay: 1},
+            {Name: Command.Extension, Value: val_Off, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Mubu, Value: val_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 25},
+            {Name: Command.Projector, Value: val_Off, Delay: 1},
         ]
     },
     ProjectorOn:{
         Confirm:true,
         Commands:[
-            {Name: Command.Projector_On, Delay: 1},
-            {Name: Command.Mubu_Down, Delay: 10},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
+            {Name: Command.Projector, Value: val_On, Delay: 1},
+            {Name: Command.Mubu, Value: val_Down, Delay: 10},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
         ]
     },
     ProjectorOff:{
         Confirm:true,
         Commands:[
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 1},
+            {Name: Command.Mubu, Value: val_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector, Value: val_Off, Delay: 25},
+            {Name: Command.Projector, Value: val_Off, Delay: 1},
         ]
     },
     ProjectorPC:{
         Commands:[
-            {Name: Command.Projector_PC, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_PC, Delay: 1},
         ]
     },
-    ProjectorLantop:{
+    ProjectorLaptop:{
         Commands:[
-            {Name: Command.Projector_Lantop, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_Laptop, Delay: 1},
         ]
     },
     ProjectorWireless:{
         Commands:[
-            {Name: Command.Projector_Wireless, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_Wireless, Delay: 1},
         ]
     }
 }
 
 var Commands_List = Haishi
 
-function startCmds(cmd){
-    if(Commands_List[cmd]["Confirm"]){
-        confirmDialog.operation = cmd
+function startCmds(cmds){
+    if(Commands_List[cmds]["Confirm"]){
+        confirmDialog.operation = cmds
         confirmDialog.open()
     }else{
-        if(Commands_List[cmd]["Commands"].length > 1){
-            processDialog.operation = cmd
+        if(Commands_List[cmds]["Commands"].length > 1){
+            processDialog.operation = cmds
             processDialog.open()
-        }else if(Commands_List[cmd]["Commands"].length === 1){
-            runCmd(Commands_List[cmd]["Commands"][0].Name)
+        }else if(Commands_List[cmds]["Commands"].length === 1){
+            runCmd(Commands_List[cmds]["Commands"][0].Name,Commands_List[cmds]["Commands"][0].Value)
         }
     }
 }
@@ -315,106 +294,59 @@ function getCmdsDuring(cmds){
     return during
 }
 
-function runCmd(cmd){
+function runCmd(cmd , val){
+    console.info("Run Cmd:",cmd,val)
     switch(cmd){
-    case Command.Projector_On:
-        socket.sendBinaryMessage(setProjectorPower(val_On))
+    case Command.Projector:
+        socket.sendBinaryMessage(setProjectorPower(val))
         break
-    case Command.Projector_Off:
-        socket.sendBinaryMessage(setProjectorPower(val_Off))
+    case Command.Extension:
+        socket.sendBinaryMessage(setExtensionPower(val))
         break
-    case Command.Extension_On:
-        socket.sendBinaryMessage(setExtensionPower(val_On))
+    case Command.Lock:
+        socket.sendBinaryMessage(setLockPower(val))
         break
-    case Command.Extension_Off:
-        socket.sendBinaryMessage(setExtensionPower(val_Off))
+    case Command.Amp:
+        socket.sendBinaryMessage(setAmpPower(val))
         break
-    case Command.Lock_On:
-        socket.sendBinaryMessage(setLockPower(val_On))
+    case Command.Mubu:
+        socket.sendBinaryMessage(setMubuPower(val))
         break
-    case Command.Lock_Off:
-        socket.sendBinaryMessage(setLockPower(val_Off))
+    case Command.Uart_1_Projector:
+        socket.sendBinaryMessage(uart_1_Send(Projectors_Code[Projectors[settings.projector]][val].Code))
         break
-    case Command.Amp_On:
-        socket.sendBinaryMessage(setAmpPower(val_On))
+    case Command.Uart_2_Projector:
+        socket.sendBinaryMessage(uart_2_Send(Projectors_Code[Projectors[settings.projector]][val].Code))
         break
-    case Command.Amp_Off:
-        socket.sendBinaryMessage(setAmpPower(val_Off))
+    case Command.Projector_HDMI:
+        socket.sendBinaryMessage(setProjectorSignal(val))
         break
-    case Command.Mubu_Up:
-        socket.sendBinaryMessage(setMubuPower(val_Up))
+    case Command.Extender_HDMI:
+        socket.sendBinaryMessage(setExtendSignal(val))
         break
-    case Command.Mubu_Stop:
-        socket.sendBinaryMessage(setMubuPower(val_Stop))
-        break
-    case Command.Mubu_Down:
-        socket.sendBinaryMessage(setMubuPower(val_Down))
-        break
-    case Command.Uart_1_Projector_On:
-        socket.sendBinaryMessage(uart_1_Send(Projectors_Code[Projectors[settings.projector]][val_On].Code))
-        break
-    case Command.Uart_1_Projector_Off:
-        socket.sendBinaryMessage(uart_1_Send(Projectors_Code[Projectors[settings.projector]][val_Off].Code))
-        break
-    case Command.Uart_2_Projector_On:
-        socket.sendBinaryMessage(uart_2_Send(Projectors_Code[Projectors[settings.projector]][val_On].Code))
-        break
-    case Command.Uart_2_Projector_Off:
-        socket.sendBinaryMessage(uart_2_Send(Projectors_Code[Projectors[settings.projector]][val_Off].Code))
-        break
-    case Command.Projector_PC:
-        socket.sendBinaryMessage(setProjectorSignal(val_PC))
-        break
-    case Command.Projector_Lantop:
-        socket.sendBinaryMessage(setProjectorSignal(val_Laptop))
-        break
-    case Command.Projector_Wireless:
-        socket.sendBinaryMessage(setProjectorSignal(val_Wireless))
-        break
-    case Command.Projector_Camera:
-        socket.sendBinaryMessage(setProjectorSignal(val_Camera))
-        break
-    case Command.Extender_PC:
-        socket.sendBinaryMessage(setExtendSignal(val_PC))
-        break
-    case Command.Extender_Lantop:
-        socket.sendBinaryMessage(setExtendSignal(val_Laptop))
-        break
-    case Command.Extender_Wireless:
-        socket.sendBinaryMessage(setExtendSignal(val_Wireless))
-        break
-    case Command.Extender_Camera:
-        socket.sendBinaryMessage(setExtendSignal(val_Camera))
-        break
-    case Command.Monitor_PC:
+    case Command.Monitor_HDMI:
         socket.sendBinaryMessage(setMonitorSignal(val_PC))
         break
-    case Command.Monitor_Lantop:
-        socket.sendBinaryMessage(setMonitorSignal(val_Laptop))
-        break
-    case Command.Monitor_Wireless:
-        socket.sendBinaryMessage(setMonitorSignal(val_Wireless))
-        break
-    case Command.Monitor_Camera:
-        socket.sendBinaryMessage(setMonitorSignal(val_Camera))
-        break
     case Command.subHDMIProjector:
-        socket.sendBinaryMessage(subscribeHDMIProjector(true))
+        socket.sendBinaryMessage(subscribeHDMIProjector(val))
         break
     case Command.subHDMIExtend:
-        socket.sendBinaryMessage(subscribeHDMIExtend(true))
+        socket.sendBinaryMessage(subscribeHDMIExtend(val))
         break
     case Command.subPowerParm:
-        socket.sendBinaryMessage(subscribePowerParm(true))
+        socket.sendBinaryMessage(subscribePowerParm(val))
         break
     case Command.subMachineName:
-        socket.sendBinaryMessage(subscribeMachineName(true))
+        socket.sendBinaryMessage(subscribeMachineName(val))
         break
     case Command.reboot:
-        socket.sendBinaryMessage(reboot(true))
+        socket.sendBinaryMessage(reboot())
+        break
+    case Command.globalVolume:
+        socket.sendBinaryMessage(globalVolumeSet(val))
         break
     default:
-        console.info("unkonwn cmd:" , cmd)
+        console.info("Unkonwn cmd:" , cmd)
     }
 }
 
@@ -552,7 +484,7 @@ function globalVolumeSet(volume){
     }else if(volume > 45) {
         volume = 45
     }
-    socket.sendBinaryMessage(customSetParm(uuid_AUDIO_PARAM, id_Audio_GlobalVol,new Uint8Array([volume])))
+    return customSetParm(uuid_AUDIO_PARAM, id_Audio_GlobalVol,new Uint8Array([volume]))
 }
 
 

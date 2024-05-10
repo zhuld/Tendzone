@@ -313,7 +313,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "投影开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector, Tendzone.val_On)
                         font.pixelSize: height*0.4
                         checked: root.projectorPower === Tendzone.val_On
                     }
@@ -321,7 +321,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "投影关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector, Tendzone.val_Off)
                         font.pixelSize: height*0.4
                         checked: root.projectorPower === Tendzone.val_Off
                     }
@@ -329,7 +329,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "外接开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension, Tendzone.val_On)
                         font.pixelSize: height*0.4
                         checked: root.extensionPower === Tendzone.val_On
                     }
@@ -337,7 +337,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "外接关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension, Tendzone.val_Off)
                         font.pixelSize: height*0.4
                         checked: root.extensionPower === Tendzone.val_Off
                     }
@@ -345,7 +345,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "电锁开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock, Tendzone.val_On)
                         font.pixelSize: height*0.4
                         checked: root.lockPower === Tendzone.val_On
                     }
@@ -353,7 +353,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "电锁关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock, Tendzone.val_Off)
                         font.pixelSize: height*0.4
                         checked: root.lockPower === Tendzone.val_Off
                     }
@@ -361,21 +361,21 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "功放开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_On)
                         font.pixelSize: height*0.4
                     }
                     Button{
                         width: parent.width*0.45
                         height: width*0.4
                         text: "功放关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_Off)
                         font.pixelSize: height*0.4
                     }
                     Button{
                         width: parent.width*0.45
                         height: width*0.4
                         text: "幕布升"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu_Up)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Up)
                         font.pixelSize: height*0.4
                         checked: root.mubuPower === Tendzone.val_Up
                     }
@@ -383,7 +383,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "幕布降"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu_Down)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Down)
                         font.pixelSize: height*0.4
                         checked: root.mubuPower === Tendzone.val_Down
                     }
@@ -391,20 +391,22 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "幕布停"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu_Stop)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Stop)
                         font.pixelSize: height*0.4
                         checked: root.mubuPower === Tendzone.val_Stop
                     }
-                    Button{
+                    DelayButton{
                         width: parent.width*0.45
                         height: width*0.4
+                        delay: 1000
                         Text {
                             text: "系统重启"
                             color: "red"
                             font.pixelSize: parent.height*0.4
                             anchors.centerIn: parent
                         }
-                        onClicked: Tendzone.runCmd(Tendzone.Command.reboot)
+                        onActivated: Tendzone.runCmd(Tendzone.Command.reboot, null)
+                        onReleased: checked = false
                     }
                 }
 
@@ -434,28 +436,28 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "投影开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_1_Projector_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_1_Projector, Tendzone.val_On)
                         font.pixelSize: height*0.4
                     }
                     Button{
                         width: parent.width*0.45
                         height: width*0.4
                         text: "投影开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_2_Projector_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_2_Projector, Tendzone.val_On)
                         font.pixelSize: height*0.4
                     }
                     Button{
                         width: parent.width*0.45
                         height: width*0.4
                         text: "投影关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_1_Projector_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_1_Projector, Tendzone.val_Off)
                         font.pixelSize: height*0.4
                     }
                     Button{
                         width: parent.width*0.45
                         height: width*0.4
                         text: "投影关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_2_Projector_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_2_Projector, Tendzone.val_Off)
                         font.pixelSize: height*0.4
                     }
                     Text {
@@ -480,7 +482,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "电脑"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_PC)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_PC)
                         font.pixelSize: height*0.4
                         checked: root.projectorHDMI === Tendzone.val_PC
                     }
@@ -488,7 +490,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "电脑"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_PC)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_PC)
                         font.pixelSize: height*0.4
                         checked: root.extendHDMI === Tendzone.val_PC
                     }
@@ -496,7 +498,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "输入1"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_Lantop)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_Laptop)
                         font.pixelSize: height*0.4
                         checked: root.projectorHDMI === Tendzone.val_Laptop
                     }
@@ -504,7 +506,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "输入1"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_Lantop)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_Laptop)
                         font.pixelSize: height*0.4
                         checked: root.extendHDMI === Tendzone.val_Laptop
                     }
@@ -512,7 +514,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "输入2"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_Wireless)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_Wireless)
                         font.pixelSize: height*0.4
                         checked: root.projectorHDMI === Tendzone.val_Wireless
                     }
@@ -520,7 +522,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "输入2"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_Wireless)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_Wireless)
                         font.pixelSize: height*0.4
                         checked: root.extendHDMI === Tendzone.val_Wireless
                     }
@@ -528,7 +530,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "Camera"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_Camera)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_Camera)
                         font.pixelSize: height*0.4
                         checked: root.projectorHDMI === Tendzone.val_Camera
                     }
@@ -536,7 +538,7 @@ Dialog {
                         width: parent.width*0.45
                         height: width*0.4
                         text: "Camera"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_Camera)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_Camera)
                         font.pixelSize: height*0.4
                         checked: root.extendHDMI === Tendzone.val_Camera
                     }

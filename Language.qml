@@ -11,13 +11,13 @@ Item {
             PropertyChanges {
                 target: systemOff; text: "下课" }
             PropertyChanges {
-                target: lang; text: "EN" }
+                target: lang; text: "E" }
             PropertyChanges {
                 target: signalLabel; text: "信号切换" }
             PropertyChanges {
                 target: computer; text: "台式机" }
             PropertyChanges {
-                target: lantop; text: "笔记本" }
+                target: laptop; text: "笔记本" }
             PropertyChanges {
                 target: wireless; text: "无线投屏" }
             PropertyChanges {
@@ -50,6 +50,9 @@ Item {
                 target: passwordDialog; passwordTitle: "请输入密码解锁" }
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "如有问题可拨打电话："+settings.phoneNumber }
+            PropertyChanges {
+                target: volumeDialog; volumeLabel: "总音量"}
+
         },
         State {
             name: "english"
@@ -66,15 +69,15 @@ Item {
             PropertyChanges {
                 target: computer; text: "Computer" }
             PropertyChanges {
-                target: lantop; text: "Lantop" }
+                target: laptop; text: "Laptop" }
             PropertyChanges {
                 target: wireless; text: "Wireless" }
             PropertyChanges {
                 target: projectorLabel; text: "Projector" }
             PropertyChanges {
-                target: projectorOn; text: "On" }
+                target: projectorOn; text: "Turn On" }
             PropertyChanges {
-                target: projectorOff; text: "Off" }
+                target: projectorOff; text: "Turn Off" }
             PropertyChanges {
                 target: settingDialog; settingTitle: "System Setup " + Application.version}
             PropertyChanges {
@@ -99,6 +102,8 @@ Item {
                 target: passwordDialog; passwordTitle: "Enter Password to Unlock" }
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "Pls Call "+settings.phoneNumber +" for Help"}
+            PropertyChanges {
+                target: volumeDialog; volumeLabel: "Volume"}
         }
     ]
 }
