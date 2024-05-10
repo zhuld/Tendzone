@@ -36,7 +36,6 @@ ApplicationWindow {
     property int extensionPower
     property int lockPower
 
-
     PasswordDialog{
         id: passwordDialog
         onOkPressed:{
@@ -58,11 +57,6 @@ ApplicationWindow {
         }
     }
 
-    // Splash {
-    //    id:splashWindow
-    //     visible: true
-    // }
-
     SettingDialog{ id: settingDialog }
 
     ConfirmDialog{id: confirmDialog }
@@ -73,9 +67,21 @@ ApplicationWindow {
 
     ProcessDialog{id: processDialog}
 
-    WSServer{id: server}
+    WSServer{
+        id: server
+        onBinReceived: function(message){
+            info.text = "Recived:"+message
+        }
+    }
 
     BordLine{} //画线
+
+    VolumeDialog{
+        id:volumeDialog
+        miniVolume: -30
+        maxVolume: 0
+
+    }
 
     Logo{source: Tendzone.Commands_List["Logo"].Url}
 
@@ -89,12 +95,12 @@ ApplicationWindow {
         onBinaryMessageReceived: function(message) {
             console.info("Client Bin Received:", new Uint8Array(message))
             Tendzone.messageCheck(message)
-
         }
         onStatusChanged: {
             webSocketStatus.state = socket.status
             if ((socket.status === WebSocket.Error)|(socket.status === WebSocket.Closed)){
                 socketAnimation.restart()
+                socketStatusTimer.restart()
                 socket.active = false
             }else if (socket.status == WebSocket.Open){
                 Tendzone.runCmd(Tendzone.Command.subHDMIProjector)
@@ -122,6 +128,15 @@ ApplicationWindow {
                 color: socket.status == WebSocket.Open ? "#33B5E5" :"red"
                 text: Qt.formatDateTime(new Date(),"yyyy-MM-dd hh:mm")
             }
+
+            Text{
+                id:info
+                height: parent.height
+                font.pixelSize: height
+                color: "#33B5E5"
+                text: ""
+                visible: settingDialog.settings.debugInfo
+            }
         }
 
         Row{
@@ -132,8 +147,8 @@ ApplicationWindow {
             Rectangle{
                 width: parent.width/8
                 height: width
-                anchors.top: parent.top
-                color: "transparent"
+                //anchors.top: parent.top
+                //color: "transparent"
             }
             Column{
                 id: mainButtonLeft
@@ -156,7 +171,6 @@ ApplicationWindow {
                     height: parent.height*0.2
                     font.pixelSize: height*0.8
                     color: "#33B5E5"
-                    //text: settings.roomNumber
                     visible: settings.whiteboard? false:true
                 }
                 Button{
@@ -223,9 +237,9 @@ ApplicationWindow {
                 Button{
                     id:lang
                     anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width*0.6
+                    width: parent.width*0.5
                     height: width
-                    font.pixelSize: height*0.3
+                    font.pixelSize: height*0.4
                     text: "中"
                     onClicked: {
                         if(language.state === "chinese"){
@@ -233,6 +247,18 @@ ApplicationWindow {
                         }else{
                             language.state = "chinese"
                         }
+                    }
+                }
+                Button{
+                    id:vol
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width*0.5
+                    height: width
+                    font.pixelSize: height*0.4
+                    text: "\u266C"
+                    onClicked: {
+                        //volumeDialog.position =
+                        volumeDialog.visible = true
                     }
                 }
             }
@@ -360,7 +386,12 @@ ApplicationWindow {
                 from: 1
                 to:0
                 duration: settings.socketError*1000
-                onFinished: {
+            }
+            Timer{
+                id:socketStatusTimer
+                interval: settings.socketError*1000
+                repeat: false
+                onTriggered: {
                     socket.active = true
                     socketStatusProgress.socketValue = 1
                 }
@@ -368,6 +399,10 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
+        // Qt.application.setOrganizationName("Zhuld");
+        // Qt.application.setOrganizationDomain("zld.com");
+        // Qt.application.setApplicationName("Tendzone Control");
+        // Qt.application.setApplicationVersion("V0.4.00");
         socket.active = true
         if(settings.lockPassword != ""){
             passwordDialog.passtype = PasswordDialog.Type.LockScreen

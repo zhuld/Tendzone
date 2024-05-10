@@ -25,6 +25,27 @@ Dialog {
 
     property string operation
 
+    Overlay.modal: Rectangle{
+        color:"#A0000000"
+    }
+
+    enter: Transition {
+        NumberAnimation{
+            from: 0
+            to: 1
+            property: "opacity"
+            duration: 200
+        }
+    }
+    exit: Transition {
+        NumberAnimation{
+            from: 1
+            to: 0
+            property: "opacity"
+            duration: 200
+        }
+    }
+
     Column{
         anchors.fill: parent
         anchors.margins: height*0.05

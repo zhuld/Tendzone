@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("Tendzone Control");
     app.setApplicationVersion("V0.4.00");
 
+
     engine.load(url);
 
     return app.exec();

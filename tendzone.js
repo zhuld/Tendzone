@@ -7,9 +7,9 @@ const uuid_HOST_PARAMS = 0x1100;
 const uuid_NET_PARAMS = 0x1101;
 const uuid_BLE_PARAMS = 0x1200;
 const uuid_AUDIO_PARAM = 0x1303;
-const uuid_AUDIO_INPUT = 0x1303;
-const uuid_AUDIO_OUTPUT = 0x1303;
-const uuid_GLOBAL_VOL = 0x1303;
+//const uuid_AUDIO_INPUT = 0x1303;
+//const uuid_AUDIO_OUTPUT = 0x1303;
+//const uuid_GLOBAL_VOL = 0x1303;
 const uuid_IR_MIC_CONFIG = 0x1302;
 
 const uuid_HDMI_PARAMS = 0x1400;
@@ -26,6 +26,28 @@ const val_Power_Lock = 4;
 
 //uuid_HOST_PARAMS
 const id_Machine_Name = 0x0000
+const id_Fireware_Version = 0x0001
+const id_Machine_Type = 0x0002
+const id_Manufacture_Date = 0x0003
+const id_Hardware_Version = 0x0004
+const id_Serial_Number = 0x0005
+const id_Connected = 0x0007
+const id_Password = 0x0008
+const id_Reboot = 0x0009
+const id_Reset = 0x000A
+const id_Date_Time = 0x000B
+const id_Heart_Beat = 0x000C
+
+//uuid_AUDIO_PARAM
+const id_Audio_SetParam = 0x0000
+const id_Audio_LineIn = 0x0001
+const id_Audio_MicIn = 0x0002
+const id_Audio_TDIRIn = 0x0003
+const id_Audio_LineOut = 0x0004
+const id_Audio_AMPOut = 0x0005
+const id_Audio_Level = 0x0006
+const id_Audio_GlobalVol = 0x0007
+const id_Audio_HDMI = 0x0008
 
 //uuid_T8040_PARAMS
 const id_Key = 0x0000;
@@ -85,7 +107,8 @@ const Command = {
     subHDMIProjector: Symbol("subHDMIProjector"),
     subHDMIExtend: Symbol("subHDMIExtend"),
     subPowerParm: Symbol("subPowerParm"),
-    subMachineName:Symbol("subMachineName"),
+    subMachineName: Symbol("subMachineName"),
+    reboot: Symbol("reboot"),
 }
 
 const Projectors = ["Epson","Sony"]
@@ -101,81 +124,6 @@ const Projectors_Code = {
     ]
 }
 
-const Haishi = {
-    Logo:{Url:"pic/haishi.png"},
-    WhiteBoard:{
-        Confirm:true,
-        Commands:[
-            {Name: Command.Lock_Off, Delay: 1},
-            {Name: Command.Extension_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
-            {Name: Command.Monitor_PC, Delay: 1},
-            {Name: Command.Amp_On, Delay: 1},
-        ]
-    },
-    SystemOn:{
-        Confirm:true,
-        Commands:[
-            {Name: Command.Lock_On, Delay: 1},
-            {Name: Command.Extension_On, Delay: 1},
-            {Name: Command.Projector_On, Delay: 1},
-            {Name: Command.Mubu_Down, Delay: 10},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_On, Delay: 25},
-            {Name: Command.Monitor_PC, Delay: 1},
-            {Name: Command.Projector_PC, Delay: 1},
-            {Name: Command.Amp_On, Delay: 1},
-        ]
-    },
-    SystemOff:{
-        Confirm:true,
-        Commands:[
-            {Name: Command.Amp_Off, Delay: 1},
-            {Name: Command.Lock_Off, Delay: 1},
-            {Name: Command.Extension_Off, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
-        ]
-    },
-    ProjectorOn:{
-        Confirm:true,
-        Commands:[
-            {Name: Command.Projector_On, Delay: 1},
-            {Name: Command.Mubu_Down, Delay: 10},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-            {Name: Command.Uart_1_Projector_On, Delay: 1},
-        ]
-    },
-    ProjectorOff:{
-        Confirm:true,
-        Commands:[
-            {Name: Command.Uart_1_Projector_Off, Delay: 1},
-            {Name: Command.Mubu_Up, Delay: 1},
-            {Name: Command.Uart_1_Projector_Off, Delay: 25},
-            {Name: Command.Projector_Off, Delay: 1},
-        ]
-    },
-    ProjectorPC:{
-        Commands:[
-            {Name: Command.Projector_PC, Delay: 1},
-        ]
-    },
-    ProjectorLantop:{
-        Commands:[
-            {Name: Command.Projector_Lantop, Delay: 1},
-        ]
-    },
-    ProjectorWireless:{
-        Commands:[
-            {Name: Command.Projector_Wireless, Delay: 1},
-        ]
-    }
-}
 
 
 const TJHospital = {
@@ -267,8 +215,83 @@ const TJHospital = {
         ]
     }
 }
+const Haishi = {
+    Logo:{Url:"pic/haishi.png"},
+    WhiteBoard:{
+        Confirm:true,
+        Commands:[
+            {Name: Command.Lock_Off, Delay: 1},
+            {Name: Command.Extension_On, Delay: 1},
+            {Name: Command.Uart_1_Projector_Off, Delay: 1},
+            {Name: Command.Mubu_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector_Off, Delay: 25},
+            {Name: Command.Projector_Off, Delay: 1},
+            {Name: Command.Monitor_PC, Delay: 1},
+            {Name: Command.Amp_On, Delay: 1},
+        ]
+    },
+    SystemOn:{
+        Confirm:true,
+        Commands:[
+            {Name: Command.Lock_On, Delay: 1},
+            {Name: Command.Extension_On, Delay: 1},
+            {Name: Command.Projector_On, Delay: 1},
+            {Name: Command.Mubu_Down, Delay: 10},
+            {Name: Command.Uart_1_Projector_On, Delay: 1},
+            {Name: Command.Uart_1_Projector_On, Delay: 25},
+            {Name: Command.Monitor_PC, Delay: 1},
+            {Name: Command.Projector_PC, Delay: 1},
+            {Name: Command.Amp_On, Delay: 1},
+        ]
+    },
+    SystemOff:{
+        Confirm:true,
+        Commands:[
+            {Name: Command.Amp_Off, Delay: 1},
+            {Name: Command.Lock_Off, Delay: 1},
+            {Name: Command.Extension_Off, Delay: 1},
+            {Name: Command.Uart_1_Projector_Off, Delay: 1},
+            {Name: Command.Mubu_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector_Off, Delay: 25},
+            {Name: Command.Projector_Off, Delay: 1},
+        ]
+    },
+    ProjectorOn:{
+        Confirm:true,
+        Commands:[
+            {Name: Command.Projector_On, Delay: 1},
+            {Name: Command.Mubu_Down, Delay: 10},
+            {Name: Command.Uart_1_Projector_On, Delay: 1},
+            {Name: Command.Uart_1_Projector_On, Delay: 1},
+        ]
+    },
+    ProjectorOff:{
+        Confirm:true,
+        Commands:[
+            {Name: Command.Uart_1_Projector_Off, Delay: 1},
+            {Name: Command.Mubu_Up, Delay: 1},
+            {Name: Command.Uart_1_Projector_Off, Delay: 25},
+            {Name: Command.Projector_Off, Delay: 1},
+        ]
+    },
+    ProjectorPC:{
+        Commands:[
+            {Name: Command.Projector_PC, Delay: 1},
+        ]
+    },
+    ProjectorLantop:{
+        Commands:[
+            {Name: Command.Projector_Lantop, Delay: 1},
+        ]
+    },
+    ProjectorWireless:{
+        Commands:[
+            {Name: Command.Projector_Wireless, Delay: 1},
+        ]
+    }
+}
 
-const Commands_List = TJHospital
+var Commands_List = Haishi
 
 function startCmds(cmd){
     if(Commands_List[cmd]["Confirm"]){
@@ -386,6 +409,9 @@ function runCmd(cmd){
         break
     case Command.subMachineName:
         socket.sendBinaryMessage(subscribeMachineName(true))
+        break
+    case Command.reboot:
+        socket.sendBinaryMessage(reboot(true))
         break
     default:
         console.info("unkonwn cmd:" , cmd)
@@ -514,6 +540,22 @@ function uart_2_Send(val){
     return customSetParm(uuid_POWER_PARAMS, id_Uart, cmd);
 }
 
+//reboot
+function reboot(){
+    return customSetParm(uuid_HOST_PARAMS,id_Reboot,new Uint8Array(0))
+}
+
+//globalVolume
+function globalVolumeSet(volume){
+    if(volume < 15) {
+        volume = 15
+    }else if(volume > 45) {
+        volume = 45
+    }
+    socket.sendBinaryMessage(customSetParm(uuid_AUDIO_PARAM, id_Audio_GlobalVol,new Uint8Array([volume])))
+}
+
+
 function messageCheck(message) {
     //var msg = new Uint8Array(message)
     if (codeCompare(message, op_code_REPORT, 0)) {  //确定起始字符0x8004,
@@ -546,9 +588,11 @@ function messageCheck(message) {
             for (var i = 0; i < messageArray.length; i++) {
                 dataString += String.fromCharCode(messageArray[i]);
             }
-            settingDialog.settings.roomNumber = dataString
-            settingDialog.roomNumber.text = settingDialog.settings.roomNumber
-            settingDialog.settings.sync()
+            if(settingDialog.settings.autoRoomNumber){ //自动
+                settingDialog.settings.roomNumber = dataString
+                settingDialog.roomNumber.text = settingDialog.settings.roomNumber
+                settingDialog.settings.sync()
+            }
         }
     }
 }

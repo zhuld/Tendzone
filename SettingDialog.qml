@@ -36,7 +36,30 @@ Dialog {
         property string lockPassword: "123"
         property int socketError: 30
         property bool webSocketServer: false
+        property bool debugInfo: false
         property string phoneNumber: ""
+        property int volume: -10
+    }
+
+    Overlay.modal: Rectangle{
+        color:"#A0000000"
+    }
+
+    enter: Transition {
+        NumberAnimation{
+            from: 0
+            to: 1
+            property: "opacity"
+            duration: 200
+        }
+    }
+    exit: Transition {
+        NumberAnimation{
+            from: 1
+            to: 0
+            property: "opacity"
+            duration: 200
+        }
     }
 
     Column{
@@ -51,6 +74,7 @@ Dialog {
             font.pixelSize: height*0.8
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignLeft
+            color: "#33B5E5"
         }
         ScrollView{
             width: parent.width
@@ -247,7 +271,6 @@ Dialog {
                     //color: "#33B5E5"
                     validator: IntValidator {bottom: 5; top: 2000;}
                 }
-
                 Text {
                     text: "自带WebSocket服务器"
                     width: parent.width*0.5
@@ -260,10 +283,22 @@ Dialog {
                     checked: settings.webSocketServer
                 }
                 Text {
+                    text: "显示调试信息"
+                    width: parent.width*0.5
+                    height: settingDialog.height/12
+                    font.pixelSize: height*0.7
+                    color: "#33B5E5"
+                }
+                Switch{
+                    id:debugInfo
+                    checked: settings.debugInfo
+                }
+                Text {
                     text: "控制指令测试"
                     width: parent.width*0.5
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
+                    color: "#33B5E5"
                 }
                 Text {
                     width: parent.width*0.5
@@ -359,6 +394,17 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Mubu_Stop)
                         font.pixelSize: height*0.4
                         checked: root.mubuPower === Tendzone.val_Stop
+                    }
+                    Button{
+                        width: parent.width*0.45
+                        height: width*0.4
+                        Text {
+                            text: "系统重启"
+                            color: "red"
+                            font.pixelSize: parent.height*0.4
+                            anchors.centerIn: parent
+                        }
+                        onClicked: Tendzone.runCmd(Tendzone.Command.reboot)
                     }
                 }
 
@@ -543,6 +589,7 @@ Dialog {
         settings.lockPassword = lockPassword.text
         settings.socketError = socketError.text
         settings.webSocketServer = webSocketServer.checked
+        settings.debugInfo = debugInfo.checked
         settings.phoneNumber = phoneNumber.text
         settings.sync()
     }
@@ -560,6 +607,7 @@ Dialog {
         lockPassword.text = settings.lockPassword
         socketError.text = settings.socketError
         webSocketServer.checked = settings.webSocketServer
+        debugInfo.checked = settings.debugInfo
         phoneNumber.text = settings.phoneNumber
         settings.sync()
     }
@@ -576,6 +624,7 @@ Dialog {
         settings.lockPassword = lockPassword.text
         settings.socketError = socketError.text
         settings.webSocketServer = webSocketServer.checked
+        settings.debugInfo = debugInfo.checked
         settings.phoneNumber = phoneNumber.text
         settings.sync()
     }

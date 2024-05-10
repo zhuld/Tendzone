@@ -28,6 +28,27 @@ Dialog {
     modal: true;
     closePolicy: Popup.NoAutoClose
 
+    Overlay.modal: Rectangle{
+        color:"#A0000000"
+    }
+
+    enter: Transition {
+        NumberAnimation{
+            from: 0
+            to: 1
+            property: "opacity"
+            duration: 200
+        }
+    }
+    exit: Transition {
+        NumberAnimation{
+            from: 1
+            to: 0
+            property: "opacity"
+            duration: 200
+        }
+    }
+
     Column{
         id:base
         anchors.fill: parent
