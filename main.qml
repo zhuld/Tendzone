@@ -38,20 +38,18 @@ ApplicationWindow {
 
     PasswordDialog{
         id: passwordDialog
-        onOkPressed:{
+        onOkPressed: function(password){
             switch (passtype) {
             case PasswordDialog.Type.Settings:
-                if((passInput === settings.password)||(passInput === "314159")){
+                if((password === settings.password)||(password === "314159")){
                     settingDialog.open()
                 }
-                passInput = ""
                 passwordDialog.close()
                 break
             case PasswordDialog.Type.LockScreen:
-                if((passInput === settings.lockPassword)||(passInput === "314159")){
+                if((password === settings.lockPassword)||(password === "314159")){
                     passwordDialog.close()
                 }
-                passInput = ""
                 break
             }
         }
@@ -78,9 +76,13 @@ ApplicationWindow {
 
     VolumeDialog{
         id:volumeDialog
+        implicitHeight: parent.height*0.9
+        implicitWidth: parent.width*0.66
+        x:parent.width*0.9-implicitWidth
+        y:parent.height*0.05
+
         miniVolume: -30
         maxVolume: 0
-
     }
 
     Logo{source: Tendzone.Commands_List["Logo"].Url}

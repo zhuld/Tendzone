@@ -1,6 +1,7 @@
 import QtQuick
 
 Item {
+    id:languageStates
     states: [
         State {
             name: "chinese"
@@ -52,6 +53,8 @@ Item {
                 target: passwordDialog; passwordLabel: "如有问题可拨打电话："+settings.phoneNumber }
             PropertyChanges {
                 target: volumeDialog; volumeLabel: "总音量"}
+            PropertyChanges {
+                target: volumeDialog; volumeHDMiLabel: "电脑"}
 
         },
         State {
@@ -103,7 +106,9 @@ Item {
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "Pls Call "+settings.phoneNumber +" for Help"}
             PropertyChanges {
-                target: volumeDialog; volumeLabel: "Volume"}
+                target: volumeDialog; volumeLabel: "Main"}
+            PropertyChanges {
+                target: volumeDialog; volumeHDMiLabel: "PC"}
         }
     ]
 }

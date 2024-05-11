@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtCore
+//import QtQuick.VirtualKeyboard
 
 import "./tendzone.js" as Tendzone
 
@@ -39,6 +40,16 @@ Dialog {
         property bool debugInfo: false
         property string phoneNumber: ""
         property int volume: -10
+        property int volumeHDMI: -10
+        property int volumeMic1: -10
+        property int volumeMic2: -10
+        property int volumeIR1: -10
+        property int volumeIR2: -10
+        property bool volumeHDMIMute: false
+        property bool volumeMic1Mute: false
+        property bool volumeMic2Mute: false
+        property bool volumeIR1Mute: false
+        property bool volumeIR2Mute: false
     }
 
     Overlay.modal: Rectangle{
@@ -101,6 +112,7 @@ Dialog {
                     font.pixelSize: height*0.7
                     text: settings.roomNumber
                     enabled: !autoRoomNumber.checked
+                    color: "#33B5E5"
                 }
                 Text {
                     text: "自动获取"
@@ -127,7 +139,12 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.ipAddress
-                    //color: "#33B5E5"
+                    inputMethodHints : Qt.ImhDialableCharactersOnly
+                    validator: RegularExpressionValidator{
+                        regularExpression: /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/
+                    }
+                    color: acceptableInput? "#33B5E5" :"#ff0000"
+
                 }
                 Text {
                     text: "中控端口"
@@ -143,8 +160,9 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.ipPort
+                    validator: IntValidator {bottom: 1024; top: 49151;}
+                    color: acceptableInput? "#33B5E5" :"#ff0000"
                 }
-
                 Text {
                     text: "投影机品牌"
                     width: parent.width*0.5
@@ -220,7 +238,7 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.phoneNumber
-                    //color: "#33B5E5"
+                    color: "#33B5E5"
                 }
                 Text {
                     text: "系统设置密码"
@@ -236,7 +254,8 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.password
-                    //color: "#33B5E5"
+                    validator: IntValidator {bottom: 0; top: 999999;}
+                    color: acceptableInput? "#33B5E5" :"#ff0000"
                 }
                 Text {
                     text: "系统锁屏密码"
@@ -252,10 +271,11 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.lockPassword
-                    //color: "#33B5E5"
+                    validator: IntValidator {bottom: 0; top: 999999;}
+                    color: acceptableInput? "#33B5E5" :"#ff0000"
                 }
                 Text {
-                    text: "网络重连时间"
+                    text: "网络重连时间(10~600s)"
                     width: parent.width*0.5
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
@@ -268,8 +288,8 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.socketError
-                    //color: "#33B5E5"
-                    validator: IntValidator {bottom: 5; top: 2000;}
+                    validator: IntValidator {bottom: 10; top: 600;}
+                    color: acceptableInput? "#33B5E5" :"#ff0000"
                 }
                 Text {
                     text: "自带WebSocket服务器"

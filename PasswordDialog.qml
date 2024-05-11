@@ -8,8 +8,6 @@ Dialog {
     anchors.centerIn: parent
 
     readonly property real ratio: 0.7
-    property string pass: ""
-    property string passInput: ""
     property var passtype
 
     property alias passwordTitle: passwordTitle.text
@@ -18,7 +16,7 @@ Dialog {
     implicitWidth: parent.width / parent.height < ratio ? parent.width*0.9:parent.height*0.9*ratio
     implicitHeight: implicitWidth/ratio
 
-    signal okPressed
+    signal okPressed (var password)
 
     enum Type{
         Settings = 1,
@@ -74,19 +72,17 @@ Dialog {
             horizontalAlignment: Text.AlignLeft
             color: settings.phoneNumber ==="" ? "transparent":"#33B5E5"
         }
-        Text {
+        TextInput {
             id: password
             width: parent.width
             height: parent.height*0.1
-            //horizontalAlignment: parent.horizontalCenter
             verticalAlignment: Text.AlignBottom
             horizontalAlignment : Text.AlignHCenter
             font.pixelSize: height
             color: "#33B5E5"
-            elide: Text.ElideRight
+            enabled: false
+            echoMode: TextInput.Password
         }
-
-
         GridView {
             id:numberPad
             width: parent.width*0.7
@@ -108,7 +104,7 @@ Dialog {
                 ListElement { name: "7" }
                 ListElement { name: "8" }
                 ListElement { name: "9" }
-                ListElement { name: "C" }
+                ListElement { name: "\u2190" }
                 ListElement { name: "0" }
                 ListElement { name: "\u2714" }
             }
@@ -119,27 +115,27 @@ Dialog {
                 text: name
                 onClicked: {
                     switch (name){
-                        case "1":
-                        case "2":
-                        case "3":
-                        case "4":
-                        case "5":
-                        case "6":
-                        case "7":
-                        case "8":
-                        case "9":
-                        case "0":
-                            password.text+="*";
-                            passInput += name;
-                            break
-                        case "C":
-                            password.text = "";
-                            passInput = ""
-                            break;
-                        case "\u2714":
-                            password.text = "";
-                            okPressed()
-                            break
+                    case "1":
+                    case "2":
+                    case "3":
+                    case "4":
+                    case "5":
+                    case "6":
+                    case "7":
+                    case "8":
+                    case "9":
+                    case "0":
+                        if(password.text.length<6){
+                            password.text += name;
+                        }
+                        break
+                    case "\u2190":
+                        password.text = password.text.slice(0,password.text.length-1);
+                        break;
+                    case "\u2714":
+                        okPressed(password.text)
+                        password.text = "";
+                        break
                     }
                 }
             }

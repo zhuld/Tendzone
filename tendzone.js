@@ -46,6 +46,23 @@ const id_Audio_Level = 0x0006
 const id_Audio_GlobalVol = 0x0007
 const id_Audio_HDMI = 0x0008
 
+//Audio_Input
+const Audio_Line = {
+    LINEIN: 0,
+    MICIN: 1,
+    IRMIC:2,
+    LINEOUT: 3,
+    APOUT: 4,
+    HDMI: 5
+}
+const Audio_Type = {
+    VOLUME: 0,
+    MUTE: 1,
+}
+
+const val_Mute = 1
+const val_Unmute = 0
+
 //uuid_T8040_PARAMS
 const id_Key = 0x0000;
 const id_CPU = 0x0000;
@@ -89,7 +106,8 @@ const Command = {
     subPowerParm: Symbol("subPowerParm"),
     subMachineName: Symbol("subMachineName"),
     reboot: Symbol("reboot"),
-    globalVolume: Symbol("globalVolume")
+    globalVolume: Symbol("globalVolume"),
+    lineVolume: Symbol("lineVolume"),
 }
 
 const Projectors = ["Epson","Sony"]
@@ -345,6 +363,9 @@ function runCmd(cmd , val){
     case Command.globalVolume:
         socket.sendBinaryMessage(globalVolumeSet(val))
         break
+    case Command.lineVolume:
+        socket.sendBinaryMessage(lineVolumeSet(val))
+        break
     default:
         console.info("Unkonwn cmd:" , cmd)
     }
@@ -485,6 +506,11 @@ function globalVolumeSet(volume){
         volume = 45
     }
     return customSetParm(uuid_AUDIO_PARAM, id_Audio_GlobalVol,new Uint8Array([volume]))
+}
+
+//line volume set
+function lineVolumeSet(data){
+    return customSetParm(uuid_AUDIO_PARAM,id_Audio_SetParam , data)
 }
 
 
