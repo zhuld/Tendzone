@@ -42,7 +42,7 @@ Dialog {
             Slider{
                 id:volumeGlobal
                 width: parent.width
-                height: parent.height*0.8
+                height: parent.height*0.7
                 orientation: Qt.Vertical
 
                 handle.width: width*0.7
@@ -99,6 +99,20 @@ Dialog {
                         }
                     }
                 }
+            }
+
+            Button{
+                height: parent.height*0.1
+                width: height
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text {
+                    anchors.centerIn: parent
+                    text: "M"
+                    color: parent.checked? "red":"#33B5E5"
+                    font.pixelSize: parent.height*0.6
+                }
+                checked: settingDialog.settings.volumeMute
+                onClicked: Tendzone.runCmd(Tendzone.Command.Amp,checked?1:0)
             }
 
             Text {
@@ -205,6 +219,7 @@ Dialog {
                     settingDialog.settings.volumeHDMIMute = !checked
                 }
             }
+
 
             Text {
                 text: ((1-volumeHDMI.visualPosition)*(maxVolume- miniVolume))+miniVolume+"dB"

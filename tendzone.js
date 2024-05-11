@@ -313,7 +313,6 @@ function getCmdsDuring(cmds){
 }
 
 function runCmd(cmd , val){
-    console.info("Run Cmd:",cmd,val)
     switch(cmd){
     case Command.Projector:
         socket.sendBinaryMessage(setProjectorPower(val))
@@ -367,7 +366,6 @@ function runCmd(cmd , val){
         socket.sendBinaryMessage(lineVolumeSet(val))
         break
     default:
-        console.info("Unkonwn cmd:" , cmd)
     }
 }
 
@@ -465,6 +463,7 @@ function setExtendSignal(val){
 
 //Amp
 function setAmpPower(val){
+    settingDialog.settings.volumeMute = (val !== val_On)
     return customSetParm(uuid_T8040_PARAMS, id_Key, new Uint8Array([val, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
 }
 
@@ -520,25 +519,19 @@ function messageCheck(message) {
         if (codeCompare(message, uuid_HDMI_PARAMS, 2)) {   //HDMI信号 0x1400
             if (codeCompare(message, id_Projector, 4)) {   //投影机 0x0003
                 root.projectorHDMI =new Uint8Array(message.slice(8,9))[0]
-                //console.info("投影机信号",root.projectorHDMI)
             } else if (codeCompare(message, id_Extend, 4)) {   //外接 0x0001
                 root.extendHDMI = new Uint8Array(message.slice(8,9))[0]
-                //console.info("扩展信号",root.extendHDMI)
             } else if (codeCompare(message, id_Monitor, 4)) {   //显示器 0x0002
                 root.monitorHDMI =  new Uint8Array(message.slice(8,9))[0]
-                //console.info("显示器信号",root.monitorHDMI)
             }
         } else if ((codeCompare(message, uuid_POWER_PARAMS, 2) & //电源 0x1500
                     (codeCompare(message, id_Power_Sub, 4)))) {  // 0x0000
             const index = 11;
             root.mubuPower = new Uint8Array(message.slice(index,index+1))[0]
-            //console.info("幕布状态",root.mubuPower)
             root.projectorPower = new Uint8Array(message.slice(index+71,index+1+71))[0]
-            //console.info("投影机状态",root.projectorPower)
             root.extensionPower = new Uint8Array(message.slice(index+71*2,index+1+71*2))[0]
-            //console.info("外接状态",root.extensionPower)
             root.lockPower = new Uint8Array(message.slice(index+71*3,index+1+71*3))[0]
-            //console.info("电锁状态",root.lockPower)
+
         } else if ((codeCompare(message, uuid_HOST_PARAMS, 2) & //主机 0x1100
                     (codeCompare(message, id_Machine_Name, 4)))) {  // 0x0000
             var messageArray = new Uint8Array(message.slice(8,48))

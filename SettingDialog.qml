@@ -45,6 +45,7 @@ Dialog {
         property int volumeMic2: -10
         property int volumeIR1: -10
         property int volumeIR2: -10
+        property bool volumeMute: false
         property bool volumeHDMIMute: false
         property bool volumeMic1Mute: false
         property bool volumeMic2Mute: false
@@ -383,13 +384,15 @@ Dialog {
                         text: "功放开"
                         onClicked: Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_On)
                         font.pixelSize: height*0.4
+                        checked: !settingDialog.settings.volumeMute
                     }
                     Button{
                         width: parent.width*0.45
                         height: width*0.4
                         text: "功放关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_Off)
+                        onClicked:  Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_Off)
                         font.pixelSize: height*0.4
+                        checked: settingDialog.settings.volumeMute
                     }
                     Button{
                         width: parent.width*0.45

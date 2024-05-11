@@ -11,7 +11,7 @@ WebSocketServer {
 
     onClientConnected: function(webSocket) {
         webSocket.onTextMessageReceived.connect(function(message) {
-            //console.info("Server Text receive:", message);
+            console.info("Server Text receive:", message);
         });
         webSocket.onBinaryMessageReceived.connect(function(message) {
             console.info("Server Bin Received:", new Uint8Array(message))
