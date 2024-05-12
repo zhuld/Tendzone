@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //VirtualKeyboard
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //VirtualKeyboard
 
     QGuiApplication app(argc, argv);
 
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Zhuld");
     app.setOrganizationDomain("zld.com");
     app.setApplicationName("Tendzone Control");
-    app.setApplicationVersion("V0.4.00");
+    app.setApplicationVersion("V0.5.00");
 
 
     engine.load(url);
