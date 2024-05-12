@@ -1,7 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtCore
-//import QtQuick.VirtualKeyboard
+
+import QtQuick.VirtualKeyboard
+import QtQuick.VirtualKeyboard.Settings
 
 import "./tendzone.js" as Tendzone
 
@@ -13,7 +15,9 @@ Dialog {
     implicitWidth: parent.width*0.9
     implicitHeight: parent.height*0.9
 
-    modal: true;
+    modal: true
+    //focus: true
+
     closePolicy: Popup.NoAutoClose
 
     property alias settings: settings
@@ -89,11 +93,19 @@ Dialog {
             color: "#33B5E5"
         }
         ScrollView{
+            id:scrollView
             width: parent.width
             height: parent.height*0.7
             contentWidth: parent.width*0.9
             contentHeight: Grid.height
             anchors.margins: height/20
+
+            Behavior on ScrollBar.vertical.position{
+                NumberAnimation{
+                    duration: 250
+                }
+            }
+
             Grid{
                 width: parent.width
                 columns:  2
@@ -140,12 +152,16 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.ipAddress
-                    inputMethodHints : Qt.ImhDialableCharactersOnly
+                    inputMethodHints : Qt.ImhDigitsOnly
                     validator: RegularExpressionValidator{
                         regularExpression: /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/
                     }
                     color: acceptableInput? "#33B5E5" :"#ff0000"
-
+                    onFocusChanged: {
+                        if(focus){
+                            scrollView.ScrollBar.vertical.position = y/scrollView.contentHeight
+                        }
+                    }
                 }
                 Text {
                     text: "中控端口"
@@ -161,8 +177,14 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.ipPort
+                    inputMethodHints : Qt.ImhDigitsOnly
                     validator: IntValidator {bottom: 1024; top: 49151;}
                     color: acceptableInput? "#33B5E5" :"#ff0000"
+                    onFocusChanged: {
+                        if(focus){
+                            scrollView.ScrollBar.vertical.position = y/scrollView.contentHeight
+                        }
+                    }
                 }
                 Text {
                     text: "投影机品牌"
@@ -239,7 +261,13 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.phoneNumber
+                    inputMethodHints : Qt.ImhDigitsOnly
                     color: "#33B5E5"
+                    onFocusChanged: {
+                        if(focus){
+                            scrollView.ScrollBar.vertical.position = y/scrollView.contentHeight
+                        }
+                    }
                 }
                 Text {
                     text: "系统设置密码"
@@ -255,8 +283,14 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.password
+                    inputMethodHints : Qt.ImhDigitsOnly
                     validator: IntValidator {bottom: 0; top: 999999;}
                     color: acceptableInput? "#33B5E5" :"#ff0000"
+                    onFocusChanged: {
+                        if(focus){
+                            scrollView.ScrollBar.vertical.position = y/scrollView.contentHeight
+                        }
+                    }
                 }
                 Text {
                     text: "系统锁屏密码"
@@ -272,8 +306,14 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.lockPassword
+                    inputMethodHints : Qt.ImhDigitsOnly
                     validator: IntValidator {bottom: 0; top: 999999;}
                     color: acceptableInput? "#33B5E5" :"#ff0000"
+                    onFocusChanged: {
+                        if(focus){
+                            scrollView.ScrollBar.vertical.position = y/scrollView.contentHeight
+                        }
+                    }
                 }
                 Text {
                     text: "网络重连时间(10~600s)"
@@ -289,8 +329,14 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     text: settings.socketError
+                    inputMethodHints : Qt.ImhDigitsOnly
                     validator: IntValidator {bottom: 10; top: 600;}
                     color: acceptableInput? "#33B5E5" :"#ff0000"
+                    onFocusChanged: {
+                        if(focus){
+                            scrollView.ScrollBar.vertical.position = y/scrollView.contentHeight
+                        }
+                    }
                 }
                 Text {
                     text: "自带WebSocket服务器"
@@ -309,6 +355,7 @@ Dialog {
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
                     color: "#33B5E5"
+
                 }
                 Switch{
                     id:debugInfo
@@ -601,6 +648,46 @@ Dialog {
             }
         }
     }
+
+    InputPanel{
+        id:inputPanel
+        z:99
+        y:root.height
+        width: rootSetting.width
+        visible: true
+
+        //parent: Overlay.overlay
+
+        states: State {
+            name: "visible"
+            when: inputPanel.active
+            PropertyChanges {
+                target: inputPanel
+                y: rootSetting.height-inputPanel.height
+            }
+        }
+        transitions: Transition {
+            from: ""
+            to: "visible"
+            reversible: true
+            ParallelAnimation{
+                NumberAnimation {
+                    property: "y"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+
+        externalLanguageSwitchEnabled: false
+
+        Component.onCompleted: {
+            VirtualKeyboardSettings.wordCandidateList.alwaysVisible = true
+            VirtualKeyboardSettings.activeLocales = ["en_US","zh_CN"]
+            VirtualKeyboardSettings.locale = "en_US"
+        }
+    }
+
     onAccepted:{
         settings.roomNumber = roomNumber.text
         settings.autoRoomNumber = autoRoomNumber.checked
