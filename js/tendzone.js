@@ -58,6 +58,16 @@ const Audio_Line = {
 const Audio_Type = {
     VOLUME: 0,
     MUTE: 1,
+    PEQ:2,
+    MIXER:3,
+    DRC:4,
+    LOWCUT:5,
+    SRC:6, //not used
+    DELAY:7,
+    PPOWER:8,
+    LEVEL:9,
+    OUT_AIMING:10,
+    AFC:11
 }
 
 const val_Mute = 1
@@ -237,7 +247,7 @@ const Haishi = {
             {Name: Command.Uart_1_Projector, Value: val_On, Delay: 1},
             {Name: Command.Uart_1_Projector, Value: val_On, Delay: 25},
             {Name: Command.Monitor_HDMI, Value: val_PC, Delay: 1},
-            {Name: Command.Projecto_HDMI, Value: val_PC, Delay: 1},
+            {Name: Command.Projector_HDMI, Value: val_PC, Delay: 1},
             {Name: Command.Amp, Value: val_On, Delay: 1},
         ]
     },
@@ -313,60 +323,65 @@ function getCmdsDuring(cmds){
 }
 
 function runCmd(cmd , val){
+    //console.info(cmd,val)
+    var message
     switch(cmd){
     case Command.Projector:
-        socket.sendBinaryMessage(setProjectorPower(val))
+        message = (setProjectorPower(val))
         break
     case Command.Extension:
-        socket.sendBinaryMessage(setExtensionPower(val))
+        message = (setExtensionPower(val))
         break
     case Command.Lock:
-        socket.sendBinaryMessage(setLockPower(val))
+        message = (setLockPower(val))
         break
     case Command.Amp:
-        socket.sendBinaryMessage(setAmpPower(val))
+        message = (setAmpPower(val))
         break
     case Command.Mubu:
-        socket.sendBinaryMessage(setMubuPower(val))
+        message = (setMubuPower(val))
         break
     case Command.Uart_1_Projector:
-        socket.sendBinaryMessage(uart_1_Send(Projectors_Code[Projectors[settings.projector]][val].Code))
+        message = (uart_1_Send(Projectors_Code[Projectors[settings.projector]][val].Code))
         break
     case Command.Uart_2_Projector:
-        socket.sendBinaryMessage(uart_2_Send(Projectors_Code[Projectors[settings.projector]][val].Code))
+        message = (uart_2_Send(Projectors_Code[Projectors[settings.projector]][val].Code))
         break
     case Command.Projector_HDMI:
-        socket.sendBinaryMessage(setProjectorSignal(val))
+        message = (setProjectorSignal(val))
         break
     case Command.Extender_HDMI:
-        socket.sendBinaryMessage(setExtendSignal(val))
+        message = (setExtendSignal(val))
         break
     case Command.Monitor_HDMI:
-        socket.sendBinaryMessage(setMonitorSignal(val_PC))
+        message = (setMonitorSignal(val_PC))
         break
     case Command.subHDMIProjector:
-        socket.sendBinaryMessage(subscribeHDMIProjector(val))
+        message = (subscribeHDMIProjector(val))
         break
     case Command.subHDMIExtend:
-        socket.sendBinaryMessage(subscribeHDMIExtend(val))
+        message = (subscribeHDMIExtend(val))
         break
     case Command.subPowerParm:
-        socket.sendBinaryMessage(subscribePowerParm(val))
+        message = (subscribePowerParm(val))
         break
     case Command.subMachineName:
-        socket.sendBinaryMessage(subscribeMachineName(val))
+        message = (subscribeMachineName(val))
         break
     case Command.reboot:
-        socket.sendBinaryMessage(reboot())
+        message = (reboot())
         break
     case Command.globalVolume:
-        socket.sendBinaryMessage(globalVolumeSet(val))
+        message = (globalVolumeSet(val))
         break
     case Command.lineVolume:
-        socket.sendBinaryMessage(lineVolumeSet(val))
+        message = (lineVolumeSet(val))
         break
     default:
+        console.warn("unkonw cmd",cmd,val)
     }
+    console.info("run:", cmd,val," cmd:",new Uint8Array(message))
+    wsClient.sendBinaryMessage(message)
 }
 
 function customSubParm(uuid, id, subscribe) {
@@ -537,13 +552,16 @@ function messageCheck(message) {
             var messageArray = new Uint8Array(message.slice(8,48))
             var dataString = "";
             for (var i = 0; i < messageArray.length; i++) {
+                if(messageArray[i]!==0){
                 dataString += String.fromCharCode(messageArray[i]);
+                }
             }
-            if(settingDialog.settings.autoRoomNumber){ //自动
-                settingDialog.settings.roomNumber = dataString
-                settingDialog.roomNumber.text = settingDialog.settings.roomNumber
-                settingDialog.settings.sync()
-            }
+            //if(settingDialog.settings.autoRoomNumber){ //自动
+                root.roomName = dataString
+                //settingDialog.settings.roomNumber = dataString
+                //settingDialog.roomNumber.text = dataString//settingDialog.settings.roomNumber
+                //settingDialog.settings.sync()
+            //}
         }
     }
 }

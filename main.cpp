@@ -3,7 +3,9 @@
 
 int main(int argc, char *argv[])
 {
-
+    if(QSysInfo::productType() != "android"){
+        qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+    }
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -21,8 +23,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Zhuld");
     app.setOrganizationDomain("zld.com");
     app.setApplicationName("Tendzone Control");
-    app.setApplicationVersion("V0.5.00");
-
+    app.setApplicationVersion("V0.5.02");
 
     engine.load(url);
 

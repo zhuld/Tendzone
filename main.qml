@@ -2,7 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import QtWebSockets
 
-import "./tendzone.js" as Tendzone
+import "./dialog/"
+import "./others/"
+import "./websocket/"
+
+import "./js/tendzone.js" as Tendzone
 
 import QtQuick.Controls.Fusion
 
@@ -36,9 +40,11 @@ ApplicationWindow {
     property int extensionPower
     property int lockPower
 
+    property string roomName: ""
+
     PasswordDialog{
         id: passwordDialog
-        onOkPressed: function(password){
+        onOkPressed: (password)=>{
             switch (passtype) {
             case PasswordDialog.Type.Settings:
                 if((password === settings.password)||(password === "314159")){
@@ -66,18 +72,18 @@ ApplicationWindow {
     ProcessDialog{id: processDialog}
 
     WSServer{
-        id: server
-        onBinReceived: function(message){
-            info.text = "Received:"+message
-        }
+        id: wsServer
+        onBinReceived: (message)=>info.text = "Received:"+message
     }
+
+    WSClient{id: wsClient}
 
     BordLine{} //画线
 
     VolumeDialog{
         id:volumeDialog
         implicitHeight: parent.height*0.9
-        implicitWidth: parent.width*0.66
+        implicitWidth: parent.width*0.44
         x:parent.width*0.9-implicitWidth
         y:parent.height*0.05
 
@@ -86,33 +92,6 @@ ApplicationWindow {
     }
 
     Logo{source: Tendzone.Commands_List["Logo"].Url}
-
-    WebSocket {
-        id: socket
-        url: "ws://"+settings.ipAddress+":"+settings.ipPort
-
-        onTextMessageReceived: function(message) {
-            messageBox.text = messageBox.text + "\nReceived message: " + message
-        }
-        onBinaryMessageReceived: function(message) {
-            console.info("Client Bin Received:", new Uint8Array(message))
-            Tendzone.messageCheck(message)
-        }
-        onStatusChanged: {
-            webSocketStatus.state = socket.status
-            if ((socket.status === WebSocket.Error)|(socket.status === WebSocket.Closed)){
-                socketAnimation.restart()
-                socketStatusTimer.restart()
-                socket.active = false
-            }else if (socket.status == WebSocket.Open){
-                Tendzone.runCmd(Tendzone.Command.subHDMIProjector,true)
-                Tendzone.runCmd(Tendzone.Command.subHDMIExtend,true)
-                Tendzone.runCmd(Tendzone.Command.subPowerParm,true)
-                Tendzone.runCmd(Tendzone.Command.subMachineName,true)
-            }
-        }
-        active: false
-    }
 
     Column{
         anchors.fill: parent
@@ -127,7 +106,7 @@ ApplicationWindow {
                 id: statusTimer
                 height: parent.height
                 font.pixelSize: height
-                color: socket.status == WebSocket.Open ? "#33B5E5" :"red"
+                color: wsClient.status == WebSocket.Open ? "#33B5E5" :"red"
                 text: Qt.formatDateTime(new Date(),"yyyy-MM-dd hh:mm")
             }
 
@@ -181,12 +160,12 @@ ApplicationWindow {
                     height: parent.height*0.3
                     font.pixelSize: height/3
                     text: "白板上课"
-                    delay: 500
+                    delay: 300
                     onReleased: checked = false
                     onActivated: Tendzone.startCmds("WhiteBoard")
                     visible: settings.whiteboard? true:false
                     opacity: enabled? 1:0.5
-                    enabled: socket.status===WebSocket.Open ? true:false
+                    enabled: wsClient.status===WebSocket.Open ? true:false
                 }
                 DelayButton{
                     id:systemOn
@@ -195,11 +174,11 @@ ApplicationWindow {
                     height: settings.whiteboard? parent.height*0.3 : parent.height*0.4
                     font.pixelSize: height/3
                     text: "上课"
-                    delay: 500
+                    delay: 300
                     onReleased: checked = false
                     onActivated: Tendzone.startCmds("SystemOn")
                     opacity: enabled? 1:0.5
-                    enabled: socket.status===WebSocket.Open ? true:false
+                    enabled: wsClient.status===WebSocket.Open ? true:false
                 }
             }
 
@@ -216,14 +195,14 @@ ApplicationWindow {
 
                 spacing: height*0.1
                 Text{
-                    id:roomLabel
+                    id:roomNameLabel
                     horizontalAlignment: Text.AlignRight
                     elide: Text.ElideRight
                     width: parent.width*0.9
                     height: parent.height*0.2
                     font.pixelSize: height*0.8
                     color: "#33B5E5"
-                    text: settings.roomNumber
+                    text: roomName
                 }
                 DelayButton{
                     id:systemOff
@@ -232,11 +211,11 @@ ApplicationWindow {
                     height: parent.height*0.4
                     font.pixelSize: height/3
                     text: "下课"
-                    delay: 500
+                    delay: 300
                     onReleased: checked = false
                     onActivated: Tendzone.startCmds("SystemOff")
                     opacity: enabled? 1:0.5
-                    enabled: socket.status===WebSocket.Open ? true:false
+                    enabled: wsClient.status===WebSocket.Open ? true:false
                 }
             }
             Column{
@@ -268,7 +247,7 @@ ApplicationWindow {
                     text: "\u266C"
                     onClicked:volumeDialog.visible = true
                     opacity: enabled? 1:0.5
-                    enabled: socket.status===WebSocket.Open ? true:false
+                    enabled: wsClient.status===WebSocket.Open ? true:false
                 }
             }
         }
@@ -310,7 +289,7 @@ ApplicationWindow {
                         text:"台式机"
                         onClicked:Tendzone.startCmds("ProjectorPC")
                         opacity: enabled? 1:0.5
-                        enabled: socket.status===WebSocket.Open ? true:false
+                        enabled: wsClient.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_PC
                     }
                     Button{
@@ -321,7 +300,7 @@ ApplicationWindow {
                         text: "笔记本"
                         onClicked:Tendzone.startCmds("ProjectorLaptop")
                         opacity: enabled? 1:0.5
-                        enabled: socket.status===WebSocket.Open ? true:false
+                        enabled: wsClient.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_Laptop
                     }
                     Button{
@@ -333,7 +312,7 @@ ApplicationWindow {
                         onClicked: Tendzone.startCmds("ProjectorWireless")
                         visible: settings.wireless? true:false
                         opacity: enabled? 1:0.5
-                        enabled: socket.status===WebSocket.Open ? true:false
+                        enabled: wsClient.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_Wireless
                     }
                 }
@@ -368,11 +347,11 @@ ApplicationWindow {
                         height: parent.height*0.5
                         font.pixelSize: height*0.3
                         text: "投影机开"
-                        delay: 500
+                        delay: 300
                         onReleased: checked = false
                         onActivated: Tendzone.startCmds("ProjectorOn")
                         opacity: enabled? 1:0.5
-                        enabled: socket.status===WebSocket.Open ? true:false
+                        enabled: wsClient.status===WebSocket.Open ? true:false
                     }
                     DelayButton{
                         id:projectorOff
@@ -380,11 +359,11 @@ ApplicationWindow {
                         height: parent.height*0.5
                         font.pixelSize: height*0.3
                         text: "投影机关"
-                        delay: 500
+                        delay: 300
                         onReleased: checked = false
                         onActivated: Tendzone.startCmds("ProjectorOff")
                         opacity: enabled? 1:0.5
-                        enabled: socket.status===WebSocket.Open ? true:false
+                        enabled: wsClient.status===WebSocket.Open ? true:false
                     }
                 }
             }
@@ -403,24 +382,20 @@ ApplicationWindow {
                 from: 1
                 to:0
                 duration: settings.socketError*1000
-            }
-            Timer{
-                id:socketStatusTimer
-                interval: settings.socketError*1000
-                repeat: false
-                onTriggered: {
-                    socket.active = true
+                onFinished: {
+                    wsClient.active = true
                     socketStatusProgress.socketValue = 1
                 }
             }
+
         }
     }
     Component.onCompleted: {
-        socket.active = true
         if(settings.lockPassword != ""){
             passwordDialog.passtype = PasswordDialog.Type.LockScreen
             passwordDialog.open()
         }
+        wsClient.active = true
     }
 
 }

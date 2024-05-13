@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import "./tendzone.js" as Tendzone
+import "../js/tendzone.js" as Tendzone
 
 import QtQuick.Controls.Fusion
 

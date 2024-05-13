@@ -16,19 +16,20 @@ qt_add_qml_module(Tendzone
     VERSION 1.0
     RESOURCES pic/tjhospital.png
     RESOURCES pic/haishi.png
-    QML_FILES main.qml
-    QML_FILES ConfirmDialog.qml
-    QML_FILES Language.qml
-    QML_FILES BordLine.qml
-    QML_FILES Logo.qml
-    QML_FILES PasswordDialog.qml
-    QML_FILES ProcessDialog.qml
-    QML_FILES SocketStatus.qml
-    QML_FILES WSServer.qml
-    QML_FILES tendzone.js
     RESOURCES pic/splash.jpg
-    QML_FILES VolumeDialog.qml
-    QML_FILES SettingDialog.qml
+    QML_FILES main.qml
+    QML_FILES dialog/ConfirmDialog.qml
+    QML_FILES others/Language.qml
+    QML_FILES others/BordLine.qml
+    QML_FILES others/Logo.qml
+    QML_FILES dialog/PasswordDialog.qml
+    QML_FILES dialog/ProcessDialog.qml
+    QML_FILES websocket/SocketStatus.qml
+    QML_FILES websocket/WSServer.qml
+    QML_FILES js/tendzone.js
+    QML_FILES dialog/VolumeDialog.qml
+    QML_FILES dialog/SettingDialog.qml
+    QML_FILES websocket/WSClient.qml
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

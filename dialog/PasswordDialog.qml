@@ -81,7 +81,8 @@ Dialog {
             font.pixelSize: height
             color: "#33B5E5"
             enabled: false
-            echoMode: TextInput.Password
+            echoMode: TextInput.PasswordEchoOnEdit
+            passwordMaskDelay: 500
         }
         GridView {
             id:numberPad

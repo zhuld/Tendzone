@@ -1,19 +1,19 @@
 import QtQuick
 import QtWebSockets
 
-import "./tendzone.js" as Tendzone
+import "../js/tendzone.js" as Tendzone
 
 WebSocketServer {
     id: server
-    port: 9880
+    port: settings.webSocketServerPort
     listen: settings.webSocketServer
     signal binReceived(var message)
 
-    onClientConnected: function(webSocket) {
-        webSocket.onTextMessageReceived.connect(function(message) {
+    onClientConnected: (webSocket) =>{
+        webSocket.onTextMessageReceived.connect((message)=> {
             console.info("Server Text receive:", message);
         });
-        webSocket.onBinaryMessageReceived.connect(function(message) {
+        webSocket.onBinaryMessageReceived.connect((message)=> {
             console.info("Server Bin Received:", new Uint8Array(message))
             binReceived(new Uint8Array(message))
 
