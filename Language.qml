@@ -28,8 +28,6 @@ Item {
             PropertyChanges {
                 target: projectorOff; text: "投影机关" }
             PropertyChanges {
-                target: settingDialog; settingTitle: "系统设置 "+Application.version }
-            PropertyChanges {
                 target: confirmDialog; confirmTitle: "提示" }
             PropertyChanges {
                 target: confirmDialog; confirmContent: "确定执行操作？" }
@@ -37,6 +35,8 @@ Item {
                 target: confirmDialog; confirmOK: "确定" }
             PropertyChanges {
                 target: confirmDialog; confirmCancel: "取消" }
+            PropertyChanges {
+                target: settingDialog; settingTitle: "系统设置 "+Application.version }
             PropertyChanges {
                 target: settingDialog; settingOK: "确定" }
             PropertyChanges {
@@ -82,8 +82,6 @@ Item {
             PropertyChanges {
                 target: projectorOff; text: "Turn Off" }
             PropertyChanges {
-                target: settingDialog; settingTitle: "System Setup " + Application.version}
-            PropertyChanges {
                 target: confirmDialog; confirmTitle: "Notice" }
             PropertyChanges {
                 target: confirmDialog; confirmContent: "Confirm this Operation?" }
@@ -91,6 +89,8 @@ Item {
                 target: confirmDialog; confirmOK: "Confirm" }
             PropertyChanges {
                 target: confirmDialog; confirmCancel: "Cancel" }
+            PropertyChanges {
+                target: settingDialog; settingTitle: "System Setup " + Application.version}
             PropertyChanges {
                 target: settingDialog; settingOK: "OK" }
             PropertyChanges {
