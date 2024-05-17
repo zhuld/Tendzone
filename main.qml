@@ -47,7 +47,7 @@ ApplicationWindow {
         onOkPressed: (password)=>{
             switch (passtype) {
             case PasswordDialog.Type.Settings:
-                if((password === settings.password)||(password === "314159")){
+                if((password === settings.settingPassword)||(password === "314159")){
                     settingDialog.open()
                 }
                 passwordDialog.close()
@@ -74,6 +74,9 @@ ApplicationWindow {
     WSServer{
         id: wsServer
         onBinReceived: (message)=>info.text = "Received:"+message
+        onTextReceived: (message) => {Tendzone.controlMessageCheck(message)
+                            info.text = "Received:"+message
+        }
     }
 
     WSClient{id: wsClient}
@@ -238,14 +241,16 @@ ApplicationWindow {
                         }
                     }
                 }
-                Button{
+                DelayButton{
                     id:vol
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.5
                     height: width
                     font.pixelSize: height*0.4
                     text: "\u266C"
-                    onClicked:volumeDialog.visible = true
+                    delay: 200
+                    onReleased: checked = false
+                    onActivated:volumeDialog.visible = true
                     opacity: enabled? 1:0.5
                     enabled: wsClient.status===WebSocket.Open ? true:false
                 }

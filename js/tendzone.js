@@ -101,23 +101,24 @@ const val_Up = 0x01;
 const val_Down = 0x02;
 
 const Command = {
-    Projector: Symbol("Projector"),
-    Extension: Symbol("Extension"),
-    Lock: Symbol("Lock"),
-    Amp: Symbol("Amp"),
-    Mubu: Symbol("Mubu"),
-    Uart_1_Projector: Symbol("Uart_1_Projector"),
-    Uart_2_Projector: Symbol("Uart_2_Projector"),
-    Projector_HDMI: Symbol("Projector_HDMI"),
-    Extender_HDMI: Symbol("Extender_HDMI"),
-    Monitor_HDMI: Symbol("Monitor_HDMI"),
-    subHDMIProjector: Symbol("subHDMIProjector"),
-    subHDMIExtend: Symbol("subHDMIExtend"),
-    subPowerParm: Symbol("subPowerParm"),
-    subMachineName: Symbol("subMachineName"),
-    reboot: Symbol("reboot"),
-    globalVolume: Symbol("globalVolume"),
-    lineVolume: Symbol("lineVolume"),
+    Projector: "Projector",
+    Extension: "Extension",
+    Lock: "Lock",
+    Amp: "Amp",
+    Mubu: "Mubu",
+    Uart_1_Projector: "Uart_1_Projector",
+    Uart_2_Projector: "Uart_2_Projector",
+    Projector_HDMI: "Projector_HDMI",
+    Extender_HDMI: "Extender_HDMI",
+    Monitor_HDMI: "Monitor_HDMI",
+    subHDMIProjector: "subHDMIProjector",
+    subHDMIExtend: "subHDMIExtend",
+    subPowerParm: "subPowerParm",
+    subMachineName: "subMachineName",
+    subGlobalVolume: "subGlobalVolume",
+    reboot: "reboot",
+    globalVolume: "globalVolume",
+    lineVolume: "lineVolume",
 }
 
 const Projectors = ["Epson","Sony"]
@@ -368,6 +369,12 @@ function runCmd(cmd , val){
     case Command.subMachineName:
         message = (subscribeMachineName(val))
         break
+    case Command.subMachineName:
+        message = (subscribeMachineName(val))
+        break
+    case Command.subGlobalVolume:
+        message = (subscribeGlobalVolume(val))
+        break
     case Command.reboot:
         message = (reboot())
         break
@@ -429,25 +436,23 @@ function customSetParm(uuid, id, val) {
 function subscribePowerParm(subscribe) {
     return customSubParm(uuid_POWER_PARAMS, id_Power_Sub, subscribe); //开关控制状态订阅，1 - 幕布；2 - 投影机；3 - 电源；4 - 电锁
 }
-
 function subscribeUartSet(subscribe) {
     return customSubParm(uuid_POWER_PARAMS, id_Uart_Set, subscribe); //串口数据订阅，6 - 串口1；7 - 串口2；8 - 串口3
 }
-
 function subscribeUartData(subscribe) {
     return customSubParm(uuid_POWER_PARAMS, id_Uart, subscribe); //串口数据订阅，6 - 串口1；7 - 串口2；8 - 串口3
 }
-
 function subscribeHDMIProjector(subscribe) {
     return customSubParm(uuid_HDMI_PARAMS, id_Projector, subscribe); //订阅投影机的输入信号
 }
-
 function subscribeHDMIExtend(subscribe) {
     return customSubParm(uuid_HDMI_PARAMS, id_Extend, subscribe); //订阅投影机的输入信号
 }
-
 function subscribeMachineName(subscribe) {
     return customSubParm(uuid_HOST_PARAMS, id_Machine_Name, subscribe); //订阅投影机的输入信号
+}
+function subscribeGlobalVolume(subscribe) {
+    return customSubParm(uuid_AUDIO_PARAM, id_Audio_GlobalVol, subscribe); //订阅投影机的输入信号
 }
 
 //set
@@ -531,7 +536,7 @@ function lineVolumeSet(data){
 function messageCheck(message) {
     //var msg = new Uint8Array(message)
     if (codeCompare(message, op_code_REPORT, 0)) {  //确定起始字符0x8004,
-        if (codeCompare(message, uuid_HDMI_PARAMS, 2)) {   //HDMI信号 0x1400
+        if (codeCompare(message, uuid_HDMI_PARAMS, 2)) {   //HDMI信号 0x1400  矩阵状态
             if (codeCompare(message, id_Projector, 4)) {   //投影机 0x0003
                 root.projectorHDMI =new Uint8Array(message.slice(8,9))[0]
             } else if (codeCompare(message, id_Extend, 4)) {   //外接 0x0001
@@ -539,7 +544,7 @@ function messageCheck(message) {
             } else if (codeCompare(message, id_Monitor, 4)) {   //显示器 0x0002
                 root.monitorHDMI =  new Uint8Array(message.slice(8,9))[0]
             }
-        } else if ((codeCompare(message, uuid_POWER_PARAMS, 2) & //电源 0x1500
+        } else if ((codeCompare(message, uuid_POWER_PARAMS, 2) & //电源 0x1500  电源状态
                     (codeCompare(message, id_Power_Sub, 4)))) {  // 0x0000
             const index = 11;
             root.mubuPower = new Uint8Array(message.slice(index,index+1))[0]
@@ -547,21 +552,42 @@ function messageCheck(message) {
             root.extensionPower = new Uint8Array(message.slice(index+71*2,index+1+71*2))[0]
             root.lockPower = new Uint8Array(message.slice(index+71*3,index+1+71*3))[0]
 
-        } else if ((codeCompare(message, uuid_HOST_PARAMS, 2) & //主机 0x1100
+        } else if ((codeCompare(message, uuid_HOST_PARAMS, 2) & //主机 0x1100  机器名称
                     (codeCompare(message, id_Machine_Name, 4)))) {  // 0x0000
             var messageArray = new Uint8Array(message.slice(8,48))
             var dataString = "";
             for (var i = 0; i < messageArray.length; i++) {
                 if(messageArray[i]!==0){
-                dataString += String.fromCharCode(messageArray[i]);
+                    dataString += String.fromCharCode(messageArray[i]);
                 }
             }
-            //if(settingDialog.settings.autoRoomNumber){ //自动
-                root.roomName = dataString
-                //settingDialog.settings.roomNumber = dataString
-                //settingDialog.roomNumber.text = dataString//settingDialog.settings.roomNumber
-                //settingDialog.settings.sync()
-            //}
+            root.roomName = dataString
+        }else if ((codeCompare(message, uuid_AUDIO_PARAM, 2) & //主机 0x1303 主音量
+                   (codeCompare(message, id_Audio_GlobalVol, 4)))) {  // 0x0007
+            volumeDialog.globalVolume = 15 - (new Uint8Array(message.slice(8,9))[0])
+        }
+    }
+}
+
+function controlMessageCheck(message){
+    var obj = JSON.parse(message);
+    if(!("lockPassword" in obj)){
+        settingDialog.settings.lockPassword = obj.lockPassword
+        settingDialog.lockPassword.text = obj.lockPassword
+    }
+    if(!("settingPassword" in obj)){
+        settingDialog.settingPassword.text = obj.settingPassword
+        settingDialog.settings.settingPassword = obj.settingPassword
+    }
+
+    settingDialog.settings.sync()
+
+    if(!("lock" in obj)){
+        if(obj.lock){
+            passwordDialog.passtype = PasswordDialog.Type.LockScreen
+            passwordDialog.open()
+        }else{
+            passwordDialog.close()
         }
     }
 }
@@ -570,3 +596,9 @@ function codeCompare(message, code, position) {
     var mes = new Uint16Array(message.slice(position,position+2))
     return mes[0] === code
 }
+
+
+// 0480 0313 0700 0100 21  主音量返回 15-33 = -18
+// 0x040x800x030x130x070x000x010x000x21
+
+//{"lock":true,"lockPassword":"1234","settingPassword":"234"} 远程控制

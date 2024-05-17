@@ -1,4 +1,5 @@
 import QtQuick
+import "../dialog/"
 
 Image {
 
@@ -11,9 +12,8 @@ Image {
         id:mouseArea
         anchors.fill: parent
 
-        //pressAndHoldInterval:1000
         onPressAndHold: {
-            if(settings.password ===""){
+            if(settings.settingPassword ===""){
                 settingDialog.open()
             }else{
                 passwordDialog.passtype = PasswordDialog.Type.Settings

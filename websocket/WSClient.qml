@@ -8,7 +8,7 @@ WebSocket {
     url: "ws://"+settings.ipAddress+":"+settings.ipPort
 
     onTextMessageReceived: (message)=> {
-        messageBox.text = messageBox.text + "\nReceived message: " + message
+        console.info("Client Text Received:", message)
     }
     onBinaryMessageReceived: (message)=> {
         console.info("Client Bin Received:", new Uint8Array(message))
@@ -26,6 +26,7 @@ WebSocket {
             Tendzone.runCmd(Tendzone.Command.subHDMIExtend,true)
             Tendzone.runCmd(Tendzone.Command.subPowerParm,true)
             Tendzone.runCmd(Tendzone.Command.subMachineName,true)
+            Tendzone.runCmd(Tendzone.Command.subGlobalVolume,true)
         }
     }
     active: false

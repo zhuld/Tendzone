@@ -16,6 +16,8 @@ Dialog {
     property int miniVolume
     property int maxVolume
 
+    property int globalVolume
+
     property alias volumeLabel: volumeGlobalLabel.text
     property alias volumeHDMiLabel: volumeHDMILabel.text
 
@@ -54,13 +56,11 @@ Dialog {
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
 
-                value: ((settingDialog.settings.volume - miniVolume)/(maxVolume- miniVolume))
+                value: ((globalVolume - miniVolume)/(maxVolume- miniVolume))
 
                 onMoved: {
                     var newVol = ((1-visualPosition)*(maxVolume- miniVolume))+miniVolume
-                    if (newVol != settingDialog.settings.volume){
-                        settingDialog.settings.volume = newVol
-                        settingDialog.settings.sync()
+                    if (newVol !== globalVolume){
                         Tendzone.runCmd(Tendzone.Command.globalVolume, 15-newVol)
                     }
                 }

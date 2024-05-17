@@ -23,6 +23,10 @@ Dialog {
     property alias settingCancel: settingCancel.text
     property alias settingApply: settingApply.text
 
+    property alias settingPassword: settingPassword.text
+    property alias lockPassword: lockPassword.text
+
+
     property TextField focusedText
 
     Settings{
@@ -33,14 +37,13 @@ Dialog {
         property bool whiteboard: true
         property bool wireless: true
         property bool fullscreen: true
-        property string password: ""
+        property string settingPassword: ""
         property string lockPassword: "123"
         property int socketError: 30
         property bool webSocketServer: false
         property int webSocketServerPort: 9880
         property bool debugInfo: false
         property string phoneNumber: ""
-        property int volume: -10
         property int volumeHDMI: -10
         property int volumeMic1: -10
         property int volumeMic2: -10
@@ -250,11 +253,11 @@ Dialog {
                 }
 
                 TextField{
-                    id:password
+                    id:settingPassword
                     width: parent.width*0.5
                     height: settingDialog.height/12
                     font.pixelSize: height*0.7
-                    text: settings.password
+                    text: settings.settingPassword
                     inputMethodHints : Qt.ImhDigitsOnly
                     validator: IntValidator {bottom: 0; top: 999999;}
                     color: acceptableInput? "#33B5E5" :"#ff0000"
@@ -651,7 +654,7 @@ Dialog {
         settings.whiteboard = whiteBoardSwitch.checked
         settings.wireless = wirelessSwitch.checked
         settings.fullscreen = fullscreen.checked
-        settings.password = password.text
+        settings.settingPassword = settingPassword.text
         settings.lockPassword = lockPassword.text
         settings.socketError = socketError.text
         settings.webSocketServer = webSocketServer.checked
@@ -668,7 +671,7 @@ Dialog {
         whiteBoardSwitch.checked = settings.whiteboard
         wirelessSwitch.checked = settings.wireless
         fullscreen.checked = settings.fullscreen
-        password.text = settings.password
+        settingPassword.text = settings.settingPassword
         lockPassword.text = settings.lockPassword
         socketError.text = settings.socketError
         webSocketServer.checked = settings.webSocketServer
@@ -684,7 +687,7 @@ Dialog {
         settings.whiteboard = whiteBoardSwitch.checked
         settings.wireless = wirelessSwitch.checked
         settings.fullscreen = fullscreen.checked
-        settings.password = password.text
+        settings.settingPassword = settingPassword.text
         settings.lockPassword = lockPassword.text
         settings.socketError = socketError.text
         settings.webSocketServer = webSocketServer.checked
