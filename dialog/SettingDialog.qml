@@ -39,6 +39,7 @@ Dialog {
         property bool fullscreen: true
         property string settingPassword: ""
         property string lockPassword: "123"
+        property bool lock: true
         property int socketError: 30
         property bool webSocketServer: false
         property int webSocketServerPort: 9880

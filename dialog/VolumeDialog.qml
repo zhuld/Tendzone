@@ -9,30 +9,31 @@ import "../js/tendzone.js" as Tendzone
 
 Dialog {
     id:rootVolume
-    //implicitHeight: parent.height*0.9
-    //implicitWidth: parent.width*0.1
-    visible: false
+    implicitHeight: parent.height*0.9
+    implicitWidth: parent.width*0.56
+    y:parent.height*0.05
 
-    property int miniVolume
-    property int maxVolume
+    readonly property int miniVolume: -30
+    readonly property int maxVolume: 0
 
     property int globalVolume
 
     property alias volumeLabel: volumeGlobalLabel.text
     property alias volumeHDMiLabel: volumeHDMILabel.text
 
-    property real volumeWidth : 0.2
+    property real volumeWidth : 0.18
 
     modal: true;
 
     Row{
         anchors.fill: parent
         anchors.leftMargin: width*0.05
-        spacing: width*0.05
+        spacing: width*0.07
 
         Column{ //volumeGlobal
             width: parent.width*volumeWidth
             height: parent.height
+            spacing: parent.height*0.02
             Text {
                 id: volumeGlobalLabel
                 text: "VOL"
@@ -45,13 +46,29 @@ Dialog {
             }
             Slider{
                 id:volumeGlobal
-                width: parent.width
-                height: parent.height*0.7
+                width: parent.width*0.6
+                height: parent.height*0.67
                 orientation: Qt.Vertical
 
-                handle.width: width*0.7
-                handle.height: width*0.7
-                handle.opacity: 0.9
+                handle: Rectangle{
+                    implicitWidth: parent.width*0.5
+                    implicitHeight: parent.width*1.2
+                    x:parent.leftPadding+parent.availableWidth/2-width/2
+                    y:parent.topPadding+parent.visualPosition*(parent.availableHeight-height)
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#57111B" }
+                        GradientStop { position: 0.1; color: "#A598CF" }
+                        GradientStop { position: 0.2; color: "#682632" }
+                        GradientStop { position: 0.48; color: "#8F4E69" }
+                        GradientStop { position: 0.49; color: "#FFFFFF" }
+                        GradientStop { position: 0.52; color: "#FFFFFF" }
+                        GradientStop { position: 0.53; color: "#885E7E" }
+                        GradientStop { position: 0.90; color: "#8F6C94" }
+                        GradientStop { position: 1.0; color: "#57111B" }
+                    }
+                    radius: parent.width*0.1
+                }
+
 
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
@@ -82,22 +99,36 @@ Dialog {
                             ShapePath{
                                 strokeColor: "#33B5E5"
                                 strokeWidth: 2
-                                startX: parent.width*0
-                                startY: parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                startX: 0
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 PathLine{
                                     x:parent.width*0.4
-                                    y:parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                }
+                            }
+                        }
+                        Shape{ //刻度线
+                            anchors.fill: parent
+                            ShapePath{
+                                strokeColor: "#33B5E5"
+                                strokeWidth: 2
+                                startX: parent.width*0.6
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                PathLine{
+                                    x:parent.width*0.9
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 }
                             }
                         }
                         Text {
                             text: -5*value
-                            width: parent.parent.width/2
-                            height: parent.parent.handle.height/2
-                            x:parent.parent.width*0.6
-                            y:height/2+(parent.parent.availableHeight-parent.parent.handle.width)/6*value
+                            width: parent.parent.width
+                            height: parent.parent.handle.height
+                            x:parent.parent.width
+                            y: (parent.parent.availableHeight - parent.parent.handle.height)/6*value
                             color: "#33B5E5"
-                            font.pixelSize: height*0.8
+                            font.pixelSize: height*0.4
+                            verticalAlignment: Text.AlignVCenter
                         }
                     }
                 }
@@ -122,7 +153,7 @@ Dialog {
                 width: parent.width
                 height: parent.height*0.1
                 horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignTop
                 font.pixelSize: height*0.5
                 color: "#33B5E5"
             }
@@ -131,6 +162,7 @@ Dialog {
         Column{ //volumeHDMI
             width: parent.width*volumeWidth
             height: parent.height
+            spacing: parent.height*0.02
             Text {
                 id: volumeHDMILabel
                 text: "PC"
@@ -143,13 +175,29 @@ Dialog {
             }
             Slider{
                 id:volumeHDMI
-                width: parent.width
-                height: parent.height*0.7
+                width: parent.width*0.6
+                height: parent.height*0.67
                 orientation: Qt.Vertical
 
-                handle.width: width*0.7
-                handle.height: width*0.7
-                handle.opacity: 0.9
+                handle: Rectangle{
+                    implicitWidth: parent.width*0.5
+                    implicitHeight: parent.width*1.2
+                    x:parent.leftPadding+parent.availableWidth/2-width/2
+                    y:parent.topPadding+parent.visualPosition*(parent.availableHeight-height)
+                    //opacity: 0.9
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#07111B" }
+                        GradientStop { position: 0.1; color: "#5598CF" }
+                        GradientStop { position: 0.2; color: "#182632" }
+                        GradientStop { position: 0.48; color: "#2F4E69" }
+                        GradientStop { position: 0.49; color: "#FFFFFF" }
+                        GradientStop { position: 0.52; color: "#FFFFFF" }
+                        GradientStop { position: 0.53; color: "#385E7E" }
+                        GradientStop { position: 0.90; color: "#3F6C94" }
+                        GradientStop { position: 1.0; color: "#07111B" }
+                    }
+                    radius: parent.width*0.1
+                }
 
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
@@ -183,22 +231,36 @@ Dialog {
                             ShapePath{
                                 strokeColor: "#33B5E5"
                                 strokeWidth: 2
-                                startX: parent.width*0
-                                startY: parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                startX: 0
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 PathLine{
                                     x:parent.width*0.4
-                                    y:parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                }
+                            }
+                        }
+                        Shape{ //刻度线
+                            anchors.fill: parent
+                            ShapePath{
+                                strokeColor: "#33B5E5"
+                                strokeWidth: 2
+                                startX: parent.width*0.6
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                PathLine{
+                                    x:parent.width*0.9
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 }
                             }
                         }
                         Text {
                             text: -5*value
-                            width: parent.parent.width/2
-                            height: parent.parent.handle.height/2
-                            x:parent.parent.width*0.6
-                            y:height/2+(parent.parent.availableHeight-parent.parent.handle.width)/6*value
+                            width: parent.parent.width
+                            height: parent.parent.handle.height
+                            x:parent.parent.width
+                            y: (parent.parent.availableHeight - parent.parent.handle.height)/6*value
                             color: "#33B5E5"
-                            font.pixelSize: height*0.8
+                            font.pixelSize: height*0.4
+                            verticalAlignment: Text.AlignVCenter
                         }
                     }
                 }
@@ -228,7 +290,7 @@ Dialog {
                 width: parent.width
                 height: parent.height*0.1
                 horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignTop
                 font.pixelSize: height*0.5
                 color: "#33B5E5"
             }
@@ -237,6 +299,7 @@ Dialog {
         Column{ //volumeMic1
             width: parent.width*volumeWidth
             height: parent.height
+            spacing: parent.height*0.02
             Text {
                 id: volumeMic1Label
                 text: "Mic1"
@@ -249,14 +312,29 @@ Dialog {
             }
             Slider{
                 id:volumeMic1
-                width: parent.width
-                height: parent.height*0.7
+                width: parent.width*0.6
+                height: parent.height*0.67
                 orientation: Qt.Vertical
 
-                handle.width: width*0.7
-                handle.height: width*0.7
-                handle.opacity: 0.9
-
+                handle: Rectangle{
+                    implicitWidth: parent.width*0.5
+                    implicitHeight: parent.width*1.2
+                    x:parent.leftPadding+parent.availableWidth/2-width/2
+                    y:parent.topPadding+parent.visualPosition*(parent.availableHeight-height)
+                    //opacity: 0.9
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#07111B" }
+                        GradientStop { position: 0.1; color: "#5598CF" }
+                        GradientStop { position: 0.2; color: "#182632" }
+                        GradientStop { position: 0.48; color: "#2F4E69" }
+                        GradientStop { position: 0.49; color: "#FFFFFF" }
+                        GradientStop { position: 0.52; color: "#FFFFFF" }
+                        GradientStop { position: 0.53; color: "#385E7E" }
+                        GradientStop { position: 0.90; color: "#3F6C94" }
+                        GradientStop { position: 1.0; color: "#07111B" }
+                    }
+                    radius: parent.width*0.1
+                }
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
 
@@ -289,22 +367,36 @@ Dialog {
                             ShapePath{
                                 strokeColor: "#33B5E5"
                                 strokeWidth: 2
-                                startX: parent.width*0
-                                startY: parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                startX: 0
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 PathLine{
                                     x:parent.width*0.4
-                                    y:parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                }
+                            }
+                        }
+                        Shape{ //刻度线
+                            anchors.fill: parent
+                            ShapePath{
+                                strokeColor: "#33B5E5"
+                                strokeWidth: 2
+                                startX: parent.width*0.6
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                PathLine{
+                                    x:parent.width*0.9
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 }
                             }
                         }
                         Text {
                             text: -5*value
-                            width: parent.parent.width/2
-                            height: parent.parent.handle.height/2
-                            x:parent.parent.width*0.6
-                            y:height/2+(parent.parent.availableHeight-parent.parent.handle.width)/6*value
+                            width: parent.parent.width
+                            height: parent.parent.handle.height
+                            x:parent.parent.width
+                            y: (parent.parent.availableHeight - parent.parent.handle.height)/6*value
                             color: "#33B5E5"
-                            font.pixelSize: height*0.8
+                            font.pixelSize: height*0.4
+                            verticalAlignment: Text.AlignVCenter
                         }
                     }
                 }
@@ -333,7 +425,7 @@ Dialog {
                 width: parent.width
                 height: parent.height*0.1
                 horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignTop
                 font.pixelSize: height*0.5
                 color: "#33B5E5"
             }
@@ -342,6 +434,7 @@ Dialog {
         Column{ //volumeMic2
             width: parent.width*volumeWidth
             height: parent.height
+            spacing: parent.height*0.02
             Text {
                 id: volumeMic2Label
                 text: "Mic2"
@@ -354,13 +447,29 @@ Dialog {
             }
             Slider{
                 id:volumeMic2
-                width: parent.width
-                height: parent.height*0.7
+                width: parent.width*0.6
+                height: parent.height*0.67
                 orientation: Qt.Vertical
 
-                handle.width: width*0.7
-                handle.height: width*0.7
-                handle.opacity: 0.9
+                handle: Rectangle{
+                    implicitWidth: parent.width*0.5
+                    implicitHeight: parent.width*1.2
+                    x:parent.leftPadding+parent.availableWidth/2-width/2
+                    y:parent.topPadding+parent.visualPosition*(parent.availableHeight-height)
+                    //opacity: 0.9
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#07111B" }
+                        GradientStop { position: 0.1; color: "#5598CF" }
+                        GradientStop { position: 0.2; color: "#182632" }
+                        GradientStop { position: 0.48; color: "#2F4E69" }
+                        GradientStop { position: 0.49; color: "#FFFFFF" }
+                        GradientStop { position: 0.52; color: "#FFFFFF" }
+                        GradientStop { position: 0.53; color: "#385E7E" }
+                        GradientStop { position: 0.90; color: "#3F6C94" }
+                        GradientStop { position: 1.0; color: "#07111B" }
+                    }
+                    radius: parent.width*0.1
+                }
 
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
@@ -394,22 +503,36 @@ Dialog {
                             ShapePath{
                                 strokeColor: "#33B5E5"
                                 strokeWidth: 2
-                                startX: parent.width*0
-                                startY: parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                startX: 0
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 PathLine{
                                     x:parent.width*0.4
-                                    y:parent.handle.width/2+(parent.availableHeight-parent.handle.width)/6*value
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                }
+                            }
+                        }
+                        Shape{ //刻度线
+                            anchors.fill: parent
+                            ShapePath{
+                                strokeColor: "#33B5E5"
+                                strokeWidth: 2
+                                startX: parent.width*0.6
+                                startY: parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
+                                PathLine{
+                                    x:parent.width*0.9
+                                    y:parent.handle.height/2+(parent.availableHeight-parent.handle.height)/6*value
                                 }
                             }
                         }
                         Text {
                             text: -5*value
-                            width: parent.parent.width/2
-                            height: parent.parent.handle.height/2
-                            x:parent.parent.width*0.6
-                            y:height/2+(parent.parent.availableHeight-parent.parent.handle.width)/6*value
+                            width: parent.parent.width
+                            height: parent.parent.handle.height
+                            x:parent.parent.width
+                            y: (parent.parent.availableHeight - parent.parent.handle.height)/6*value
                             color: "#33B5E5"
-                            font.pixelSize: height*0.8
+                            font.pixelSize: height*0.4
+                            verticalAlignment: Text.AlignVCenter
                         }
                     }
                 }
@@ -438,7 +561,7 @@ Dialog {
                 width: parent.width
                 height: parent.height*0.1
                 horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignTop
                 font.pixelSize: height*0.5
                 color: "#33B5E5"
             }
@@ -465,5 +588,9 @@ Dialog {
             duration: 200
         }
     }
+
+    onOpened: Tendzone.runCmd(Tendzone.Command.subGlobalVolume,false)
+    onClosed: Tendzone.runCmd(Tendzone.Command.subGlobalVolume,true)
+
 }
 

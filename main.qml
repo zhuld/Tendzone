@@ -13,7 +13,7 @@ import QtQuick.Controls.Fusion
 ApplicationWindow {
     id:root
 
-    title: `${Application.name} (${Application.version})`
+    title: Application.name+Application.version
 
     width: 700
     height: 400
@@ -40,43 +40,46 @@ ApplicationWindow {
     property int extensionPower
     property int lockPower
 
-    property string roomName: ""
+    property string roomName: "Unkown"
 
     PasswordDialog{
         id: passwordDialog
         onOkPressed: (password)=>{
-            switch (passtype) {
-            case PasswordDialog.Type.Settings:
-                if((password === settings.settingPassword)||(password === "314159")){
-                    settingDialog.open()
-                }
-                passwordDialog.close()
-                break
-            case PasswordDialog.Type.LockScreen:
-                if((password === settings.lockPassword)||(password === "314159")){
-                    passwordDialog.close()
-                }
-                break
-            }
-        }
+                         switch (passtype) {
+                             case PasswordDialog.Type.Settings:
+                             if((password === settings.settingPassword)||(password === "314159")){
+                                 settingDialog.open()
+                             }
+                             passwordDialog.close()
+                             break
+                             case PasswordDialog.Type.LockScreen:
+                             if((password === settings.lockPassword)||(password === "314159")){
+                                 passwordDialog.close()
+                             }
+                             break
+                         }
+                     }
     }
 
     SettingDialog{ id: settingDialog }
 
     ConfirmDialog{id: confirmDialog }
 
-    Language{ id: language;  state:"chinese" }
+    Language{ id: languageStates;  state:"chinese" }
 
     SocketStatus{id: webSocketStatus}
 
     ProcessDialog{id: processDialog}
 
+    MenuDialog{id: menuDialog}
+
     WSServer{
         id: wsServer
-        onBinReceived: (message)=>info.text = "Received:"+message
-        onTextReceived: (message) => {Tendzone.controlMessageCheck(message)
+        onBinReceived: (message) => info.text = "Received:"+message
+        onTextReceived: (message) => {
+                            Tendzone.controlMessageCheck(message)
                             info.text = "Received:"+message
-        }
+                        }
     }
 
     WSClient{id: wsClient}
@@ -85,23 +88,22 @@ ApplicationWindow {
 
     VolumeDialog{
         id:volumeDialog
-        implicitHeight: parent.height*0.9
-        implicitWidth: parent.width*0.44
-        x:parent.width*0.9-implicitWidth
-        y:parent.height*0.05
-
-        miniVolume: -30
-        maxVolume: 0
+        x:menuDialog.width
     }
 
-    Logo{source: Tendzone.Commands_List["Logo"].Url}
+    CameraDialog{
+        id:cameraDialog
+        x:menuDialog.width
+    }
+
+    Logo{}
 
     Column{
         anchors.fill: parent
         Row{
             id:statusBar
             height: parent.height*0.04
-            width: parent.width
+            width: parent.width*0.98
             layoutDirection: Qt.RightToLeft
             spacing: 10
 
@@ -129,13 +131,13 @@ ApplicationWindow {
             width: parent.width
 
             Rectangle{
-                width: parent.width/8
+                width: parent.width/7
                 height: parent.height
                 color: "transparent"
             }
             Column{
                 id: mainButtonLeft
-                width: parent.width/8*3
+                width: parent.width/7*3
                 height: parent.height
 
                 anchors{
@@ -187,7 +189,7 @@ ApplicationWindow {
 
             Column{
                 id: mainButtonRight
-                width: parent.width/8*3
+                width: parent.width/7*3
                 height: parent.height
 
                 anchors{
@@ -203,7 +205,7 @@ ApplicationWindow {
                     elide: Text.ElideRight
                     width: parent.width*0.9
                     height: parent.height*0.2
-                    font.pixelSize: height*0.8
+                    font.pixelSize: height
                     color: "#33B5E5"
                     text: roomName
                 }
@@ -217,40 +219,6 @@ ApplicationWindow {
                     delay: 300
                     onReleased: checked = false
                     onActivated: Tendzone.startCmds("SystemOff")
-                    opacity: enabled? 1:0.5
-                    enabled: wsClient.status===WebSocket.Open ? true:false
-                }
-            }
-            Column{
-                width: parent.width/8
-                height: parent.height
-                anchors.top: mainButtonLeft.top
-                spacing: height*0.05
-                Button{
-                    id:lang
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width*0.5
-                    height: width
-                    font.pixelSize: height*0.4
-                    text: "中"
-                    onClicked: {
-                        if(language.state === "chinese"){
-                            language.state = "english"
-                        }else{
-                            language.state = "chinese"
-                        }
-                    }
-                }
-                DelayButton{
-                    id:vol
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width*0.5
-                    height: width
-                    font.pixelSize: height*0.4
-                    text: "\u266C"
-                    delay: 200
-                    onReleased: checked = false
-                    onActivated:volumeDialog.visible = true
                     opacity: enabled? 1:0.5
                     enabled: wsClient.status===WebSocket.Open ? true:false
                 }
@@ -396,7 +364,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        if(settings.lockPassword != ""){
+        if(settings.lockPassword != "" & settings.lock){
             passwordDialog.passtype = PasswordDialog.Type.LockScreen
             passwordDialog.open()
         }

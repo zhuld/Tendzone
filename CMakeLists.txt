@@ -30,6 +30,8 @@ qt_add_qml_module(Tendzone
     QML_FILES dialog/VolumeDialog.qml
     QML_FILES dialog/SettingDialog.qml
     QML_FILES websocket/WSClient.qml
+    QML_FILES dialog/CameraDialog.qml
+    QML_FILES dialog/MenuDialog.qml
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

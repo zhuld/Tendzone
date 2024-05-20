@@ -80,10 +80,17 @@ Dialog {
             horizontalAlignment : Text.AlignHCenter
             font.pixelSize: height
             color: "#33B5E5"
+
             enabled: false
-            echoMode: TextInput.PasswordEchoOnEdit
+            focus: true
+            echoMode: TextInput.Password
             passwordMaskDelay: 500
+            // onEditingFinished:{
+            //     okPressed(text)
+            //     text = ""
+            // }
         }
+
         GridView {
             id:numberPad
             width: parent.width*0.7
@@ -105,9 +112,9 @@ Dialog {
                 ListElement { name: "7" }
                 ListElement { name: "8" }
                 ListElement { name: "9" }
-                ListElement { name: "\u2190" }
+                ListElement { name: "\u21D0" }
                 ListElement { name: "0" }
-                ListElement { name: "\u2714" }
+                ListElement { name: "\u23CE" }
             }
             delegate: Button{
                 width: parent.width*0.33
@@ -130,10 +137,10 @@ Dialog {
                             password.text += name;
                         }
                         break
-                    case "\u2190":
+                    case "\u21D0":
                         password.text = password.text.slice(0,password.text.length-1);
                         break;
-                    case "\u2714":
+                    case "\u23CE":
                         okPressed(password.text)
                         password.text = "";
                         break

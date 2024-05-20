@@ -18,9 +18,8 @@ WebSocket {
         webSocketStatus.state = socket.status
         if ((socket.status === WebSocket.Error)|(socket.status === WebSocket.Closed)){
             socketAnimation.restart()
-            //socketStatusTimer.restart()
             socket.active = false
-            roomName = ""
+            roomName = "Unkown"
         }else if (socket.status == WebSocket.Open){
             Tendzone.runCmd(Tendzone.Command.subHDMIProjector,true)
             Tendzone.runCmd(Tendzone.Command.subHDMIExtend,true)

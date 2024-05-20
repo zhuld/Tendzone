@@ -33,6 +33,7 @@ const id_Password = 0x0008
 const id_Reboot = 0x0009
 const id_Reset = 0x000A
 const id_Date_Time = 0x000B
+
 const id_Heart_Beat = 0x000C
 
 //uuid_AUDIO_PARAM
@@ -583,6 +584,7 @@ function controlMessageCheck(message){
     settingDialog.settings.sync()
 
     if(!("lock" in obj)){
+        settingDialog.settings.lock = obj.lock
         if(obj.lock){
             passwordDialog.passtype = PasswordDialog.Type.LockScreen
             passwordDialog.open()

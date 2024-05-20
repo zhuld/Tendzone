@@ -12,7 +12,15 @@ Item {
             PropertyChanges {
                 target: systemOff; text: "下课" }
             PropertyChanges {
-                target: lang; text: "E" }
+                target: menuDialog; language: "EN" }
+            PropertyChanges {
+                target: menuDialog; settingLable: "设置" }
+            PropertyChanges {
+                target: menuDialog; languageLable: "语言" }
+            PropertyChanges {
+                target: menuDialog; volLabel: "声音" }
+            PropertyChanges {
+                target: menuDialog; cameraLabel: "监控" }
             PropertyChanges {
                 target: signalLabel; text: "信号切换" }
             PropertyChanges {
@@ -54,7 +62,7 @@ Item {
             PropertyChanges {
                 target: volumeDialog; volumeLabel: "总音量"}
             PropertyChanges {
-                target: volumeDialog; volumeHDMiLabel: "电脑"}
+               target: volumeDialog; volumeHDMiLabel: "电脑"}
 
         },
         State {
@@ -66,7 +74,15 @@ Item {
             PropertyChanges {
                 target: systemOff; text: "System Off" }
             PropertyChanges {
-                target: lang; text: "中" }
+                target: menuDialog; language: "中" }
+            PropertyChanges {
+                target: menuDialog; settingLable: "Setting" }
+            PropertyChanges {
+                target: menuDialog; languageLable: "Language" }
+            PropertyChanges {
+                target: menuDialog; volLabel: "Volume" }
+            PropertyChanges {
+                target: menuDialog; cameraLabel: "Camera" }
             PropertyChanges {
                 target: signalLabel; text: "Signal" }
             PropertyChanges {
@@ -108,7 +124,7 @@ Item {
             PropertyChanges {
                 target: volumeDialog; volumeLabel: "Main"}
             PropertyChanges {
-                target: volumeDialog; volumeHDMiLabel: "PC"}
+               target: volumeDialog; volumeHDMiLabel: "PC"}
         }
     ]
 }
