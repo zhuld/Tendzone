@@ -30,11 +30,10 @@ Drawer{
 
         horizontalItemAlignment : Grid.AlignHCenter
         columns:  1
-        //topPadding: height*0.02
+        topPadding: height*0.02
 
         Button{
             id:setting
-            //anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width*0.6
             height: parent.height*0.18 > width ? width:parent.height*0.18
             font.pixelSize: height*0.4
