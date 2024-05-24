@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
+import "../others/"
 import "../js/tendzone.js" as Tendzone
 
 import QtQuick.Controls.Fusion
@@ -45,7 +46,7 @@ Dialog {
             duration: 200
         }
     }
-
+    background: Background{}
     Column{
         anchors.fill: parent
         anchors.margins: height*0.05

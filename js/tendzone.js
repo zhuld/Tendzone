@@ -220,7 +220,7 @@ const TJHospital = {
     ProjectorWireless:{
         Commands:[
             {Name: Command.Projector_HDMI, Value: val_Wireless, Delay: 1},
-            {Name: Command.Extende_HDMI, Value: val_Wireless, Delay: 1},
+            {Name: Command.Extender_HDMI, Value: val_Wireless, Delay: 1},
         ]
     }
 }

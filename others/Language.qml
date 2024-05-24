@@ -1,5 +1,7 @@
 import QtQuick
 
+import "../dialog/"
+
 Item {
     id:languageStates
     states: [
@@ -18,9 +20,11 @@ Item {
             PropertyChanges {
                 target: menuDialog; languageLable: "语言" }
             PropertyChanges {
-                target: menuDialog; volLabel: "声音" }
+                target: menuDialog; volLabel: "音量" }
             PropertyChanges {
-                target: menuDialog; cameraLabel: "监控" }
+                target: menuDialog; helpLabel: "帮助" }
+            PropertyChanges {
+                target: menuDialog; guideLabel: "指引" }
             PropertyChanges {
                 target: signalLabel; text: "信号切换" }
             PropertyChanges {
@@ -56,7 +60,7 @@ Item {
             PropertyChanges {
                 target: processDialog; processContent: "执行操作中..." }
             PropertyChanges {
-                target: passwordDialog; passwordTitle: "请输入密码解锁" }
+                target: passwordDialog; passwordTitle: "请输入"+(passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏")+"密码解锁" }
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "如有问题可拨打电话："+settings.phoneNumber }
             PropertyChanges {
@@ -82,7 +86,9 @@ Item {
             PropertyChanges {
                 target: menuDialog; volLabel: "Volume" }
             PropertyChanges {
-                target: menuDialog; cameraLabel: "Camera" }
+                target: menuDialog; helpLabel: "Help" }
+            PropertyChanges {
+                target: menuDialog; guideLabel: "Guide" }
             PropertyChanges {
                 target: signalLabel; text: "Signal" }
             PropertyChanges {
@@ -118,7 +124,7 @@ Item {
             PropertyChanges {
                 target: processDialog; processContent: "Process Operation..." }
             PropertyChanges {
-                target: passwordDialog; passwordTitle: "Enter Password to Unlock" }
+                target: passwordDialog; passwordTitle: "Enter "+(passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen")+" Password to Unlock" }
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "Pls Call "+settings.phoneNumber +" for Help"}
             PropertyChanges {

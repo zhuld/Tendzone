@@ -3,6 +3,9 @@ import QtQuick.Controls
 import QtQuick.Shapes
 import QtQuick.Layouts
 
+import "../button/"
+import "../others/"
+
 import QtQuick.Controls.Fusion
 
 import "../js/tendzone.js" as Tendzone
@@ -11,7 +14,6 @@ Dialog {
     id:rootVolume
     implicitHeight: parent.height*0.9
     implicitWidth: parent.width*0.56
-    y:parent.height*0.05
 
     readonly property int miniVolume: -30
     readonly property int maxVolume: 0
@@ -23,7 +25,11 @@ Dialog {
 
     property real volumeWidth : 0.18
 
+    anchors.centerIn: parent
+
     modal: true;
+
+    background: Background{}
 
     Row{
         anchors.fill: parent
@@ -134,17 +140,13 @@ Dialog {
                 }
             }
 
-            Button{
+            ColorButton{
                 height: parent.height*0.1
-                width: height
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text {
-                    anchors.centerIn: parent
-                    text: "M"
-                    color: parent.checked? "red":"#33B5E5"
-                    font.pixelSize: parent.height*0.6
-                }
-                checked: settingDialog.settings.volumeMute
+                text:"M"
+                textColor: checked | pressed? "red":"#33B5E5"
+                checked: settings.volumeMute
                 onClicked: Tendzone.runCmd(Tendzone.Command.Amp,checked?1:0)
             }
 
@@ -202,7 +204,7 @@ Dialog {
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
 
-                value: ((settingDialog.settings.volumeHDMI - miniVolume)/(maxVolume- miniVolume))
+                value: ((settings.volumeHDMI - miniVolume)/(maxVolume- miniVolume))
 
                 onMoved: {
                     var newVol = ((1-visualPosition)*(maxVolume- miniVolume))+miniVolume
@@ -266,17 +268,13 @@ Dialog {
                 }
             }
 
-            Button{
+            ColorButton{
                 height: parent.height*0.1
-                width: height
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text {
-                    anchors.centerIn: parent
-                    text: "M"
-                    color: parent.checked? "red":"#33B5E5"
-                    font.pixelSize: parent.height*0.6
-                }
-                checked: settingDialog.settings.volumeHDMIMute
+                text:"M"
+                textColor: checked | pressed? "red":"#33B5E5"
+                checked: settings.volumeHDMIMute
                 onClicked: {
                     Tendzone.runCmd(Tendzone.Command.lineVolume,
                                     new Uint8Array([Tendzone.Audio_Line["HDMI"],Tendzone.Audio_Type["MUTE"],0,0,checked?0:1]))
@@ -338,7 +336,7 @@ Dialog {
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
 
-                value: ((settingDialog.settings.volumeMic1 - miniVolume)/(maxVolume- miniVolume))
+                value: ((settings.volumeMic1 - miniVolume)/(maxVolume- miniVolume))
 
                 onMoved: {
                     var newVol = ((1-visualPosition)*(maxVolume- miniVolume))+miniVolume
@@ -401,18 +399,13 @@ Dialog {
                     }
                 }
             }
-
-            Button{
+            ColorButton{
                 height: parent.height*0.1
-                width: height
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text {
-                    anchors.centerIn: parent
-                    text: "M"
-                    color: parent.checked? "red":"#33B5E5"
-                    font.pixelSize: parent.height*0.6
-                }
-                checked: settingDialog.settings.volumeMic1Mute
+                text:"M"
+                textColor: checked | pressed? "red":"#33B5E5"
+                checked: settings.volumeMic1Mute
                 onClicked: {
                     Tendzone.runCmd(Tendzone.Command.lineVolume,
                                     new Uint8Array([Tendzone.Audio_Line["MICIN"],Tendzone.Audio_Type["MUTE"],0,0,checked?0:1]))
@@ -474,7 +467,7 @@ Dialog {
                 stepSize: 1/(maxVolume-miniVolume)
                 snapMode: Slider.SnapAlways
 
-                value: ((settingDialog.settings.volumeMic2 - miniVolume)/(maxVolume- miniVolume))
+                value: ((settings.volumeMic2 - miniVolume)/(maxVolume- miniVolume))
 
                 onMoved: {
                     var newVol = ((1-visualPosition)*(maxVolume- miniVolume))+miniVolume
@@ -538,17 +531,13 @@ Dialog {
                 }
             }
 
-            Button{
+            ColorButton{
                 height: parent.height*0.1
-                width: height
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text {
-                    anchors.centerIn: parent
-                    text: "M"
-                    color: parent.checked? "red":"#33B5E5"
-                    font.pixelSize: parent.height*0.6
-                }
-                checked: settingDialog.settings.volumeMic2Mute
+                text:"M"
+                textColor: checked | pressed? "red":"#33B5E5"
+                checked: settings.volumeMic2Mute
                 onClicked: {
                     Tendzone.runCmd(Tendzone.Command.lineVolume,
                                     new Uint8Array([Tendzone.Audio_Line["MICIN"],Tendzone.Audio_Type["MUTE"],1,0,checked?0:1]))

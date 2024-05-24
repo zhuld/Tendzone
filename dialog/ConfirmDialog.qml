@@ -1,6 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 
+import "../button/"
+import "../others/"
+
 import "../js/tendzone.js" as Tendzone
 
 import QtQuick.Controls.Fusion
@@ -43,6 +46,8 @@ Dialog {
         }
     }
 
+    background: Background{}
+
     Column{
         anchors.fill: parent
         anchors.margins: height*0.05
@@ -74,20 +79,18 @@ Dialog {
             height: parent.height*0.3
             spacing: width*0.01
             layoutDirection: Qt.RightToLeft
-            Button{
+            ColorButton{
                 id:confirmCancel
                 width: parent.width*0.2
                 height: parent.height
                 text: "取消"
-                font.pixelSize: height*0.4
                 onClicked: rootConfirm.reject()
             }
-            Button{
+            ColorButton{
                 id:confirmOK
                 width: parent.width*0.2
                 height: parent.height
                 text: "确定"
-                font.pixelSize: height*0.4
                 onClicked: rootConfirm.accept()
             }
         }

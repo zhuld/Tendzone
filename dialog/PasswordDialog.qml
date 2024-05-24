@@ -1,14 +1,16 @@
 import QtQuick
 import QtQuick.Controls
 
+import "../button/"
+import "../others/"
+
 import QtQuick.Controls.Fusion
 
 Dialog {
     id:rootPassword
-    anchors.centerIn: parent
 
-    readonly property real ratio: 0.7
-    property var passtype
+    readonly property real ratio: 0.9
+    property int passtype
 
     property alias passwordTitle: passwordTitle.text
     property alias passwordLabel: passwordLabel.text
@@ -19,12 +21,14 @@ Dialog {
     signal okPressed (var password)
 
     enum Type{
-        Settings = 1,
-        LockScreen = 2
+        Settings,
+        LockScreen
     }
 
+    anchors.centerIn: parent
+
     modal: true;
-    closePolicy: Popup.NoAutoClose
+    closePolicy: passtype === PasswordDialog.Type.Settings ? Popup.CloseOnPressOutside : Popup.NoAutoClose
 
     Overlay.modal: Rectangle{
         color:"#A0000000"
@@ -46,6 +50,10 @@ Dialog {
             duration: 200
         }
     }
+
+    onClosed: password.text = ""
+
+    background: Background{}
 
     Column{
         id:base
@@ -75,30 +83,25 @@ Dialog {
         TextInput {
             id: password
             width: parent.width
-            height: parent.height*0.1
-            verticalAlignment: Text.AlignBottom
+            height: parent.height*0.2
+            verticalAlignment: Text.AlignVCenter
             horizontalAlignment : Text.AlignHCenter
-            font.pixelSize: height
+            font.pixelSize: height*0.4
             color: "#33B5E5"
-
             enabled: false
             focus: true
             echoMode: TextInput.Password
             passwordMaskDelay: 500
-            // onEditingFinished:{
-            //     okPressed(text)
-            //     text = ""
-            // }
         }
 
         GridView {
             id:numberPad
-            width: parent.width*0.7
-            height: parent.height
+            width: parent.width*0.8
+            height: parent.height*0.60
             anchors.margins: parent.width*0.1
             anchors.horizontalCenter: parent.horizontalCenter
 
-            cellWidth: width*0.33
+            cellWidth: width*0.25
             cellHeight: cellWidth
 
             model:ListModel {
@@ -112,12 +115,12 @@ Dialog {
                 ListElement { name: "7" }
                 ListElement { name: "8" }
                 ListElement { name: "9" }
-                ListElement { name: "\u21D0" }
                 ListElement { name: "0" }
+                ListElement { name: "\u21E6" }
                 ListElement { name: "\u23CE" }
             }
-            delegate: Button{
-                width: parent.width*0.33
+            delegate: ColorButton{
+                width: parent.width*0.25
                 height: width
                 font.pixelSize: width*0.4
                 text: name
@@ -137,7 +140,7 @@ Dialog {
                             password.text += name;
                         }
                         break
-                    case "\u21D0":
+                    case "\u21E6":
                         password.text = password.text.slice(0,password.text.length-1);
                         break;
                     case "\u23CE":

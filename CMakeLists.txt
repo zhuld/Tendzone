@@ -16,7 +16,6 @@ qt_add_qml_module(Tendzone
     VERSION 1.0
     RESOURCES pic/tjhospital.png
     RESOURCES pic/haishi.png
-    RESOURCES pic/splash.jpg
     QML_FILES main.qml
     QML_FILES dialog/ConfirmDialog.qml
     QML_FILES others/Language.qml
@@ -30,8 +29,9 @@ qt_add_qml_module(Tendzone
     QML_FILES dialog/VolumeDialog.qml
     QML_FILES dialog/SettingDialog.qml
     QML_FILES websocket/WSClient.qml
-    QML_FILES dialog/CameraDialog.qml
     QML_FILES dialog/MenuDialog.qml
+    QML_FILES button/ColorButton.qml
+    QML_FILES others/Background.qml
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -42,6 +42,9 @@ set_target_properties(Tendzone PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+)
+set_property(TARGET Tendzone
+    APPEND PROPERTY  QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
 )
 
 target_link_libraries(Tendzone
