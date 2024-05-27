@@ -92,6 +92,7 @@ Dialog {
                 height: parent.height
                 text: "确定"
                 onClicked: rootConfirm.accept()
+                btnColor: "darkgreen"
             }
         }
     }

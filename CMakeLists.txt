@@ -6,11 +6,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
 qt_add_executable(Tendzone
     main.cpp
 )
-
 qt_add_qml_module(Tendzone
     URI Tendzone
     VERSION 1.0
@@ -32,6 +32,7 @@ qt_add_qml_module(Tendzone
     QML_FILES dialog/MenuDialog.qml
     QML_FILES button/ColorButton.qml
     QML_FILES others/Background.qml
+    QML_FILES button/MenuButton.qml
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

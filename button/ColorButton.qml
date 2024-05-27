@@ -12,8 +12,8 @@ Button {
 
     background:  Rectangle{
         id: rect
-        border.color: Qt.darker(button.btnColor, 3)
-        border.width: 2
+        border.color: button.down | button.checked  ?  Qt.darker(button.btnColor, 2):Qt.lighter(button.btnColor, 1.1)
+        border.width: 1
 
         gradient: Gradient {
             GradientStop {
@@ -59,7 +59,7 @@ Button {
 
     contentItem: Text {
         text: button.text
-        font.pixelSize: button.height*0.4
+        font.pixelSize: button.height*0.35
         color: button.down | button.checked? Qt.lighter(button.textColor, 1.4) :Qt.darker(button.textColor, 1.2)
         wrapMode: Text.Wrap
         horizontalAlignment : Text.AlignHCenter

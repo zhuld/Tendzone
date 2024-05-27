@@ -6,8 +6,8 @@ import "../js/tendzone.js" as Tendzone
 WebSocketServer {
     id: server
     port: settings.webSocketServerPort
-
     listen: settings.webSocketServer
+
     signal binReceived(var message)
     signal textReceived(var message)
 

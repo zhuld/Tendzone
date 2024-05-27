@@ -114,6 +114,7 @@ Dialog {
                 text: "确定"
                 font.pixelSize: height*0.4
                 onClicked: rootSetting.accept()
+                btnColor: "darkgreen"
             }
             Text {
                 id:settingTitle

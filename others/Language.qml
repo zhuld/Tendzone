@@ -1,30 +1,31 @@
 import QtQuick
 
 import "../dialog/"
+import "../"
 
 Item {
     id:languageStates
     states: [
         State {
-            name: "chinese"
+            name: "zh_CN"
             PropertyChanges {
-                target: whiteBoard; text: "白板上课" }
+                target: whiteBoard; text: "白板模式上课" }
             PropertyChanges {
-                target: systemOn; text: "上课" }
+                target: systemOn; text: "多媒体模式上课" }
             PropertyChanges {
                 target: systemOff; text: "下课" }
             PropertyChanges {
-                target: menuDialog; language: "EN" }
+                target: menuDialog; languageLabel: "EN" }
             PropertyChanges {
-                target: menuDialog; settingLable: "设置" }
+                target: menuDialog; setting: "设置" }
             PropertyChanges {
-                target: menuDialog; languageLable: "语言" }
+                target: menuDialog; language: "语言" }
             PropertyChanges {
-                target: menuDialog; volLabel: "音量" }
+                target: menuDialog; vol: "音量" }
             PropertyChanges {
-                target: menuDialog; helpLabel: "帮助" }
+                target: menuDialog; help: "帮助" }
             PropertyChanges {
-                target: menuDialog; guideLabel: "指引" }
+                target: menuDialog; guide: "指引" }
             PropertyChanges {
                 target: signalLabel; text: "信号切换" }
             PropertyChanges {
@@ -34,11 +35,11 @@ Item {
             PropertyChanges {
                 target: wireless; text: "无线投屏" }
             PropertyChanges {
-                target: projectorLabel; text: "投影机" }
+                target: projectorLabel; text: "投影机控制" }
             PropertyChanges {
-                target: projectorOn; text: "投影机开" }
+                target: projectorOn; text: "投影开" }
             PropertyChanges {
-                target: projectorOff; text: "投影机关" }
+                target: projectorOff; text: "投影关" }
             PropertyChanges {
                 target: confirmDialog; confirmTitle: "提示" }
             PropertyChanges {
@@ -70,25 +71,25 @@ Item {
 
         },
         State {
-            name: "english"
+            name: "en_US"
             PropertyChanges {
-                target: whiteBoard; text: "WhiteBoard" }
+                target: whiteBoard; text: "Start BlackBoard Mode" }
             PropertyChanges {
-                target: systemOn; text: "System On" }
+                target: systemOn; text: "Start Multimedia Mode" }
             PropertyChanges {
                 target: systemOff; text: "System Off" }
             PropertyChanges {
-                target: menuDialog; language: "中" }
+                target: menuDialog; languageLabel: "中" }
             PropertyChanges {
-                target: menuDialog; settingLable: "Setting" }
+                target: menuDialog; setting: "Setting" }
             PropertyChanges {
-                target: menuDialog; languageLable: "Language" }
+                target: menuDialog; language: "Language" }
             PropertyChanges {
-                target: menuDialog; volLabel: "Volume" }
+                target: menuDialog; vol: "Volume" }
             PropertyChanges {
-                target: menuDialog; helpLabel: "Help" }
+                target: menuDialog; help: "Help" }
             PropertyChanges {
-                target: menuDialog; guideLabel: "Guide" }
+                target: menuDialog; guide: "Guide" }
             PropertyChanges {
                 target: signalLabel; text: "Signal" }
             PropertyChanges {

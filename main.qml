@@ -14,10 +14,11 @@ import QtQuick.Controls.Fusion
 ApplicationWindow {
     id:root
 
-    title: Application.name+Application.version
-
+    title: Application.name+" - "+Application.version+" - "+Qt.uiLanguage
     width: 700
     height: 400
+    minimumWidth: 400
+    minimumHeight: 250
 
     visibility:settings.fullscreen? Window.FullScreen : Window.Windowed
 
@@ -44,8 +45,8 @@ ApplicationWindow {
                              case PasswordDialog.Type.Settings:
                              if((password === settings.settingPassword)||(password === "314159")){
                                  settingDialog.open()
+                                 passwordDialog.close()
                              }
-                             passwordDialog.close()
                              break
                              case PasswordDialog.Type.LockScreen:
                              if((password === settings.lockPassword)||(password === "314159")){
@@ -60,7 +61,7 @@ ApplicationWindow {
 
     ConfirmDialog{id: confirmDialog }
 
-    Language{ id: languageStates;  state:"chinese" }
+    Language{ id: languageStates;  state:"zh_CN" }
 
     SocketStatus{id: webSocketStatus}
 
@@ -99,6 +100,7 @@ ApplicationWindow {
                 font.pixelSize: height
                 color: wsClient.status === WebSocket.Open ? "#33B5E5" :"red"
                 text: Qt.formatDateTime(new Date(),"yyyy-MM-dd hh:mm")
+                //text: qsTr("%1").arg(Date().toLocaleString(Qt.locale()))
             }
 
             Text{
@@ -149,7 +151,7 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.8
                     height: parent.height*0.3
-                    text: "白板上课"
+                    text: qsTr("WhiteBoard")
                     onClicked: Tendzone.startCmds("WhiteBoard")
                     visible: settings.whiteboard? true:false
                     enabled: wsClient.status===WebSocket.Open ? true:false
@@ -159,7 +161,7 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.8
                     height: settings.whiteboard? parent.height*0.3 : parent.height*0.4
-                    text: "上课"
+                    text: qsTr("SystemOn")
                     font.pixelSize: height*0.4
                     onClicked: Tendzone.startCmds("SystemOn")
                     enabled: wsClient.status===WebSocket.Open ? true:false
@@ -193,7 +195,7 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width*0.8
                     height: parent.height*0.4
-                    text: "下课"
+                    text: qsTr("SystemOff")
                     btnColor: "darkred"
                     font.pixelSize: height*0.4
                     onClicked: Tendzone.startCmds("SystemOff")
@@ -221,7 +223,7 @@ ApplicationWindow {
                     width: parent.width
                     height: parent.height*0.3
                     horizontalAlignment: Text.AlignHCenter
-                    text: "信号切换"
+                    text: qsTr("signal")
                     font.pixelSize: height/2
                     color: "#33B5E5"
                 }
@@ -235,7 +237,7 @@ ApplicationWindow {
                         id:computer
                         width: settings.wireless? parent.width*0.29 :parent.width*0.4
                         height: parent.height*0.5
-                        text:"台式机"
+                        text:qsTr("computer")
                         font.pixelSize: height*0.4
                         onClicked:Tendzone.startCmds("ProjectorPC")
                         enabled: wsClient.status===WebSocket.Open ? true:false
@@ -245,7 +247,7 @@ ApplicationWindow {
                         id:laptop
                         width: settings.wireless? parent.width*0.29 :parent.width*0.4
                         height: parent.height*0.5
-                        text: "笔记本"
+                        text: qsTr("laptop")
                         font.pixelSize: height*0.4
                         onClicked:Tendzone.startCmds("ProjectorLaptop")
                         enabled: wsClient.status===WebSocket.Open ? true:false
@@ -256,7 +258,7 @@ ApplicationWindow {
                         width: parent.width*0.29
                         height: parent.height*0.5
                         font.pixelSize: height*0.4
-                        text: "无线投屏"
+                        text: qsTr("wireless")
                         onClicked: Tendzone.startCmds("ProjectorWireless")
                         visible: settings.wireless? true:false
                         enabled: wsClient.status===WebSocket.Open ? true:false
@@ -278,7 +280,7 @@ ApplicationWindow {
                     width: parent.width
                     height: parent.height*0.3
                     horizontalAlignment: Text.AlignHCenter
-                    text: "投影机"
+                    text: qsTr("projector")
                     font.pixelSize: height/2
                     color: "#33B5E5"
                 }
@@ -292,7 +294,7 @@ ApplicationWindow {
                         width: parent.width*0.40
                         height: parent.height*0.5
                         font.pixelSize: height*0.4
-                        text: "投影机开"
+                        text: qsTr("turnOn")
                         onClicked: Tendzone.startCmds("ProjectorOn")
                         enabled: wsClient.status===WebSocket.Open ? true:false
                     }
@@ -301,7 +303,7 @@ ApplicationWindow {
                         width: parent.width*0.40
                         height: parent.height*0.5
                         font.pixelSize: height*0.4
-                        text: "投影机关"
+                        text: qsTr("turnOff")
                         onClicked: Tendzone.startCmds("ProjectorOff")
                         enabled: wsClient.status===WebSocket.Open ? true:false
                     }
@@ -332,6 +334,8 @@ ApplicationWindow {
             passwordDialog.passtype = PasswordDialog.Type.LockScreen
             passwordDialog.open()
         }
+        Application.setVersion("V0.9.00")
+
         wsClient.active = true
     }
 }
