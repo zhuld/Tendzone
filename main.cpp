@@ -1,12 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+// #include <QTimer>
+// #include <QtAndroid>
+
 int main(int argc, char *argv[])
 {
     if(QSysInfo::productType() != "android"){
         qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     }
     QGuiApplication app(argc, argv);
+
+    // QTimer::singleShot(3000,NULL,[=](){
+    //     QtAndroid::hideSplashScreen(500)
+    // });
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Tendzone/main.qml"));

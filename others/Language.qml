@@ -43,7 +43,7 @@ Item {
             PropertyChanges {
                 target: confirmDialog; confirmTitle: "提示" }
             PropertyChanges {
-                target: confirmDialog; confirmContent: "确定执行操作？" }
+                target: confirmDialog; confirmContent: "确定执行 "+confirmDialog.name+" 操作？" }
             PropertyChanges {
                 target: confirmDialog; confirmOK: "确定" }
             PropertyChanges {
@@ -59,7 +59,7 @@ Item {
             PropertyChanges {
                 target: processDialog; processTitle: "提示" }
             PropertyChanges {
-                target: processDialog; processContent: "执行操作中..." }
+                target: processDialog; processContent: "执行 "+processDialog.name+" 操作中..." }
             PropertyChanges {
                 target: passwordDialog; passwordTitle: "请输入"+(passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏")+"密码解锁" }
             PropertyChanges {
@@ -67,7 +67,7 @@ Item {
             PropertyChanges {
                 target: volumeDialog; volumeLabel: "总音量"}
             PropertyChanges {
-               target: volumeDialog; volumeHDMiLabel: "电脑"}
+                target: volumeDialog; volumeHDMiLabel: "电脑"}
 
         },
         State {
@@ -107,7 +107,7 @@ Item {
             PropertyChanges {
                 target: confirmDialog; confirmTitle: "Notice" }
             PropertyChanges {
-                target: confirmDialog; confirmContent: "Confirm this Operation?" }
+                target: confirmDialog; confirmContent: "Confirm "+name+" Operation?" }
             PropertyChanges {
                 target: confirmDialog; confirmOK: "Confirm" }
             PropertyChanges {
@@ -123,7 +123,7 @@ Item {
             PropertyChanges {
                 target: processDialog; processTitle: "Notice" }
             PropertyChanges {
-                target: processDialog; processContent: "Process Operation..." }
+                target: processDialog; processContent: "Process "+name+" Operation..." }
             PropertyChanges {
                 target: passwordDialog; passwordTitle: "Enter "+(passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen")+" Password to Unlock" }
             PropertyChanges {
@@ -131,7 +131,7 @@ Item {
             PropertyChanges {
                 target: volumeDialog; volumeLabel: "Main"}
             PropertyChanges {
-               target: volumeDialog; volumeHDMiLabel: "PC"}
+                target: volumeDialog; volumeHDMiLabel: "PC"}
         }
     ]
 }

@@ -11,7 +11,7 @@ import QtQuick.Controls.Fusion
 Dialog {
     id:rootConfirm
     anchors.centerIn: parent
-    implicitWidth: parent.width*0.8
+    implicitWidth: parent.width*0.9
     implicitHeight: parent.height*0.4
 
     modal: true;
@@ -24,6 +24,7 @@ Dialog {
     property alias confirmCancel: confirmCancel.text
 
     property string operation
+    property string name
 
     Overlay.modal: Rectangle{
         color:"#A0000000"
@@ -66,7 +67,7 @@ Dialog {
             id:confirmLabel
             width: parent.width
             height: parent.height*0.5
-            text: "确定执行操作?"
+            text: "确定执行"+name+"操作?"
             font.pixelSize: height*0.4
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -100,6 +101,7 @@ Dialog {
     onAccepted: {
         if(Tendzone.Commands_List[operation]["Commands"].length > 1){
             processDialog.operation = operation
+            processDialog.name = name
             processDialog.open()
         }else if(Tendzone.Commands_List[operation]["Commands"].length === 1){
             Tendzone.runCmd(Tendzone.Commands_List[operation]["Commands"][0].Name)

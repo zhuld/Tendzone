@@ -9,7 +9,7 @@ import QtQuick.Controls.Fusion
 Dialog {
     id:rootProcess
     anchors.centerIn: parent
-    implicitWidth: parent.width*0.8
+    implicitWidth: parent.width*0.9
     implicitHeight: parent.height*0.4
 
     modal: true;
@@ -25,6 +25,7 @@ Dialog {
     property int cmd_delay : 0
 
     property string operation
+    property string name
 
     Overlay.modal: Rectangle{
         color:"#A0000000"
@@ -64,7 +65,7 @@ Dialog {
             id:processLabel
             width: parent.width
             height: parent.height*0.5
-            text: "执行操作中..."
+            text: "执行"+name+"操作中..."
             font.pixelSize: height*0.4
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -96,6 +97,7 @@ Dialog {
         id:processTimer
         repeat: true
         triggeredOnStart: true
+        interval: 1000
         onTriggered:{
             if(cmd_delay === timerCount){
                 Tendzone.runCmd(Tendzone.Commands_List[operation]["Commands"][cmds_index].Name,

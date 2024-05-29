@@ -1,6 +1,7 @@
 import QtQuick
 
 
+import QtQuick.Controls.Fusion
 Item {
     id:root
     property alias label: label.text
@@ -12,10 +13,8 @@ Item {
         id:rect
         width: parent.width
         height: parent.height*0.97
-        gradient: Gradient {
-            GradientStop { position: 0; color: "transparent" }
-            GradientStop { id:gradientColor; position: 0.8; color: "transparent"  }
-        }
+
+        color: "transparent"
         Text {
             width: parent.width
             height: parent.height*0.70
@@ -47,18 +46,18 @@ Item {
         }
         ColorAnimation {
             id:enterAnim
-            target: gradientColor
+            target: rect
             property: "color"
             from: "transparent"
-            to: Qt.alpha(label.color,0.5)
+            to: Qt.alpha(label.color,0.3)
             duration: 300
         }
         ColorAnimation {
             id:exitAnim
-            target: gradientColor
+            target: rect
             property: "color"
             to: "transparent"
-            from: Qt.alpha(label.color,0.5)
+            from: Qt.alpha(label.color,0.3)
             duration: 300
         }
     }

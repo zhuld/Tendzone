@@ -65,5 +65,5 @@ Button {
         horizontalAlignment : Text.AlignHCenter
         verticalAlignment : Text.AlignVCenter
     }
-    //opacity: enabled? 1:0.5
+    opacity: enabled? 1:0.6
 }

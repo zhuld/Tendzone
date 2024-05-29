@@ -302,13 +302,15 @@ const Haishi = {
 
 var Commands_List = Haishi
 
-function startCmds(cmds){
+function startCmds(cmds,name){
     if(Commands_List[cmds]["Confirm"]){
         confirmDialog.operation = cmds
+        confirmDialog.name = name
         confirmDialog.open()
     }else{
         if(Commands_List[cmds]["Commands"].length > 1){
             processDialog.operation = cmds
+            processDialog.name = name
             processDialog.open()
         }else if(Commands_List[cmds]["Commands"].length === 1){
             runCmd(Commands_List[cmds]["Commands"][0].Name,Commands_List[cmds]["Commands"][0].Value)

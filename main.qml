@@ -38,6 +38,19 @@ ApplicationWindow {
 
     property string roomName: "Unkown"
 
+    Splash{
+        id:splashScreen
+        duration: 5000
+        onVisibleChanged: {
+            if (splashScreen.visible === false){
+                if(settings.lockPassword !== "" & settings.lock){
+                    passwordDialog.passtype = PasswordDialog.Type.LockScreen
+                    passwordDialog.open()
+                }
+            }
+        }
+    }
+
     PasswordDialog{
         id: passwordDialog
         onOkPressed: (password)=>{
@@ -100,7 +113,6 @@ ApplicationWindow {
                 font.pixelSize: height
                 color: wsClient.status === WebSocket.Open ? "#33B5E5" :"red"
                 text: Qt.formatDateTime(new Date(),"yyyy-MM-dd hh:mm")
-                //text: qsTr("%1").arg(Date().toLocaleString(Qt.locale()))
             }
 
             Text{
@@ -152,7 +164,7 @@ ApplicationWindow {
                     width: parent.width*0.8
                     height: parent.height*0.3
                     text: qsTr("WhiteBoard")
-                    onClicked: Tendzone.startCmds("WhiteBoard")
+                    onClicked: Tendzone.startCmds("WhiteBoard",text)
                     visible: settings.whiteboard? true:false
                     enabled: wsClient.status===WebSocket.Open ? true:false
                 }
@@ -163,7 +175,7 @@ ApplicationWindow {
                     height: settings.whiteboard? parent.height*0.3 : parent.height*0.4
                     text: qsTr("SystemOn")
                     font.pixelSize: height*0.4
-                    onClicked: Tendzone.startCmds("SystemOn")
+                    onClicked: Tendzone.startCmds("SystemOn",text)
                     enabled: wsClient.status===WebSocket.Open ? true:false
                 }
             }
@@ -198,7 +210,7 @@ ApplicationWindow {
                     text: qsTr("SystemOff")
                     btnColor: "darkred"
                     font.pixelSize: height*0.4
-                    onClicked: Tendzone.startCmds("SystemOff")
+                    onClicked: Tendzone.startCmds("SystemOff",text)
                     enabled: wsClient.status===WebSocket.Open ? true:false
                 }
             }
@@ -239,7 +251,7 @@ ApplicationWindow {
                         height: parent.height*0.5
                         text:qsTr("computer")
                         font.pixelSize: height*0.4
-                        onClicked:Tendzone.startCmds("ProjectorPC")
+                        onClicked:Tendzone.startCmds("ProjectorPC",text)
                         enabled: wsClient.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_PC
                     }
@@ -249,7 +261,7 @@ ApplicationWindow {
                         height: parent.height*0.5
                         text: qsTr("laptop")
                         font.pixelSize: height*0.4
-                        onClicked:Tendzone.startCmds("ProjectorLaptop")
+                        onClicked:Tendzone.startCmds("ProjectorLaptop",text)
                         enabled: wsClient.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_Laptop
                     }
@@ -259,7 +271,7 @@ ApplicationWindow {
                         height: parent.height*0.5
                         font.pixelSize: height*0.4
                         text: qsTr("wireless")
-                        onClicked: Tendzone.startCmds("ProjectorWireless")
+                        onClicked: Tendzone.startCmds("ProjectorWireless",text)
                         visible: settings.wireless? true:false
                         enabled: wsClient.status===WebSocket.Open ? true:false
                         checked: root.projectorHDMI === Tendzone.val_Wireless
@@ -295,7 +307,7 @@ ApplicationWindow {
                         height: parent.height*0.5
                         font.pixelSize: height*0.4
                         text: qsTr("turnOn")
-                        onClicked: Tendzone.startCmds("ProjectorOn")
+                        onClicked: Tendzone.startCmds("ProjectorOn",text)
                         enabled: wsClient.status===WebSocket.Open ? true:false
                     }
                     ColorButton{
@@ -304,7 +316,7 @@ ApplicationWindow {
                         height: parent.height*0.5
                         font.pixelSize: height*0.4
                         text: qsTr("turnOff")
-                        onClicked: Tendzone.startCmds("ProjectorOff")
+                        onClicked: Tendzone.startCmds("ProjectorOff",text)
                         enabled: wsClient.status===WebSocket.Open ? true:false
                     }
                 }
@@ -330,10 +342,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        if(settings.lockPassword !== "" & settings.lock){
-            passwordDialog.passtype = PasswordDialog.Type.LockScreen
-            passwordDialog.open()
-        }
+
         Application.setVersion("V0.9.00")
 
         wsClient.active = true
