@@ -17,8 +17,8 @@ Item {
         color: "transparent"
         Text {
             width: parent.width
-            height: parent.height*0.70
-            font.pixelSize: height*0.8
+            height: parent.height*0.7
+            font.pixelSize: height*0.7
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "#33B5E5"
@@ -41,24 +41,6 @@ Item {
             anchors.fill: parent
             hoverEnabled: true;
             onClicked: root.clicked()
-            onEntered: enterAnim.start()
-            onExited: exitAnim.start()
-        }
-        ColorAnimation {
-            id:enterAnim
-            target: rect
-            property: "color"
-            from: "transparent"
-            to: Qt.alpha(label.color,0.3)
-            duration: 300
-        }
-        ColorAnimation {
-            id:exitAnim
-            target: rect
-            property: "color"
-            to: "transparent"
-            from: Qt.alpha(label.color,0.3)
-            duration: 300
         }
     }
     Rectangle{

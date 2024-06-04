@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Shapes
 
 import "../button/"
 import "../others/"
@@ -23,6 +24,7 @@ Dialog {
     property alias confirmOK: confirmOK.text
     property alias confirmCancel: confirmCancel.text
 
+    property int during: 30
     property string operation
     property string name
 
@@ -55,22 +57,31 @@ Dialog {
         Text {
             id:confirmTitle
             width: parent.width
-            height: parent.height*0.2
+            height: parent.height*0.3
             text: "提示"
-            font.pixelSize: height*0.8
+            font.pixelSize: height*0.5
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            color: "#33B5E5"
+        }
+
+        Rectangle{
+            id:countDownBar
+            width: confirmTitle.width
+            height: 2
             color: "#33B5E5"
         }
 
         Text {
             id:confirmLabel
             width: parent.width
-            height: parent.height*0.5
+            height: parent.height*0.4
             text: "确定执行"+name+"操作?"
-            font.pixelSize: height*0.4
+            font.pixelSize: height*0.5
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             color: "#33B5E5"
         }
 
@@ -78,7 +89,7 @@ Dialog {
             id:confirmButtons
             width: parent.width
             height: parent.height*0.3
-            spacing: width*0.01
+            spacing: width*0.02
             layoutDirection: Qt.RightToLeft
             ColorButton{
                 id:confirmCancel
@@ -95,8 +106,21 @@ Dialog {
                 onClicked: rootConfirm.accept()
                 btnColor: "darkgreen"
             }
+
+            Timer{
+                id:countDownTimer
+                interval : 1000
+                repeat : true
+                triggeredOnStart : false
+                onTriggered: {
+                    during--
+                    if(during === 0){
+                        rootConfirm.close()
+                    }
+                }
+            }
         }
-    }
+    }   
 
     onAccepted: {
         if(Tendzone.Commands_List[operation]["Commands"].length > 1){
@@ -106,5 +130,11 @@ Dialog {
         }else if(Tendzone.Commands_List[operation]["Commands"].length === 1){
             Tendzone.runCmd(Tendzone.Commands_List[operation]["Commands"][0].Name)
         }
+    }
+    onOpened: countDownTimer.start()
+
+    onClosed: {
+        countDownTimer.stop()
+        during = 30
     }
 }

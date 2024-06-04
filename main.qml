@@ -41,12 +41,11 @@ ApplicationWindow {
     Splash{
         id:splashScreen
         duration: 5000
-        onVisibleChanged: {
-            if (splashScreen.visible === false){
-                if(settings.lockPassword !== "" & settings.lock){
-                    passwordDialog.passtype = PasswordDialog.Type.LockScreen
-                    passwordDialog.open()
-                }
+
+        onClosed: {
+            if(settings.lockPassword !== "" & settings.lock){
+                passwordDialog.passtype = PasswordDialog.Type.LockScreen
+                passwordDialog.open()
             }
         }
     }
@@ -342,9 +341,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-
-        Application.setVersion("V0.9.00")
-
+        Application.setVersion("V0.9.03")
         wsClient.active = true
     }
 }

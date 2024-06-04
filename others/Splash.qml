@@ -1,8 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 
+import "../js/tendzone.js" as Tendzone
+
 Item {
     id:splash
+
+    signal closed()
+
     property alias duration: processAnimation.duration
     property alias source: image.source
     property color processColor : "#33B5E5"
@@ -42,7 +47,7 @@ Item {
     }
     Text {
         id: text
-        text: Application.version
+        text: Application.version + " - " + Tendzone.Commands_List["Version"]
         width: parent.width
         height: parent.height*0.04
         color: "#33B5E5"
@@ -55,4 +60,10 @@ Item {
     }
 
     Component.onCompleted:  processAnimation.start()
+
+    onVisibleChanged: {
+        if(visible === false){
+            closed()
+        }
+    }
 }

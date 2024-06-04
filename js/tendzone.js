@@ -51,7 +51,7 @@ const id_Audio_HDMI = 0x0008
 const Audio_Line = {
     LINEIN: 0,
     MICIN: 1,
-    IRMIC:2,
+    NETIN:2,
     LINEOUT: 3,
     APOUT: 4,
     HDMI: 5
@@ -137,6 +137,7 @@ const Projectors_Code = {
 
 const TJHospital = {
     Logo:{Url:"pic/tjhospital.png"},
+    Version: "TJ2402",
     WhiteBoard:{
         Confirm:true,
         Commands:[
@@ -226,6 +227,7 @@ const TJHospital = {
 }
 const Haishi = {
     Logo:{Url:"pic/haishi.png"},
+    Version: "HaiShi2405",
     WhiteBoard:{
         Confirm:true,
         Commands:[

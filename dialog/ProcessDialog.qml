@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Shapes
 
 import "../others/"
 import "../js/tendzone.js" as Tendzone
@@ -54,21 +55,30 @@ Dialog {
         Text {
             id:processTitle
             width: parent.width
-            height: parent.height*0.2
+            height: parent.height*0.3
             text: "信息"
-            font.pixelSize: height*0.8
+            font.pixelSize: height*0.5
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
             color: "#33B5E5"
         }
+
+        Rectangle{
+            width: processTitle.width
+            height: 2
+            color: "#33B5E5"
+        }
+
         Text {
             id:processLabel
             width: parent.width
-            height: parent.height*0.5
+            height: parent.height*0.4
             text: "执行"+name+"操作中..."
-            font.pixelSize: height*0.4
+            font.pixelSize: height*0.5
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             color: "#33B5E5"
         }
 

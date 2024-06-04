@@ -50,12 +50,14 @@ Dialog {
         property int volumeMic2: -10
         property int volumeIR1: -10
         property int volumeIR2: -10
+        property int volumeIP: -10
         property bool volumeMute: false
         property bool volumeHDMIMute: false
         property bool volumeMic1Mute: false
         property bool volumeMic2Mute: false
         property bool volumeIR1Mute: false
         property bool volumeIR2Mute: false
+        property bool volumeIPMute: false
     }
 
     Overlay.modal: Rectangle{

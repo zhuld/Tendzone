@@ -47,7 +47,7 @@ Item {
             PropertyChanges {
                 target: confirmDialog; confirmOK: "确定" }
             PropertyChanges {
-                target: confirmDialog; confirmCancel: "取消" }
+                target: confirmDialog; confirmCancel: "取消 (" + confirmDialog.during + ")"}
             PropertyChanges {
                 target: settingDialog; settingTitle: "系统设置 "+Application.version }
             PropertyChanges {
@@ -61,7 +61,10 @@ Item {
             PropertyChanges {
                 target: processDialog; processContent: "执行 "+processDialog.name+" 操作中..." }
             PropertyChanges {
-                target: passwordDialog; passwordTitle: "请输入"+(passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏")+"密码解锁" }
+                target: passwordDialog; passwordTitle: "请输入"
+                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏")
+                                                        +"密码解锁"
+                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? " ("+passwordDialog.during+")" : "")}
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "如有问题可拨打电话："+settings.phoneNumber }
             PropertyChanges {
@@ -111,7 +114,7 @@ Item {
             PropertyChanges {
                 target: confirmDialog; confirmOK: "Confirm" }
             PropertyChanges {
-                target: confirmDialog; confirmCancel: "Cancel" }
+                target: confirmDialog; confirmCancel: "Cancel (" + confirmDialog.during + ")" }
             PropertyChanges {
                 target: settingDialog; settingTitle: "System Setup " + Application.version}
             PropertyChanges {
@@ -125,7 +128,10 @@ Item {
             PropertyChanges {
                 target: processDialog; processContent: "Process "+name+" Operation..." }
             PropertyChanges {
-                target: passwordDialog; passwordTitle: "Enter "+(passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen")+" Password to Unlock" }
+                target: passwordDialog; passwordTitle: "Enter "
+                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen")
+                                                        +" Password to Unlock"
+                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? " ("+passwordDialog.during+")" : "")}
             PropertyChanges {
                 target: passwordDialog; passwordLabel: "Pls Call "+settings.phoneNumber +" for Help"}
             PropertyChanges {

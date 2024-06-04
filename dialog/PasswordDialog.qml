@@ -15,6 +15,8 @@ Dialog {
     property alias passwordTitle: passwordTitle.text
     property alias passwordLabel: passwordLabel.text
 
+    property int during: 30
+
     implicitWidth: parent.width / parent.height < ratio ? parent.width*0.9:parent.height*0.9*ratio
     implicitHeight: implicitWidth/ratio
 
@@ -51,7 +53,30 @@ Dialog {
         }
     }
 
-    onClosed: password.text = ""
+
+    Timer{
+        id:countDownTimer
+        interval : 1000
+        repeat : true
+        triggeredOnStart : false
+        onTriggered: {
+            during--
+            if(during === 0){
+                rootPassword.close()
+            }
+        }
+    }
+    onOpened: {
+        if(passtype === PasswordDialog.Type.Settings){
+            countDownTimer.start()
+        }
+    }
+
+    onClosed: {
+        password.text = ""
+        countDownTimer.stop()
+        during = 30
+    }
 
     background: Background{}
 
