@@ -4,140 +4,260 @@ import "../dialog/"
 import "../"
 
 Item {
-    id:languageStates
     states: [
         State {
             name: "zh_CN"
             PropertyChanges {
-                target: whiteBoard; text: "白板模式上课" }
+                target: whiteBoard
+                text: qsTr("白板模式\n上课")
+            }
             PropertyChanges {
-                target: systemOn; text: "多媒体模式上课" }
+                target: systemOn
+                text: Global.settings.whiteboard ? "多媒体模式\n上课" : "上课"
+            }
             PropertyChanges {
-                target: systemOff; text: "下课" }
+                target: systemOff
+                text: "下课"
+            }
             PropertyChanges {
-                target: menuDialog; languageLabel: "EN" }
+                target: menuDialog
+                languageLabel: "EN"
+            }
             PropertyChanges {
-                target: menuDialog; setting: "设置" }
+                target: menuDialog
+                setting: "设置"
+            }
             PropertyChanges {
-                target: menuDialog; language: "语言" }
+                target: menuDialog
+                language: "语言"
+            }
             PropertyChanges {
-                target: menuDialog; vol: "音量" }
+                target: menuDialog
+                vol: "音量"
+            }
+            // PropertyChanges {
+            //     target: menuDialog
+            //     help: "帮助"
+            // }
+            // PropertyChanges {
+            //     target: menuDialog
+            //     guide: "指引"
+            // }
             PropertyChanges {
-                target: menuDialog; help: "帮助" }
+                target: signalLabel
+                text: "信号切换"
+            }
             PropertyChanges {
-                target: menuDialog; guide: "指引" }
+                target: computer
+                text: "台式机"
+            }
             PropertyChanges {
-                target: signalLabel; text: "信号切换" }
+                target: laptop
+                text: "笔记本"
+            }
             PropertyChanges {
-                target: computer; text: "台式机" }
+                target: wireless
+                text: "无线投屏"
+            }
             PropertyChanges {
-                target: laptop; text: "笔记本" }
+                target: projectorLabel
+                text: "投影机控制"
+            }
             PropertyChanges {
-                target: wireless; text: "无线投屏" }
+                target: projectorOn
+                text: "投影开"
+            }
             PropertyChanges {
-                target: projectorLabel; text: "投影机控制" }
+                target: projectorOff
+                text: "投影关"
+            }
             PropertyChanges {
-                target: projectorOn; text: "投影开" }
+                target: confirmDialog
+                confirmTitle: "提示"
+            }
             PropertyChanges {
-                target: projectorOff; text: "投影关" }
+                target: confirmDialog
+                confirmContent: "确定执行 " + confirmDialog.name.replace(
+                                    /\n/g, "") + " 操作？"
+            }
             PropertyChanges {
-                target: confirmDialog; confirmTitle: "提示" }
+                target: confirmDialog
+                confirmOK: "确定"
+            }
             PropertyChanges {
-                target: confirmDialog; confirmContent: "确定执行 "+confirmDialog.name+" 操作？" }
+                target: confirmDialog
+                confirmCancel: "取消 (" + confirmDialog.during + ")"
+            }
             PropertyChanges {
-                target: confirmDialog; confirmOK: "确定" }
+                target: settingDialog
+                settingTitle: "系统设置 " + Application.version
+            }
             PropertyChanges {
-                target: confirmDialog; confirmCancel: "取消 (" + confirmDialog.during + ")"}
+                target: settingDialog
+                settingOK: "确定"
+            }
             PropertyChanges {
-                target: settingDialog; settingTitle: "系统设置 "+Application.version }
+                target: settingDialog
+                settingCancel: "取消"
+            }
             PropertyChanges {
-                target: settingDialog; settingOK: "确定" }
+                target: settingDialog
+                settingApply: "应用"
+            }
             PropertyChanges {
-                target: settingDialog; settingCancel: "取消" }
+                target: processDialog
+                processTitle: "提示"
+            }
             PropertyChanges {
-                target: settingDialog; settingApply: "应用" }
+                target: processDialog
+                processContent: "执行 " + processDialog.name.replace(
+                                    /\n/g, "") + " 操作..."
+            }
             PropertyChanges {
-                target: processDialog; processTitle: "提示" }
+                target: passwordDialog
+                passwordTitle: "请输入" + (passwordDialog.passtype
+                                        === PasswordDialog.Type.Settings ? "设置" : "锁屏") + "密码解锁"
+                               + (passwordDialog.passtype
+                                  === PasswordDialog.Type.Settings ? " (" + passwordDialog.during
+                                                                     + ")" : "")
+            }
             PropertyChanges {
-                target: processDialog; processContent: "执行 "+processDialog.name+" 操作中..." }
+                target: passwordDialog
+                passwordLabel: "如有问题可拨打电话：" + Global.settings.phoneNumber
+            }
             PropertyChanges {
-                target: passwordDialog; passwordTitle: "请输入"
-                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏")
-                                                        +"密码解锁"
-                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? " ("+passwordDialog.during+")" : "")}
+                target: volumeDialog
+                volumeLabel: "总音量"
+            }
             PropertyChanges {
-                target: passwordDialog; passwordLabel: "如有问题可拨打电话："+settings.phoneNumber }
-            PropertyChanges {
-                target: volumeDialog; volumeLabel: "总音量"}
-            PropertyChanges {
-                target: volumeDialog; volumeHDMiLabel: "电脑"}
-
+                target: volumeDialog
+                volumeHDMiLabel: "电脑"
+            }
         },
         State {
             name: "en_US"
             PropertyChanges {
-                target: whiteBoard; text: "Start BlackBoard Mode" }
+                target: whiteBoard
+                text: "WhiteBoard Mode"
+            }
             PropertyChanges {
-                target: systemOn; text: "Start Multimedia Mode" }
+                target: systemOn
+                text: Global.settings.whiteboard ? "Multimedia Mode" : "System On"
+            }
             PropertyChanges {
-                target: systemOff; text: "System Off" }
+                target: systemOff
+                text: "System Off"
+            }
             PropertyChanges {
-                target: menuDialog; languageLabel: "中" }
+                target: menuDialog
+                languageLabel: "中"
+            }
             PropertyChanges {
-                target: menuDialog; setting: "Setting" }
+                target: menuDialog
+                setting: "Setting"
+            }
             PropertyChanges {
-                target: menuDialog; language: "Language" }
+                target: menuDialog
+                language: "Language"
+            }
             PropertyChanges {
-                target: menuDialog; vol: "Volume" }
+                target: menuDialog
+                vol: "Volume"
+            }
+            // PropertyChanges {
+            //     target: menuDialog
+            //     help: "Help"
+            // }
+            // PropertyChanges {
+            //     target: menuDialog
+            //     guide: "Guide"
+            // }
             PropertyChanges {
-                target: menuDialog; help: "Help" }
+                target: signalLabel
+                text: "Signal"
+            }
             PropertyChanges {
-                target: menuDialog; guide: "Guide" }
+                target: computer
+                text: "Computer"
+            }
             PropertyChanges {
-                target: signalLabel; text: "Signal" }
+                target: laptop
+                text: "Laptop"
+            }
             PropertyChanges {
-                target: computer; text: "Computer" }
+                target: wireless
+                text: "Wireless"
+            }
             PropertyChanges {
-                target: laptop; text: "Laptop" }
+                target: projectorLabel
+                text: "Projector"
+            }
             PropertyChanges {
-                target: wireless; text: "Wireless" }
+                target: projectorOn
+                text: "Turn On"
+            }
             PropertyChanges {
-                target: projectorLabel; text: "Projector" }
+                target: projectorOff
+                text: "Turn Off"
+            }
             PropertyChanges {
-                target: projectorOn; text: "Turn On" }
+                target: confirmDialog
+                confirmTitle: "Notice"
+            }
             PropertyChanges {
-                target: projectorOff; text: "Turn Off" }
+                target: confirmDialog
+                confirmContent: "Confirm " + confirmDialog.name.replace(
+                                    /\n/g, "") + " Operation?"
+            }
             PropertyChanges {
-                target: confirmDialog; confirmTitle: "Notice" }
+                target: confirmDialog
+                confirmOK: "Confirm"
+            }
             PropertyChanges {
-                target: confirmDialog; confirmContent: "Confirm "+name+" Operation?" }
+                target: confirmDialog
+                confirmCancel: "Cancel (" + confirmDialog.during + ")"
+            }
             PropertyChanges {
-                target: confirmDialog; confirmOK: "Confirm" }
+                target: settingDialog
+                settingTitle: "System Setup " + Application.version
+            }
             PropertyChanges {
-                target: confirmDialog; confirmCancel: "Cancel (" + confirmDialog.during + ")" }
+                target: settingDialog
+                settingOK: "OK"
+            }
             PropertyChanges {
-                target: settingDialog; settingTitle: "System Setup " + Application.version}
+                target: settingDialog
+                settingCancel: "Cancel"
+            }
             PropertyChanges {
-                target: settingDialog; settingOK: "OK" }
+                target: settingDialog
+                settingApply: "Apply"
+            }
             PropertyChanges {
-                target: settingDialog; settingCancel: "Cancel" }
+                target: processDialog
+                processTitle: "Notice"
+            }
             PropertyChanges {
-                target: settingDialog; settingApply: "Apply" }
+                target: processDialog
+                processContent: "Process " + processDialog.name.replace(
+                                    /\n/g, "") + " Operation..."
+            }
             PropertyChanges {
-                target: processDialog; processTitle: "Notice" }
+                target: passwordDialog
+                passwordTitle: "Enter " + (passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen") + " Password to Unlock" + (passwordDialog.passtype === PasswordDialog.Type.Settings ? " (" + passwordDialog.during + ")" : "")
+            }
             PropertyChanges {
-                target: processDialog; processContent: "Process "+name+" Operation..." }
+                target: passwordDialog
+                passwordLabel: "Pls Call " + Global.settings.phoneNumber + " for Help"
+            }
             PropertyChanges {
-                target: passwordDialog; passwordTitle: "Enter "
-                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen")
-                                                        +" Password to Unlock"
-                                                        +(passwordDialog.passtype === PasswordDialog.Type.Settings ? " ("+passwordDialog.during+")" : "")}
+                target: volumeDialog
+                volumeLabel: "Main"
+            }
             PropertyChanges {
-                target: passwordDialog; passwordLabel: "Pls Call "+settings.phoneNumber +" for Help"}
-            PropertyChanges {
-                target: volumeDialog; volumeLabel: "Main"}
-            PropertyChanges {
-                target: volumeDialog; volumeHDMiLabel: "PC"}
+                target: volumeDialog
+                volumeHDMiLabel: "PC"
+            }
         }
     ]
 }

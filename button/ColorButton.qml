@@ -2,23 +2,34 @@ import QtQuick
 import QtQuick.Controls
 
 import QtQuick.Controls.Fusion
+import "../"
 
 Button {
-    id:button
-    property color btnColor: "steelblue"
-    property color textColor: "whitesmoke"
+    id: button
+    property color btnColor: Global.buttonColor
+    property color textColor: Global.buttonTextColor
+    property real fontSize: height * 0.3
 
     text: qsTr("Button")
 
-    background:  Rectangle{
+    background: Rectangle {
         id: rect
-        border.color: button.down | button.checked  ?  Qt.darker(button.btnColor, 2):Qt.lighter(button.btnColor, 1.1)
+        border.color: button.down | button.checked ? Qt.darker(button.btnColor,
+                                                               2) : Qt.lighter(
+                                                         button.btnColor, 1.1)
         border.width: 1
 
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: button.down | button.checked?  Qt.darker(button.btnColor, 2.5): button.hovered?  Qt.lighter(button.btnColor, 1.2):Qt.lighter(button.btnColor, 1)
+                color: button.down
+                       | button.checked ? Qt.darker(
+                                              button.btnColor,
+                                              2.5) : button.hovered ? Qt.lighter(
+                                                                          button.btnColor,
+                                                                          1.2) : Qt.lighter(
+                                                                          button.btnColor,
+                                                                          1)
                 Behavior on color {
                     ColorAnimation {
                         duration: 100
@@ -27,7 +38,14 @@ Button {
             }
             GradientStop {
                 position: 0.45
-                color: button.down | button.checked?  Qt.darker(button.btnColor, 1.5): button.hovered?  Qt.lighter(button.btnColor, 1): Qt.darker(button.btnColor, 1.3)
+                color: button.down
+                       | button.checked ? Qt.darker(
+                                              button.btnColor,
+                                              1.5) : button.hovered ? Qt.lighter(
+                                                                          button.btnColor,
+                                                                          1) : Qt.darker(
+                                                                          button.btnColor,
+                                                                          1.3)
                 Behavior on color {
                     ColorAnimation {
                         duration: 100
@@ -36,7 +54,14 @@ Button {
             }
             GradientStop {
                 position: 0.55
-                color: button.down | button.checked?  Qt.darker(button.btnColor, 1.5): button.hovered?  Qt.lighter(button.btnColor, 1): Qt.darker(button.btnColor, 1.3)
+                color: button.down
+                       | button.checked ? Qt.darker(
+                                              button.btnColor,
+                                              1.5) : button.hovered ? Qt.lighter(
+                                                                          button.btnColor,
+                                                                          1) : Qt.darker(
+                                                                          button.btnColor,
+                                                                          1.3)
                 Behavior on color {
                     ColorAnimation {
                         duration: 100
@@ -45,7 +70,14 @@ Button {
             }
             GradientStop {
                 position: 1
-                color: button.down | button.checked?  Qt.darker(button.btnColor, 1.3): button.hovered?  Qt.darker(button.btnColor, 1.8):Qt.darker(button.btnColor, 2)
+                color: button.down
+                       | button.checked ? Qt.darker(
+                                              button.btnColor,
+                                              1.3) : button.hovered ? Qt.darker(
+                                                                          button.btnColor,
+                                                                          1.8) : Qt.darker(
+                                                                          button.btnColor,
+                                                                          2)
                 Behavior on color {
                     ColorAnimation {
                         duration: 100
@@ -54,16 +86,18 @@ Button {
             }
         }
 
-        radius: height*0.1
+        radius: height * 0.1
     }
 
     contentItem: Text {
         text: button.text
-        font.pixelSize: button.height*0.35
-        color: button.down | button.checked? Qt.lighter(button.textColor, 1.4) :Qt.darker(button.textColor, 1.2)
+        font.pixelSize: button.fontSize
+        color: button.down | button.checked ? Qt.lighter(button.textColor,
+                                                         1.4) : Qt.darker(
+                                                  button.textColor, 1.2)
         wrapMode: Text.Wrap
-        horizontalAlignment : Text.AlignHCenter
-        verticalAlignment : Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
     }
-    opacity: enabled? 1:0.6
+    opacity: enabled ? 1 : 0.6
 }
