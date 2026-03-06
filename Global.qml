@@ -11,6 +11,19 @@ QtObject {
     readonly property color buttonTextColor: settings.darkTheme ? "whitesmoke" : "whitesmoke"
     readonly property color bgColor: settings.darkTheme ? "#085360" : "#085360"
     readonly property color overlayColor: settings.darkTheme ? "#A0000000" : "#A0000000"
+    readonly property color buttonShadowColor: settings.darkTheme ? "#FF2E2E4C" : "#FF666C75"
+
+    readonly property real shadowHeight: 3
+
+    property int projectorHDMI
+    property int extendHDMI
+    property int monitorHDMI
+    property int mubuPower
+    property int projectorPower
+    property int extensionPower
+    property int lockPower
+
+    property string roomName: ""
 
     property var settings: Settings {
         property bool darkTheme: true
@@ -41,5 +54,6 @@ QtObject {
         property bool volumeIR1Mute: false
         property bool volumeIR2Mute: false
         property bool volumeIPMute: false
+        property string language: "zh_CN"
     }
 }

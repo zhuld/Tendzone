@@ -7,7 +7,6 @@ import "../button/"
 import "../others/"
 import "../"
 
-//import QtQuick.Controls.Fusion
 Dialog {
     id: rootPassword
 

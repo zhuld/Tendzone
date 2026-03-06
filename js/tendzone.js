@@ -595,63 +595,63 @@ function runCmd(cmd, val) {
     var message
     switch (cmd) {
     case Command.Projector:
-        message = (setProjectorPower(val))
+        message = setProjectorPower(val)
         break
     case Command.Extension:
-        message = (setExtensionPower(val))
+        message = setExtensionPower(val)
         break
     case Command.Lock:
-        message = (setLockPower(val))
+        message = setLockPower(val)
         break
     case Command.Amp:
-        message = (setAmpPower(val))
+        message = setAmpPower(val)
         break
     case Command.Mubu:
-        message = (setMubuPower(val))
+        message = setMubuPower(val)
         break
     case Command.Uart_1_Projector:
-        message = (uart_1_Send(
-                       Projectors_Code[Projectors[Global.settings.projector]][val].Code))
+        message = uart_1_Send(
+                    Projectors_Code[Projectors[Global.settings.projector]][val].Code)
         break
     case Command.Uart_2_Projector:
-        message = (uart_2_Send(
-                       Projectors_Code[Projectors[Global.settings.projector]][val].Code))
+        message = uart_2_Send(
+                    Projectors_Code[Projectors[Global.settings.projector]][val].Code)
         break
     case Command.Projector_HDMI:
-        message = (setProjectorSignal(val))
+        message = setProjectorSignal(val)
         break
     case Command.Extender_HDMI:
-        message = (setExtendSignal(val))
+        message = setExtendSignal(val)
         break
     case Command.Monitor_HDMI:
-        message = (setMonitorSignal(val_PC))
+        message = setMonitorSignal(val_PC)
         break
     case Command.subHDMIProjector:
-        message = (subscribeHDMIProjector(val))
+        message = subscribeHDMIProjector(val)
         break
     case Command.subHDMIExtend:
-        message = (subscribeHDMIExtend(val))
+        message = subscribeHDMIExtend(val)
         break
     case Command.subPowerParm:
-        message = (subscribePowerParm(val))
+        message = subscribePowerParm(val)
         break
     case Command.subMachineName:
-        message = (subscribeMachineName(val))
+        message = subscribeMachineName(val)
         break
     case Command.subMachineName:
-        message = (subscribeMachineName(val))
+        message = subscribeMachineName(val)
         break
     case Command.subGlobalVolume:
-        message = (subscribeGlobalVolume(val))
+        message = subscribeGlobalVolume(val)
         break
     case Command.reboot:
-        message = (reboot())
+        message = reboot()
         break
     case Command.globalVolume:
-        message = (globalVolumeSet(val))
+        message = globalVolumeSet(val)
         break
     case Command.lineVolume:
-        message = (lineVolumeSet(val))
+        message = lineVolumeSet(val)
         break
     default:
         console.warn("unkonw cmd", cmd, val)
@@ -677,25 +677,6 @@ function customSubParm(uuid, id, subscribe) {
     cmd[5] = ((uuid >> 8) & 0xFF)
     cmd[6] = (id & 0xFF)
     cmd[7] = ((id >> 8) & 0xFF)
-
-    return cmd.buffer
-}
-
-function customSetParm(uuid, id, val) {
-    var cmdArray = new ArrayBuffer(8 + val.length)
-
-    var cmd = new Uint8Array(cmdArray)
-
-    cmd[0] = (op_code_SETTING & 0xFF)
-    cmd[1] = ((op_code_SETTING >> 8) & 0xFF)
-    cmd[2] = (uuid & 0xFF)
-    cmd[3] = ((uuid >> 8) & 0xFF)
-    cmd[4] = (id & 0xFF)
-    cmd[5] = ((id >> 8) & 0xFF)
-    cmd[6] = (val.length & 0xFF)
-    cmd[7] = ((val.length >> 8) & 0xFF)
-
-    cmd.set(val, 8)
 
     return cmd.buffer
 }
@@ -728,6 +709,25 @@ function subscribeGlobalVolume(subscribe) {
 }
 
 //set
+function customSetParm(uuid, id, val) {
+    var cmdArray = new ArrayBuffer(8 + val.length)
+
+    var cmd = new Uint8Array(cmdArray)
+
+    cmd[0] = (op_code_SETTING & 0xFF)
+    cmd[1] = ((op_code_SETTING >> 8) & 0xFF)
+    cmd[2] = (uuid & 0xFF)
+    cmd[3] = ((uuid >> 8) & 0xFF)
+    cmd[4] = (id & 0xFF)
+    cmd[5] = ((id >> 8) & 0xFF)
+    cmd[6] = (val.length & 0xFF)
+    cmd[7] = ((val.length >> 8) & 0xFF)
+
+    cmd.set(val, 8)
+
+    return cmd.buffer
+}
+
 //Power
 function setProjectorPower(val) {
     return customSetParm(uuid_POWER_PARAMS, id_Power,
@@ -811,6 +811,34 @@ function lineVolumeSet(data) {
     return customSetParm(uuid_AUDIO_PARAM, id_Audio_SetParam, data)
 }
 
+//reply
+function customReplyParm(uuid, id, val) {
+    var cmdArray = new ArrayBuffer(8 + val.length)
+
+    var cmd = new Uint8Array(cmdArray)
+
+    cmd[0] = (op_code_REPORT & 0xFF)
+    cmd[1] = ((op_code_REPORT >> 8) & 0xFF)
+    cmd[2] = (uuid & 0xFF)
+    cmd[3] = ((uuid >> 8) & 0xFF)
+    cmd[4] = (id & 0xFF)
+    cmd[5] = ((id >> 8) & 0xFF)
+    cmd[6] = (val.length & 0xFF)
+    cmd[7] = ((val.length >> 8) & 0xFF)
+
+    cmd.set(val, 8)
+
+    return cmd.buffer
+}
+//Hostname
+function replyMachineName(name) {
+    var nameArray = new Uint8Array(40)
+    for (var i = 0; i < name.length; i++) {
+        nameArray[i] = name.charCodeAt(i)
+    }
+    return customReplyParm(uuid_HOST_PARAMS, id_Machine_Name, nameArray)
+}
+
 function messageCheck(message) {
     //var msg = new Uint8Array(message)
     if (codeCompare(message, op_code_REPORT, 0)) {
@@ -819,29 +847,30 @@ function messageCheck(message) {
             //HDMI信号 0x1400  矩阵状态
             if (codeCompare(message, id_Projector, 4)) {
                 //投影机 0x0003
-                root.projectorHDMI = new Uint8Array(message.slice(8, 9))[0]
+                Global.projectorHDMI = new Uint8Array(message.slice(8, 9))[0]
             } else if (codeCompare(message, id_Extend, 4)) {
                 //外接 0x0001
-                root.extendHDMI = new Uint8Array(message.slice(8, 9))[0]
+                Global.extendHDMI = new Uint8Array(message.slice(8, 9))[0]
             } else if (codeCompare(message, id_Monitor, 4)) {
                 //显示器 0x0002
-                root.monitorHDMI = new Uint8Array(message.slice(8, 9))[0]
+                Global.monitorHDMI = new Uint8Array(message.slice(8, 9))[0]
             }
         } else if ((codeCompare(message, uuid_POWER_PARAMS,
                                 2) & //电源 0x1500  电源状态
                     (codeCompare(message, id_Power_Sub, 4)))) {
             // 0x0000
             const index = 11
-            root.mubuPower = new Uint8Array(message.slice(index, index + 1))[0]
-            root.projectorPower = new Uint8Array(message.slice(
-                                                     index + 71,
-                                                     index + 1 + 71))[0]
-            root.extensionPower = new Uint8Array(message.slice(
-                                                     index + 71 * 2,
-                                                     index + 1 + 71 * 2))[0]
-            root.lockPower = new Uint8Array(message.slice(
-                                                index + 71 * 3,
-                                                index + 1 + 71 * 3))[0]
+            Global.mubuPower = new Uint8Array(message.slice(index,
+                                                            index + 1))[0]
+            Global.projectorPower = new Uint8Array(message.slice(
+                                                       index + 71,
+                                                       index + 1 + 71))[0]
+            Global.extensionPower = new Uint8Array(message.slice(
+                                                       index + 71 * 2,
+                                                       index + 1 + 71 * 2))[0]
+            Global.lockPower = new Uint8Array(message.slice(
+                                                  index + 71 * 3,
+                                                  index + 1 + 71 * 3))[0]
         } else if ((codeCompare(message, uuid_HOST_PARAMS,
                                 2) & //主机 0x1100  机器名称
                     (codeCompare(message, id_Machine_Name, 4)))) {
@@ -853,7 +882,7 @@ function messageCheck(message) {
                     dataString += String.fromCharCode(messageArray[i])
                 }
             }
-            root.roomName = dataString
+            Global.roomName = dataString
         } else if ((codeCompare(message, uuid_AUDIO_PARAM, 2) & //主机 0x1303 主音量
                     (codeCompare(message, id_Audio_GlobalVol, 4)))) {
             // 0x0007

@@ -8,7 +8,7 @@ Button {
     id: button
     property color btnColor: Global.buttonColor
     property color textColor: Global.buttonTextColor
-    property real fontSize: height * 0.3
+    property real fontSize: height * 0.35
 
     text: qsTr("Button")
 

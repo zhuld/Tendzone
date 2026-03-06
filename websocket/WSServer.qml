@@ -3,6 +3,8 @@ import QtWebSockets
 
 import "../"
 
+import "../js/tendzone.js" as Tendzone
+
 WebSocketServer {
     id: server
     port: Global.settings.webSocketServerPort
@@ -26,6 +28,8 @@ WebSocketServer {
                                    binReceived(new Uint8Array(message))
                                })
                            console.info("Client Connected", webSocket.url)
+                           webSocket.sendBinaryMessage(
+                               Tendzone.replyMachineName("Room101"))
                        }
     onErrorStringChanged: {
         console.info("Server error: ", errorString)

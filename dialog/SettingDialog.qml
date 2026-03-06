@@ -401,7 +401,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Projector,
                                                    Tendzone.val_On)
                         font.pixelSize: height * 0.4
-                        checked: root.projectorPower === Tendzone.val_On
+                        checked: Global.projectorPower === Tendzone.val_On
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -410,7 +410,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Projector,
                                                    Tendzone.val_Off)
                         font.pixelSize: height * 0.4
-                        checked: root.projectorPower === Tendzone.val_Off
+                        checked: Global.projectorPower === Tendzone.val_Off
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -419,7 +419,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Extension,
                                                    Tendzone.val_On)
                         font.pixelSize: height * 0.4
-                        checked: root.extensionPower === Tendzone.val_On
+                        checked: Global.extensionPower === Tendzone.val_On
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -428,7 +428,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Extension,
                                                    Tendzone.val_Off)
                         font.pixelSize: height * 0.4
-                        checked: root.extensionPower === Tendzone.val_Off
+                        checked: Global.extensionPower === Tendzone.val_Off
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -437,7 +437,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Lock,
                                                    Tendzone.val_On)
                         font.pixelSize: height * 0.4
-                        checked: root.lockPower === Tendzone.val_On
+                        checked: Global.lockPower === Tendzone.val_On
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -446,7 +446,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Lock,
                                                    Tendzone.val_Off)
                         font.pixelSize: height * 0.4
-                        checked: root.lockPower === Tendzone.val_Off
+                        checked: Global.lockPower === Tendzone.val_Off
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -473,7 +473,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Mubu,
                                                    Tendzone.val_Up)
                         font.pixelSize: height * 0.4
-                        checked: root.mubuPower === Tendzone.val_Up
+                        checked: Global.mubuPower === Tendzone.val_Up
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -482,7 +482,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Mubu,
                                                    Tendzone.val_Down)
                         font.pixelSize: height * 0.4
-                        checked: root.mubuPower === Tendzone.val_Down
+                        checked: Global.mubuPower === Tendzone.val_Down
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -491,7 +491,7 @@ Dialog {
                         onClicked: Tendzone.runCmd(Tendzone.Command.Mubu,
                                                    Tendzone.val_Stop)
                         font.pixelSize: height * 0.4
-                        checked: root.mubuPower === Tendzone.val_Stop
+                        checked: Global.mubuPower === Tendzone.val_Stop
                     }
                     DelayButton {
                         width: parent.width * 0.45
@@ -593,7 +593,7 @@ Dialog {
                                        Tendzone.Command.Projector_HDMI,
                                        Tendzone.val_PC)
                         font.pixelSize: height * 0.4
-                        checked: root.projectorHDMI === Tendzone.val_PC
+                        checked: Global.projectorHDMI === Tendzone.val_PC
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -603,7 +603,7 @@ Dialog {
                                        Tendzone.Command.Extender_HDMI,
                                        Tendzone.val_PC)
                         font.pixelSize: height * 0.4
-                        checked: root.extendHDMI === Tendzone.val_PC
+                        checked: Global.extendHDMI === Tendzone.val_PC
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -613,7 +613,7 @@ Dialog {
                                        Tendzone.Command.Projector_HDMI,
                                        Tendzone.val_Laptop)
                         font.pixelSize: height * 0.4
-                        checked: root.projectorHDMI === Tendzone.val_Laptop
+                        checked: Global.projectorHDMI === Tendzone.val_Laptop
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -623,7 +623,7 @@ Dialog {
                                        Tendzone.Command.Extender_HDMI,
                                        Tendzone.val_Laptop)
                         font.pixelSize: height * 0.4
-                        checked: root.extendHDMI === Tendzone.val_Laptop
+                        checked: Global.extendHDMI === Tendzone.val_Laptop
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -633,7 +633,7 @@ Dialog {
                                        Tendzone.Command.Projector_HDMI,
                                        Tendzone.val_Wireless)
                         font.pixelSize: height * 0.4
-                        checked: root.projectorHDMI === Tendzone.val_Wireless
+                        checked: Global.projectorHDMI === Tendzone.val_Wireless
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -643,7 +643,7 @@ Dialog {
                                        Tendzone.Command.Extender_HDMI,
                                        Tendzone.val_Wireless)
                         font.pixelSize: height * 0.4
-                        checked: root.extendHDMI === Tendzone.val_Wireless
+                        checked: Global.extendHDMI === Tendzone.val_Wireless
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -653,7 +653,7 @@ Dialog {
                                        Tendzone.Command.Projector_HDMI,
                                        Tendzone.val_Camera)
                         font.pixelSize: height * 0.4
-                        checked: root.projectorHDMI === Tendzone.val_Camera
+                        checked: Global.projectorHDMI === Tendzone.val_Camera
                     }
                     ColorButton {
                         width: parent.width * 0.45
@@ -663,7 +663,7 @@ Dialog {
                                        Tendzone.Command.Extender_HDMI,
                                        Tendzone.val_Camera)
                         font.pixelSize: height * 0.4
-                        checked: root.extendHDMI === Tendzone.val_Camera
+                        checked: Global.extendHDMI === Tendzone.val_Camera
                     }
                 }
             }

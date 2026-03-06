@@ -7,7 +7,6 @@ import "../js/tendzone.js" as Tendzone
 //导入Global.qml以使用全局设置
 import "../"
 
-//import QtQuick.Controls.Fusion
 Dialog {
     id: rootProcess
     anchors.centerIn: parent

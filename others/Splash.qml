@@ -27,9 +27,9 @@ Item {
         id: processBar
         property real processValue: 0
         width: parent.width * processValue * 0.8
-        height: parent.height * 0.05
+        height: parent.height * 0.01
         x: parent.width * 0.1
-        y: parent.height * 0.8
+        y: parent.height * 0.9
         gradient: Gradient {
             GradientStop {
                 position: 0.6

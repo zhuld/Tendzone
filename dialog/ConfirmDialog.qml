@@ -6,8 +6,6 @@ import "../others/"
 import "../"
 import "../js/tendzone.js" as Tendzone
 
-//import QtQuick.Controls.Fusion
-
 Dialog {
     id: rootConfirm
     anchors.centerIn: parent

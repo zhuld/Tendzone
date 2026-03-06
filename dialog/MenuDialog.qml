@@ -3,8 +3,7 @@ import QtQuick.Controls
 
 import "../button/"
 import "../"
-
-//import QtQuick.Controls.Fusion
+import "../dialog"
 
 Drawer {
     id: drawerRoot
@@ -21,8 +20,6 @@ Drawer {
     property alias setting: setting.text
     property alias language: language.text
     property alias vol: vol.text
-    //property alias help: help.text
-    //property alias guide: guide.text
     property alias languageLabel: language.label
 
     Overlay.modal: Rectangle {
@@ -60,11 +57,12 @@ Drawer {
                 label: "中"
                 text: "语言"
                 onClicked: {
-                    if (languageStates.state === "zh_CN") {
-                        languageStates.state = "en_US"
+                    if (Global.settings.language === "zh_CN") {
+                        Global.settings.language = "en_US"
                     } else {
-                        languageStates.state = "zh_CN"
+                        Global.settings.language = "zh_CN"
                     }
+                    Global.settings.sync()
                 }
             }
             MenuButton {
@@ -78,20 +76,6 @@ Drawer {
                     drawerRoot.close()
                 }
             }
-            // MenuButton {
-            //     id: help
-            //     width: parent.width
-            //     height: parent.width
-            //     label: "?"
-            //     text: "帮助"
-            // }
-            // MenuButton {
-            //     id: guide
-            //     width: parent.width
-            //     height: parent.width
-            //     label: "\u261E"
-            //     text: "指引"
-            // }
         }
     }
 }
