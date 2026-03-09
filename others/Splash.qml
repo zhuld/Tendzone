@@ -20,7 +20,7 @@ Item {
         id: image
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: "../pic/splash.jpg"
+        source: "qrc:/pic/splash.jpg"
     }
 
     Rectangle {

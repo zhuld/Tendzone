@@ -142,7 +142,7 @@ const Projectors_Code = {
 
 const TJHospital = {
     "Logo": {
-        "Url": "pic/tjhospital.png"
+        "Url": "qrc:/pic/tjhospital.png"
     },
     "Version": "TJ2402",
     "WhiteBoard": {
@@ -371,9 +371,10 @@ const TJHospital = {
             }]
     }
 }
+
 const Haishi = {
     "Logo": {
-        "Url": "pic/haishi.png"
+        "Url": "qrc:/pic/haishi.png"
     },
     "Version": "HaiShi2405",
     "WhiteBoard": {
@@ -563,7 +564,7 @@ const Haishi = {
     }
 }
 
-var Commands_List = Haishi
+var Commands_List = TJHospital
 
 function startCmds(cmds, name) {
     if (Commands_List[cmds]["Confirm"]) {
@@ -591,7 +592,6 @@ function getCmdsDuring(cmds) {
 }
 
 function runCmd(cmd, val) {
-    //console.info(cmd,val)
     var message
     switch (cmd) {
     case Command.Projector:

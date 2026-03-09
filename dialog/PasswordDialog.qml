@@ -17,7 +17,7 @@ Dialog {
 
     property int during: 30
 
-    implicitWidth: parent.width * 0.9
+    implicitWidth: parent.width * 0.6
     implicitHeight: parent.height * 0.9
 
     signal okPressed(var password)
@@ -30,8 +30,7 @@ Dialog {
     anchors.centerIn: parent
 
     modal: true
-    closePolicy: passtype
-                 === PasswordDialog.Type.Settings ? Popup.CloseOnPressOutside : Popup.NoAutoClose
+    closePolicy: passtype === PasswordDialog.Type.Settings ? Popup.CloseOnPressOutside : Popup.NoAutoClose
 
     Overlay.modal: Rectangle {
         color: Global.overlayColor
@@ -42,7 +41,7 @@ Dialog {
             from: 0
             to: 1
             property: "opacity"
-            duration: 200
+            duration: Global.durationDelay
         }
     }
     exit: Transition {
@@ -50,7 +49,7 @@ Dialog {
             from: 1
             to: 0
             property: "opacity"
-            duration: 200
+            duration: Global.durationDelay
         }
     }
 
@@ -60,56 +59,49 @@ Dialog {
         repeat: true
         triggeredOnStart: false
         onTriggered: {
-            rootPassword.during--
+            rootPassword.during--;
             if (rootPassword.during === 0) {
-                rootPassword.close()
+                rootPassword.close();
             }
         }
     }
     onOpened: {
         if (passtype === PasswordDialog.Type.Settings) {
-            countDownTimer.start()
+            countDownTimer.start();
         }
     }
 
     onClosed: {
-        password.text = ""
-        countDownTimer.stop()
-        during = 30
+        password.text = "";
+        countDownTimer.stop();
+        during = 30;
     }
 
-    background: Background {}
+    background: DialogBackground {
+        titleHeight: 0.18
+    }
 
     Column {
         id: base
         anchors.fill: parent
         anchors.margins: width * 0.02
-
+        spacing: height * 0.05
         Text {
             id: passwordTitle
             width: parent.width
-            height: parent.height * 0.15
-            font.pixelSize: height * 0.5
+            height: parent.height * 0.1
+            font.pixelSize: height * 0.8
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignLeft
             color: Global.textColor
         }
-        Text {
-            id: passwordLabel
-            width: parent.width
-            height: parent.height * 0.15
-            font.pixelSize: height * 0.5
-            wrapMode: Text.Wrap
-            horizontalAlignment: Text.AlignLeft
-            color: Global.settings.phoneNumber === "" ? "transparent" : Global.textColor
-        }
         TextInput {
             id: password
             width: parent.width
-            height: parent.height * 0.15
-            verticalAlignment: Text.AlignVCenter
+            height: parent.height * 0.1
+            verticalAlignment: Text.AlignBottom
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: height * 0.4
+            font.pixelSize: height * 0.6
             color: Global.textColor
             enabled: false
             focus: true
@@ -117,62 +109,63 @@ Dialog {
             passwordMaskDelay: 500
         }
 
-        GridView {
+        Grid {
             id: numberPad
-            height: parent.height * 0.55
+            height: parent.height * 0.6
             width: height * 4 / 3
+            spacing: width * 0.03
             anchors.margins: parent.width * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
-            cellWidth: width * 0.25
-            cellHeight: cellWidth
-
-            model: ListModel {
-                id: numberModel
-                ListElement {
-                    name: "1"
+            columns: 4
+            Repeater {
+                model: ListModel {
+                    id: numberModel
+                    ListElement {
+                        name: "1"
+                    }
+                    ListElement {
+                        name: "2"
+                    }
+                    ListElement {
+                        name: "3"
+                    }
+                    ListElement {
+                        name: "4"
+                    }
+                    ListElement {
+                        name: "5"
+                    }
+                    ListElement {
+                        name: "6"
+                    }
+                    ListElement {
+                        name: "7"
+                    }
+                    ListElement {
+                        name: "8"
+                    }
+                    ListElement {
+                        name: "9"
+                    }
+                    ListElement {
+                        name: "0"
+                    }
+                    ListElement {
+                        name: "\u21E6"
+                    }
+                    ListElement {
+                        name: "\u23CE"
+                    }
                 }
-                ListElement {
-                    name: "2"
-                }
-                ListElement {
-                    name: "3"
-                }
-                ListElement {
-                    name: "4"
-                }
-                ListElement {
-                    name: "5"
-                }
-                ListElement {
-                    name: "6"
-                }
-                ListElement {
-                    name: "7"
-                }
-                ListElement {
-                    name: "8"
-                }
-                ListElement {
-                    name: "9"
-                }
-                ListElement {
-                    name: "0"
-                }
-                ListElement {
-                    name: "\u21E6"
-                }
-                ListElement {
-                    name: "\u23CE"
-                }
-            }
-            delegate: ColorButton {
-                required property string name
-                width: parent.width * 0.25
-                height: width
-                font.pixelSize: width * 0.4
-                text: name
-                onClicked: {
-                    switch (name) {
+                delegate: MyButton {
+                    required property string name
+                    width: (numberPad.width + numberPad.spacing) / numberPad.columns - numberPad.spacing
+                    height: width
+                    radius: width / 2
+                    font.pixelSize: height * 0.4
+                    text: name
+                    onClicked: {
+                        switch (name) {
                         case "1":
                         case "2":
                         case "3":
@@ -183,21 +176,32 @@ Dialog {
                         case "8":
                         case "9":
                         case "0":
-                        if (password.text.length < 6) {
-                            password.text += name
-                        }
-                        break
+                            if (password.text.length < 6) {
+                                password.text += name;
+                            }
+                            break;
                         case "\u21E6":
-                        password.text = password.text.slice(
-                            0, password.text.length - 1)
-                        break
+                            password.text = password.text.slice(0, password.text.length - 1);
+                            break;
                         case "\u23CE":
-                        rootPassword.okPressed(password.text)
-                        password.text = ""
-                        break
+                            rootPassword.okPressed(password.text);
+                            password.text = "";
+                            break;
+                        }
                     }
                 }
             }
+        }
+
+        Text {
+            id: passwordLabel
+            width: parent.width
+            height: parent.height * 0.1
+            font.pixelSize: height * 0.6
+            wrapMode: Text.Wrap
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignRight
+            color: Global.settings.phoneNumber === "" ? "transparent" : Global.textColor
         }
     }
 }

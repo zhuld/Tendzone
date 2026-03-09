@@ -14,12 +14,12 @@ Item {
             }
             PropertyChanges {
                 whiteBoard {
-                    text: qsTr("白板模式\n上课")
+                    text: qsTr("白板上课")
                 }
             }
             PropertyChanges {
                 systemOn {
-                    text: Global.settings.whiteboard ? "多媒体模式\n上课" : "上课"
+                    text: Global.settings.whiteboard ? "多媒体上课" : "上课"
                 }
             }
             PropertyChanges {
@@ -29,10 +29,9 @@ Item {
             }
             PropertyChanges {
                 menuDialog {
-                    languageLabel: "EN"
-                    setting: "设置"
-                    language: "语言"
-                    vol: "音量"
+                    //setting: "设置"
+                    language: "En"
+                    //vol: "音量"
                 }
             }
             PropertyChanges {
@@ -73,8 +72,7 @@ Item {
             PropertyChanges {
                 confirmDialog {
                     confirmTitle: "提示"
-                    confirmContent: "确定执行 " + confirmDialog.name.replace(
-                                        /\n/g, "") + " 操作？"
+                    confirmContent: "确定执行 " + confirmDialog.name.replace(/\n/g, "") + " 操作？"
                     confirmOK: "确定"
                     confirmCancel: "取消 (" + confirmDialog.during + ")"
                 }
@@ -89,23 +87,21 @@ Item {
             }
             PropertyChanges {
                 processDialog {
-                    processTitle: "提示"
-                    processContent: "执行 " + processDialog.name.replace(
-                                        /\n/g, "") + " 操作..."
+                    processTitle: "请等待"
+                    processContent: processDialog.name.replace(/\n/g, "") + " 操作执行中..."
                 }
             }
             PropertyChanges {
                 passwordDialog {
-                    passwordTitle: "请输入" + (passwordDialog.passtype
-                                            === PasswordDialog.Type.Settings ? "设置" : "锁屏") + "密码解锁"
-                                   + (passwordDialog.passtype === PasswordDialog.Type.Settings ? " (" + passwordDialog.during + ")" : "")
+                    passwordTitle: "请输入" + (passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏") + "密码解锁" + (passwordDialog.passtype === PasswordDialog.Type.Settings ? " (" + passwordDialog.during + ")" : "")
                     passwordLabel: "如有问题可拨打电话：" + Global.settings.phoneNumber
                 }
             }
             PropertyChanges {
                 volumeDialog {
                     volumeLabel: "总音量"
-                    volumeHDMiLabel: "电脑"
+                    volumeHDMILabel: "电脑"
+                    volumeIPLabel: "IP广播"
                 }
             }
         },
@@ -118,12 +114,12 @@ Item {
             }
             PropertyChanges {
                 whiteBoard {
-                    text: "WhiteBoard Mode"
+                    text: "WhiteBoard\nMode"
                 }
             }
             PropertyChanges {
                 systemOn {
-                    text: Global.settings.whiteboard ? "Multimedia Mode" : "System On"
+                    text: Global.settings.whiteboard ? "Multimedia\nMode" : "System On"
                 }
             }
             PropertyChanges {
@@ -133,10 +129,9 @@ Item {
             }
             PropertyChanges {
                 menuDialog {
-                    languageLabel: "中"
-                    setting: "Setting"
-                    language: "Language"
-                    vol: "Volume"
+                    //setting: "Setting"
+                    language: "中"
+                    //vol: "Volume"
                 }
             }
             PropertyChanges {
@@ -177,8 +172,7 @@ Item {
             PropertyChanges {
                 confirmDialog {
                     confirmTitle: "Notice"
-                    confirmContent: "Confirm " + confirmDialog.name.replace(
-                                        /\n/g, "") + " Operation?"
+                    confirmContent: "Confirm " + confirmDialog.name.replace(/\n/g, " ") + " Operation?"
                     confirmOK: "Confirm"
                     confirmCancel: "Cancel (" + confirmDialog.during + ")"
                 }
@@ -193,9 +187,8 @@ Item {
             }
             PropertyChanges {
                 processDialog {
-                    processTitle: "Notice"
-                    processContent: "Process " + processDialog.name.replace(
-                                        /\n/g, "") + " Operation..."
+                    processTitle: "Wait"
+                    processContent: "Processing " + processDialog.name.replace(/\n/g, " ") + " Operation..."
                 }
             }
             PropertyChanges {
@@ -207,7 +200,8 @@ Item {
             PropertyChanges {
                 volumeDialog {
                     volumeLabel: "Main"
-                    volumeHDMiLabel: "PC"
+                    volumeHDMILabel: "PC"
+                    volumeIPLabel: "Broadcast"
                 }
             }
         }

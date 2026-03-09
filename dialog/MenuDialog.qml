@@ -5,76 +5,83 @@ import "../button/"
 import "../"
 import "../dialog"
 
-Drawer {
-    id: drawerRoot
-    implicitWidth: parent.width / 8
-    implicitHeight: parent.height
-    edge: Qt.LeftEdge
-    dragMargin: width * 0.5
+Dialog {
+    id: menuDialog
 
-    background: Rectangle {
-        anchors.fill: parent
-        color: "transparent"
-    }
+    implicitHeight: parent.height * 0.3
+    implicitWidth: height * 2.6
+    anchors.centerIn: parent
+    padding: height * 0.2
 
-    property alias setting: setting.text
+    modal: true
+    focus: true
+
+    parent: Overlay.overlay
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+    background: Background {}
+
     property alias language: language.text
-    property alias vol: vol.text
-    property alias languageLabel: language.label
 
-    Overlay.modal: Rectangle {
-        color: Global.overlayColor
+    enter: Transition {
+        NumberAnimation {
+            property: "scale"
+            from: 0
+            to: 1.0
+            duration: 500
+            easing.type: Easing.OutBack
+        }
+        NumberAnimation {
+            property: "opacity"
+            from: 0.0
+            to: 1.0
+            duration: 500
+        }
     }
+    contentItem: Row {
+        id: row
+        spacing: parent.height * 0.2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
 
-    ScrollView {
-        height: parent.height
-        width: parent.width
-        contentWidth: width
+        MyButton {
+            id: setting
+            height: parent.height
+            width: height
+            text: "\u2699"
+            onClicked: {
+                if (Global.settings.settingPassword === "") {
+                    settingDialog.open();
+                } else {
+                    passwordDialog.passtype = PasswordDialog.Type.Settings;
+                    passwordDialog.open();
+                }
+                menuDialog.close();
+            }
+        }
 
-        //contentHeight: Grid.height
-        Column {
-            width: parent.width
-            MenuButton {
-                id: setting
-                width: parent.width
-                height: parent.width
-                label: "\u2699"
-                text: "设置"
-                onClicked: {
-                    if (Global.settings.settingPassword === "") {
-                        settingDialog.open()
-                    } else {
-                        passwordDialog.passtype = PasswordDialog.Type.Settings
-                        passwordDialog.open()
-                    }
-                    drawerRoot.close()
-                }
+        MyButton {
+            id: vol
+            height: parent.height
+            width: height
+            text: "\u266C"
+            onClicked: {
+                volumeDialog.open();
+                menuDialog.close();
             }
-            MenuButton {
-                id: language
-                width: parent.width
-                height: parent.width
-                label: "中"
-                text: "语言"
-                onClicked: {
-                    if (Global.settings.language === "zh_CN") {
-                        Global.settings.language = "en_US"
-                    } else {
-                        Global.settings.language = "zh_CN"
-                    }
-                    Global.settings.sync()
+        }
+        MyButton {
+            id: language
+            height: parent.height
+            width: height
+            text: "语言"
+            onClicked: {
+                if (Global.settings.language === "zh_CN") {
+                    Global.settings.language = "en_US";
+                } else {
+                    Global.settings.language = "zh_CN";
                 }
-            }
-            MenuButton {
-                id: vol
-                width: parent.width
-                height: parent.width
-                label: "\u266C"
-                text: "音量"
-                onClicked: {
-                    volumeDialog.open()
-                    drawerRoot.close()
-                }
+                Global.settings.sync();
             }
         }
     }

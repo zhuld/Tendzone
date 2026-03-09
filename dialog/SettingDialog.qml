@@ -37,7 +37,7 @@ Dialog {
             from: 0
             to: 1
             property: "opacity"
-            duration: 200
+            duration: Global.durationDelay
         }
     }
     exit: Transition {
@@ -45,46 +45,51 @@ Dialog {
             from: 1
             to: 0
             property: "opacity"
-            duration: 200
+            duration: Global.durationDelay
         }
     }
-    background: Background {}
+    background: DialogBackground {
+        titleHeight: 0.2
+    }
     Column {
         anchors.fill: parent
         anchors.margins: height * 0.05
-        spacing: width * 0.01
+        spacing: height * 0.1
 
         Row {
             id: settingButtons
             width: parent.width
-            height: parent.height * 0.15
+            height: parent.height * 0.12
             spacing: width * 0.01
             layoutDirection: Qt.RightToLeft
 
-            ColorButton {
+            MyButton {
                 id: settingApply
                 width: parent.width * 0.2
                 height: parent.height
                 text: "应用"
                 font.pixelSize: height * 0.4
                 onClicked: rootSetting.apply()
+                anchors.top: parent.top
             }
-            ColorButton {
+            MyButton {
                 id: settingCancel
                 width: parent.width * 0.2
                 height: parent.height
                 text: "取消"
                 font.pixelSize: height * 0.4
                 onClicked: rootSetting.reject()
+                anchors.top: parent.top
             }
-            ColorButton {
+            MyButton {
                 id: settingOK
                 width: parent.width * 0.2
                 height: parent.height
                 text: "确定"
                 font.pixelSize: height * 0.4
                 onClicked: rootSetting.accept()
-                btnColor: "darkgreen"
+                btnColor: Global.confirmColor
+                anchors.top: parent.top
             }
             Text {
                 id: settingTitle
@@ -94,20 +99,20 @@ Dialog {
                 font.pixelSize: height * 0.5
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
                 color: Global.textColor
             }
         }
         ScrollView {
             id: scrollView
             width: parent.width
-            height: parent.height * 0.85
+            height: parent.height * 0.8
             contentWidth: parent.width * 0.9
-            //contentHeight: Grid.height
             anchors.margins: height / 20
 
             Behavior on ScrollBar.vertical.position {
                 NumberAnimation {
-                    duration: 250
+                    duration: Global.durationDelay
                 }
             }
 
@@ -226,7 +231,25 @@ Dialog {
                     id: fullscreen
                     checked: Global.settings.fullscreen
                 }
-
+                Text {
+                    text: Global.settings.darkTheme ? "暗色主题" : "亮色主题"
+                    width: parent.width * 0.5
+                    height: width * 0.1
+                    font.pixelSize: height * 0.7
+                    color: Global.textColor
+                }
+                Switch {
+                    id: darkTheme
+                    checked: Global.settings.darkTheme
+                    onClicked: {
+                        if (checked) {
+                            Global.settings.darkTheme = true
+                        } else {
+                            Global.settings.darkTheme = false
+                        }
+                        Global.settings.sync()
+                    }
+                }
                 Text {
                     text: "报修电话"
                     width: parent.width * 0.5
@@ -394,7 +417,7 @@ Dialog {
                     width: parent.width * 0.5
                     columns: 2
                     spacing: width * 0.05
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影开"
@@ -403,7 +426,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.projectorPower === Tendzone.val_On
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影关"
@@ -412,7 +435,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.projectorPower === Tendzone.val_Off
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "外接开"
@@ -421,7 +444,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.extensionPower === Tendzone.val_On
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "外接关"
@@ -430,7 +453,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.extensionPower === Tendzone.val_Off
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电锁开"
@@ -439,7 +462,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.lockPower === Tendzone.val_On
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电锁关"
@@ -448,7 +471,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.lockPower === Tendzone.val_Off
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "功放开"
@@ -457,7 +480,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: !Global.settings.volumeMute
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "功放关"
@@ -466,7 +489,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.settings.volumeMute
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "幕布升"
@@ -475,7 +498,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Up
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "幕布降"
@@ -484,7 +507,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Down
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "幕布停"
@@ -499,7 +522,7 @@ Dialog {
                         delay: 1000
                         Text {
                             text: "系统重启"
-                            color: "red"
+                            color: Global.warnColor
                             font.pixelSize: parent.height * 0.4
                             anchors.centerIn: parent
                         }
@@ -531,7 +554,7 @@ Dialog {
                         text: "串口2"
                         font.pixelSize: height * 0.5
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影开"
@@ -540,7 +563,7 @@ Dialog {
                                        Tendzone.val_On)
                         font.pixelSize: height * 0.4
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影开"
@@ -549,7 +572,7 @@ Dialog {
                                        Tendzone.val_On)
                         font.pixelSize: height * 0.4
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影关"
@@ -558,7 +581,7 @@ Dialog {
                                        Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影关"
@@ -585,7 +608,7 @@ Dialog {
                         text: "扩展信号"
                         font.pixelSize: height * 0.5
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电脑"
@@ -595,7 +618,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_PC
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电脑"
@@ -605,7 +628,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_PC
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入1"
@@ -615,7 +638,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_Laptop
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入1"
@@ -625,7 +648,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_Laptop
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入2"
@@ -635,7 +658,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_Wireless
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入2"
@@ -645,7 +668,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_Wireless
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "Camera"
@@ -655,7 +678,7 @@ Dialog {
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_Camera
                     }
-                    ColorButton {
+                    MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "Camera"
@@ -677,6 +700,7 @@ Dialog {
         Global.settings.whiteboard = whiteBoardSwitch.checked
         Global.settings.wireless = wirelessSwitch.checked
         Global.settings.fullscreen = fullscreen.checked
+        Global.settings.darkTheme = darkTheme.checked
         Global.settings.settingPassword = settingPassword.text
         Global.settings.lockPassword = lockPassword.text
         Global.settings.socketError = socketError.text
@@ -694,6 +718,7 @@ Dialog {
         whiteBoardSwitch.checked = Global.settings.whiteboard
         wirelessSwitch.checked = Global.settings.wireless
         fullscreen.checked = Global.settings.fullscreen
+        darkTheme.checked = Global.settings.darkTheme
         settingPassword.text = Global.settings.settingPassword
         lockPassword.text = Global.settings.lockPassword
         socketError.text = Global.settings.socketError
@@ -710,6 +735,7 @@ Dialog {
         Global.settings.whiteboard = whiteBoardSwitch.checked
         Global.settings.wireless = wirelessSwitch.checked
         Global.settings.fullscreen = fullscreen.checked
+        Global.settings.darkTheme = darkTheme.checked
         Global.settings.settingPassword = settingPassword.text
         Global.settings.lockPassword = lockPassword.text
         Global.settings.socketError = socketError.text

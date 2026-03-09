@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(Tendzone VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
@@ -12,15 +13,15 @@ set_source_files_properties(
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 qt_add_executable(Tendzone
-    main.cpp
+    main.cpp Resources.qrc
 )
 
 qt_add_qml_module(Tendzone
     URI Tendzone
     VERSION 1.0
-    RESOURCES pic/tjhospital.png
-    RESOURCES pic/haishi.png
-    RESOURCES pic/splash.jpg
+    RESOURCES
+    RESOURCES
+    RESOURCES
     QML_FILES main.qml
     QML_FILES dialog/ConfirmDialog.qml
     QML_FILES dialog/PasswordDialog.qml
@@ -29,21 +30,25 @@ qt_add_qml_module(Tendzone
     QML_FILES dialog/SettingDialog.qml
     QML_FILES dialog/MenuDialog.qml
     QML_FILES others/Language.qml
-    QML_FILES
     QML_FILES others/Splash.qml
     QML_FILES others/Background.qml
 
     QML_FILES websocket/WSServer.qml
     QML_FILES websocket/WSClient.qml
-    QML_FILES button/ColorButton.qml
-    QML_FILES button/MenuButton.qml
+    QML_FILES
 
     QML_FILES Global.qml
 
     QML_FILES websocket/SocketStatus.qml
     QML_FILES js/tendzone.js
+    QML_FILES button/MyButton.qml
+    QML_FILES button/MyIconLabel.qml
+    RESOURCES
+    RESOURCES Resources.qrc
     QML_FILES
     QML_FILES
+    QML_FILES
+    QML_FILES others/DialogBackground.qml
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

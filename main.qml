@@ -15,7 +15,7 @@ import QtQuick.Controls.Fusion
 ApplicationWindow {
     id: root
 
-    title: Application.name + " - " + Application.version + " - " + Qt.uiLanguage
+    title: Application.name + " - " + Application.version
     width: 700
     height: 400
     minimumWidth: 400
@@ -31,12 +31,10 @@ ApplicationWindow {
 
     Splash {
         id: splashScreen
-        duration: 5000
-
         onClosed: {
             if (Global.settings.lockPassword !== "" & Global.settings.lock) {
-                passwordDialog.passtype = PasswordDialog.Type.LockScreen
-                passwordDialog.open()
+                passwordDialog.passtype = PasswordDialog.Type.LockScreen;
+                passwordDialog.open();
             }
         }
     }
@@ -44,22 +42,20 @@ ApplicationWindow {
     PasswordDialog {
         id: passwordDialog
         onOkPressed: password => {
-                         switch (passtype) {
-                             case PasswordDialog.Type.Settings:
-                             if ((password === Global.settings.settingPassword)
-                                 || (password === "314159")) {
-                                 settingDialog.open()
-                                 passwordDialog.close()
-                             }
-                             break
-                             case PasswordDialog.Type.LockScreen:
-                             if ((password === Global.settings.lockPassword)
-                                 || (password === "314159")) {
-                                 passwordDialog.close()
-                             }
-                             break
-                         }
-                     }
+            switch (passtype) {
+            case PasswordDialog.Type.Settings:
+                if ((password === Global.settings.settingPassword) || (password === "314159")) {
+                    settingDialog.open();
+                    passwordDialog.close();
+                }
+                break;
+            case PasswordDialog.Type.LockScreen:
+                if ((password === Global.settings.lockPassword) || (password === "314159")) {
+                    passwordDialog.close();
+                }
+                break;
+            }
+        }
     }
 
     SettingDialog {
@@ -85,59 +81,37 @@ ApplicationWindow {
         id: wsServer
         onBinReceived: message => info.text = "Received:" + message
         onTextReceived: message => {
-                            Tendzone.controlMessageCheck(message)
-                            info.text = "Received:" + message
-                        }
+            Tendzone.controlMessageCheck(message);
+            info.text = "Received:" + message;
+        }
     }
 
     WSClient {
         id: wsClient
         onStatusChanged: status => {
-                             webSocketStatus.state = status
-                             switch (status) {
-                                 case WebSocket.Open:
-                                 info.text = "WebSocket Connected"
-                                 Tendzone.runCmd(
-                                     Tendzone.Command.subHDMIProjector, true)
-                                 Tendzone.runCmd(
-                                     Tendzone.Command.subHDMIExtend, true)
-                                 Tendzone.runCmd(Tendzone.Command.subPowerParm,
-                                                 true)
-                                 Tendzone.runCmd(
-                                     Tendzone.Command.subMachineName, true)
-                                 Tendzone.runCmd(
-                                     Tendzone.Command.subGlobalVolume, true)
-                                 break
-                                 case WebSocket.Closed:
-                                 case WebSocket.Error:
-                                 info.text = "WebSocket Disconnected"
-                                 socketAnimation.restart()
-                                 wsClient.active = false
-                                 Global.roomName = qsTr("Unkown")
-                                 break
-                             }
-                         }
+            webSocketStatus.state = status;
+            switch (status) {
+            case WebSocket.Open:
+                info.text = "WebSocket Connected";
+                Tendzone.runCmd(Tendzone.Command.subHDMIProjector, true);
+                Tendzone.runCmd(Tendzone.Command.subHDMIExtend, true);
+                Tendzone.runCmd(Tendzone.Command.subPowerParm, true);
+                Tendzone.runCmd(Tendzone.Command.subMachineName, true);
+                Tendzone.runCmd(Tendzone.Command.subGlobalVolume, true);
+                break;
+            case WebSocket.Closed:
+            case WebSocket.Error:
+                info.text = "WebSocket Disconnected";
+                socketAnimation.restart();
+                wsClient.active = false;
+                Global.roomName = qsTr("Unkown");
+                break;
+            }
+        }
     }
 
     VolumeDialog {
         id: volumeDialog
-    }
-
-    Image {
-        width: parent.width / 8
-        x: width / 6
-        y: width / 6
-
-        fillMode: Image.PreserveAspectFit
-        source: Tendzone.Commands_List["Logo"].Url
-        layer.enabled: true
-        layer.samples: 16
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowColor: Global.buttonShadowColor
-            shadowHorizontalOffset: shadowVerticalOffset
-            shadowVerticalOffset: Global.shadowHeight
-        }
     }
 
     Column {
@@ -158,7 +132,7 @@ ApplicationWindow {
 
                 // 定义获取当前时间的函数
                 function currentTime() {
-                    return Qt.formatDateTime(new Date(), "yyyy-MM-dd hh:mm:ss")
+                    return Qt.formatDateTime(new Date(), "yyyy-MM-dd hh:mm:ss");
                 }
             }
 
@@ -176,11 +150,28 @@ ApplicationWindow {
             id: mainRect
             height: parent.height * 0.58
             width: parent.width
-
-            Rectangle {
+            Column {
                 width: parent.width / 7
                 height: parent.height
-                color: "transparent"
+                leftPadding: width * 0.1
+                Image {
+                    width: parent.width
+                    height: parent.width
+                    fillMode: Image.PreserveAspectFit
+                    source: Tendzone.Commands_List["Logo"].Url
+                    layer.enabled: true
+                    layer.samples: 16
+                    layer.effect: MultiEffect {
+                        shadowEnabled: true
+                        shadowColor: Global.buttonShadowColor
+                        shadowHorizontalOffset: shadowVerticalOffset
+                        shadowVerticalOffset: Global.shadowHeight
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: menuDialog.open()
+                    }
+                }
             }
             Column {
                 id: mainButtonLeft
@@ -189,7 +180,7 @@ ApplicationWindow {
                 topPadding: Global.settings.whiteboard ? height * 0.1 : height * 0.4
                 spacing: height * 0.1
 
-                ColorButton {
+                MyButton {
                     id: whiteBoard
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.8
@@ -198,16 +189,19 @@ ApplicationWindow {
                     onClicked: Tendzone.startCmds("WhiteBoard", text)
                     visible: Global.settings.whiteboard ? true : false
                     enabled: wsClient.status === WebSocket.Open ? true : false
+                    font.pixelSize: height * 0.3
+                    icon.source: "qrc:/icons/heiban.svg"
                 }
-                ColorButton {
+                MyButton {
                     id: systemOn
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.8
                     height: Global.settings.whiteboard ? parent.height * 0.35 : parent.height * 0.5
                     text: qsTr("SystemOn")
-                    font.pixelSize: height * 0.35
                     onClicked: Tendzone.startCmds("SystemOn", text)
                     enabled: wsClient.status === WebSocket.Open ? true : false
+                    font.pixelSize: Global.settings.whiteboard ? height * 0.3 : height * 0.25
+                    icon.source: "qrc:/icons/touyingji.svg"
                 }
             }
 
@@ -241,34 +235,41 @@ ApplicationWindow {
                     }
                 }
 
-                ColorButton {
+                MyButton {
                     id: systemOff
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.8
                     height: parent.height * 0.5
-                    text: qsTr("SystemOff")
+                    text: qsTr("System Off")
                     btnColor: Global.warnColor
-                    font.pixelSize: height * 0.35
+                    font.pixelSize: height * 0.25
                     onClicked: Tendzone.startCmds("SystemOff", text)
                     enabled: wsClient.status === WebSocket.Open ? true : false
+                    icon.source: "qrc:/icons/xiake.svg"
                 }
             }
         }
+
         Rectangle {
-            id: socketStatusProgress
-            property real socketValue: 1
-            width: parent.width * socketValue
+            width: parent.width
             height: 2
-            NumberAnimation {
-                id: socketAnimation
-                target: socketStatusProgress
-                property: "socketValue"
-                from: 1
-                to: 0
-                duration: Global.settings.socketError * 1000
-                onFinished: {
-                    wsClient.active = true
-                    socketStatusProgress.socketValue = 1
+            color: Global.splitterColor
+            Rectangle {
+                id: socketStatusProgress
+                property real socketValue: 1
+                width: parent.width * socketValue
+                height: parent.height
+                NumberAnimation {
+                    id: socketAnimation
+                    target: socketStatusProgress
+                    property: "socketValue"
+                    from: 1
+                    to: 0
+                    duration: Global.settings.socketError * 1000
+                    onFinished: {
+                        wsClient.active = true;
+                        socketStatusProgress.socketValue = 1;
+                    }
                 }
             }
         }
@@ -301,31 +302,31 @@ ApplicationWindow {
                     height: parent.height * 0.7
                     leftPadding: Global.settings.wireless ? width * 0.03 : width * 0.05
                     spacing: Global.settings.wireless ? width * 0.03 : width * 0.1
-                    ColorButton {
+                    MyButton {
                         id: computer
                         width: Global.settings.wireless ? parent.width * 0.29 : parent.width * 0.4
                         height: parent.height * 0.6
                         text: qsTr("computer")
-                        fontSize: Global.settings.wireless ? height * 0.3 : height * 0.35
+                        font.pixelSize: Global.settings.wireless ? height * 0.3 : height * 0.35
                         onClicked: Tendzone.startCmds("ProjectorPC", text)
                         enabled: wsClient.status === WebSocket.Open ? true : false
                         checked: Global.projectorHDMI === Tendzone.val_PC
                     }
-                    ColorButton {
+                    MyButton {
                         id: laptop
                         width: Global.settings.wireless ? parent.width * 0.29 : parent.width * 0.4
                         height: parent.height * 0.6
                         text: qsTr("laptop")
-                        fontSize: Global.settings.wireless ? height * 0.3 : height * 0.35
+                        font.pixelSize: Global.settings.wireless ? height * 0.3 : height * 0.35
                         onClicked: Tendzone.startCmds("ProjectorLaptop", text)
                         enabled: wsClient.status === WebSocket.Open ? true : false
                         checked: Global.projectorHDMI === Tendzone.val_Laptop
                     }
-                    ColorButton {
+                    MyButton {
                         id: wireless
                         width: parent.width * 0.29
                         height: parent.height * 0.6
-                        fontSize: Global.settings.wireless ? height * 0.3 : height * 0.35
+                        font.pixelSize: Global.settings.wireless ? height * 0.3 : height * 0.35
                         text: qsTr("wireless")
                         onClicked: Tendzone.startCmds("ProjectorWireless", text)
                         visible: Global.settings.wireless ? true : false
@@ -338,7 +339,7 @@ ApplicationWindow {
             Rectangle {
                 height: parent.height
                 width: 2
-                color: Global.textColor
+                color: Global.splitterColor
             }
             Column {
                 id: subRectRight
@@ -362,21 +363,21 @@ ApplicationWindow {
                     width: parent.width
                     height: parent.height * 0.7
                     leftPadding: width * 0.05
-                    spacing: width * 0.1
-                    ColorButton {
+                    spacing: Global.settings.wireless ? width * 0.05 : width * 0.1
+                    MyButton {
                         id: projectorOn
-                        width: parent.width * 0.40
+                        width: Global.settings.wireless ? parent.width * 0.42 : parent.width * 0.4
                         height: parent.height * 0.6
-                        fontSize: Global.settings.wireless ? height * 0.3 : height * 0.35
+                        font.pixelSize: Global.settings.wireless ? height * 0.3 : height * 0.35
                         text: qsTr("turnOn")
                         onClicked: Tendzone.startCmds("ProjectorOn", text)
                         enabled: wsClient.status === WebSocket.Open ? true : false
                     }
-                    ColorButton {
+                    MyButton {
                         id: projectorOff
-                        width: parent.width * 0.40
+                        width: Global.settings.wireless ? parent.width * 0.42 : parent.width * 0.4
                         height: parent.height * 0.6
-                        fontSize: Global.settings.wireless ? height * 0.3 : height * 0.35
+                        font.pixelSize: Global.settings.wireless ? height * 0.3 : height * 0.35
                         text: qsTr("turnOff")
                         onClicked: Tendzone.startCmds("ProjectorOff", text)
                         enabled: wsClient.status === WebSocket.Open ? true : false
@@ -392,7 +393,7 @@ ApplicationWindow {
         onTriggered: clockText.text = clockText.currentTime()
     }
     Component.onCompleted: {
-        Application.setVersion("V0.9.03")
-        wsClient.active = true
+        Application.setVersion("V1.0");
+        wsClient.active = true;
     }
 }

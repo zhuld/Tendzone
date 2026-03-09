@@ -9,7 +9,7 @@ import "../js/tendzone.js" as Tendzone
 Dialog {
     id: rootConfirm
     anchors.centerIn: parent
-    implicitWidth: parent.width * 0.9
+    implicitWidth: parent.width * 0.7
     implicitHeight: parent.height * 0.6
 
     modal: true
@@ -34,7 +34,7 @@ Dialog {
             from: 0
             to: 1
             property: "opacity"
-            duration: 200
+            duration: Global.durationDelay
         }
     }
     exit: Transition {
@@ -42,15 +42,16 @@ Dialog {
             from: 1
             to: 0
             property: "opacity"
-            duration: 200
+            duration: Global.durationDelay
         }
     }
 
-    background: Background {}
+    background: DialogBackground {}
 
     Column {
         anchors.fill: parent
         anchors.margins: height * 0.05
+        spacing: height * 0.05
         Text {
             id: confirmTitle
             width: parent.width
@@ -59,22 +60,15 @@ Dialog {
             font.pixelSize: height * 0.4
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            color: Global.textColor
-        }
-
-        Rectangle {
-            id: countDownBar
-            width: confirmTitle.width
-            height: 2
+            verticalAlignment: Text.AlignTop
             color: Global.textColor
         }
 
         Text {
             id: confirmLabel
             width: parent.width
-            height: parent.height * 0.5
-            font.pixelSize: height * 0.25
+            height: parent.height * 0.4
+            font.pixelSize: height * 0.3
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -84,23 +78,25 @@ Dialog {
         Row {
             id: confirmButtons
             width: parent.width
-            height: parent.height * 0.2
-            spacing: width * 0.02
+            height: parent.height * 0.24
+            spacing: width * 0.05
             layoutDirection: Qt.RightToLeft
-            ColorButton {
+            MyButton {
                 id: confirmCancel
-                width: parent.width * 0.2
+                width: parent.width * 0.3
                 height: parent.height
                 text: "取消"
                 onClicked: rootConfirm.reject()
+                font.pixelSize: height * 0.4
             }
-            ColorButton {
+            MyButton {
                 id: confirmOK
-                width: parent.width * 0.2
+                width: parent.width * 0.3
                 height: parent.height
                 text: "确定"
                 onClicked: rootConfirm.accept()
                 btnColor: Global.confirmColor
+                font.pixelSize: height * 0.4
             }
 
             Timer {

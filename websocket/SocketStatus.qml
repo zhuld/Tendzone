@@ -33,7 +33,7 @@ Item {
             name: WebSocket.Open
             PropertyChanges {
                 socketStatusProgress {
-                    color: Global.textColor //lightBlue
+                    color: Global.splitterColor //lightBlue
                 }
             }
         },
