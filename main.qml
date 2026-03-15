@@ -32,8 +32,8 @@ ApplicationWindow {
     Splash {
         id: splashScreen
         onClosed: {
-            if (Global.settings.lockPassword !== "" & Global.settings.lock) {
-                passwordDialog.passtype = PasswordDialog.Type.LockScreen;
+            if (Global.settings.lockPassword !== "") {
+                passwordDialog.passtype = Global.DialogType.PassWordLockScreen;
                 passwordDialog.open();
             }
         }
@@ -41,15 +41,15 @@ ApplicationWindow {
 
     PasswordDialog {
         id: passwordDialog
-        onOkPressed: password => {
+        onPasswordEnter: password => {
             switch (passtype) {
-            case PasswordDialog.Type.Settings:
+            case Global.DialogType.PassWordSettings:
                 if ((password === Global.settings.settingPassword) || (password === "314159")) {
                     settingDialog.open();
                     passwordDialog.close();
                 }
                 break;
-            case PasswordDialog.Type.LockScreen:
+            case Global.DialogType.PassWordLockScreen:
                 if ((password === Global.settings.lockPassword) || (password === "314159")) {
                     passwordDialog.close();
                 }
@@ -63,6 +63,11 @@ ApplicationWindow {
     }
     ConfirmDialog {
         id: confirmDialog
+        onOpenProcessDialog: (operation, name) => {
+            processDialog.name = name;
+            processDialog.operation = operation;
+            processDialog.open();
+        }
     }
     Language {
         state: Global.settings.language
@@ -75,6 +80,20 @@ ApplicationWindow {
     }
     MenuDialog {
         id: menuDialog
+        onOpenDialog: type => {
+            switch (type) {
+            case Global.DialogType.Settings:
+                settingDialog.open();
+                break;
+            case Global.DialogType.Volume:
+                volumeDialog.open();
+                break;
+            case Global.DialogType.PassWordSettings:
+                passwordDialog.passtype = Global.DialogType.PassWordSettings;
+                passwordDialog.open();
+                break;
+            }
+        }
     }
 
     WSServer {
@@ -169,7 +188,7 @@ ApplicationWindow {
                     }
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: menuDialog.open()
+                        onDoubleClicked: menuDialog.open()
                     }
                 }
             }

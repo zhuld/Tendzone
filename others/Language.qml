@@ -1,6 +1,5 @@
 import QtQuick
 
-import "../dialog/"
 import "../"
 
 Item {
@@ -29,9 +28,7 @@ Item {
             }
             PropertyChanges {
                 menuDialog {
-                    //setting: "设置"
                     language: "En"
-                    //vol: "音量"
                 }
             }
             PropertyChanges {
@@ -93,7 +90,7 @@ Item {
             }
             PropertyChanges {
                 passwordDialog {
-                    passwordTitle: "请输入" + (passwordDialog.passtype === PasswordDialog.Type.Settings ? "设置" : "锁屏") + "密码解锁" + (passwordDialog.passtype === PasswordDialog.Type.Settings ? " (" + passwordDialog.during + ")" : "")
+                    passwordTitle: "请输入" + (passwordDialog.passtype === Global.DialogType.PassWordSettings ? "设置" : "锁屏") + "解锁密码" + (passwordDialog.passtype === Global.DialogType.PassWordSettings ? " (" + passwordDialog.during + ")" : "")
                     passwordLabel: "如有问题可拨打电话：" + Global.settings.phoneNumber
                 }
             }
@@ -129,9 +126,7 @@ Item {
             }
             PropertyChanges {
                 menuDialog {
-                    //setting: "Setting"
                     language: "中"
-                    //vol: "Volume"
                 }
             }
             PropertyChanges {
@@ -193,7 +188,7 @@ Item {
             }
             PropertyChanges {
                 passwordDialog {
-                    passwordTitle: "Enter " + (passwordDialog.passtype === PasswordDialog.Type.Settings ? "Setting" : "LockScreen") + " Password to Unlock" + (passwordDialog.passtype === PasswordDialog.Type.Settings ? " (" + passwordDialog.during + ")" : "")
+                    passwordTitle: "Enter " + (passwordDialog.passtype === Global.DialogType.PassWordSettings ? "Setting" : "LockScreen") + " Password to Unlock" + (passwordDialog.passtype === Global.DialogType.PassWordSettings ? " (" + passwordDialog.during + ")" : "")
                     passwordLabel: "Pls Call " + Global.settings.phoneNumber + " for Help"
                 }
             }

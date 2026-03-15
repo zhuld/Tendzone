@@ -3,16 +3,12 @@ import QtQuick.Controls
 
 import "../button/"
 import "../"
-import "../dialog"
 
-Dialog {
+Popup {
     id: menuDialog
 
-    implicitHeight: parent.height * 0.3
-    implicitWidth: height * 2.6
-    anchors.centerIn: parent
-    padding: height * 0.2
-
+    implicitHeight: parent.height
+    implicitWidth: parent.width * 0.12
     modal: true
     focus: true
 
@@ -21,60 +17,83 @@ Dialog {
 
     background: Background {}
 
-    property alias language: language.text
+    signal openDialog(var type)
 
     enter: Transition {
         NumberAnimation {
-            property: "scale"
-            from: 0
-            to: 1.0
-            duration: 500
+            property: "x"
             easing.type: Easing.OutBack
-        }
-        NumberAnimation {
-            property: "opacity"
-            from: 0.0
-            to: 1.0
-            duration: 500
+            from: -menuDialog.width
+            to: 0
+            duration: Global.durationDelay
         }
     }
-    contentItem: Row {
-        id: row
-        spacing: parent.height * 0.2
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+    exit: Transition {
+        NumberAnimation {
+            property: "x"
+            easing.type: Easing.InQuad
+            from: 0
+            to: -menuDialog.width
+            duration: Global.durationDelay
+        }
+    }
+    Overlay.modal: Rectangle {
+        color: Global.overlayColor
+    }
 
+    property alias language: language.text
+
+    property int during: 30
+
+    Timer {
+        id: countDownTimer
+        interval: 1000
+        repeat: true
+        triggeredOnStart: false
+        onTriggered: {
+            menuDialog.during--;
+            if (menuDialog.during === 0) {
+                menuDialog.close();
+            }
+        }
+    }
+    contentItem: Column {
+        id: row
+        spacing: menuDialog.width * 0.2
+        padding: menuDialog.width * 0.05
         MyButton {
-            id: setting
-            height: parent.height
-            width: height
-            text: "\u2699"
+            width: parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: width
+            icon.source: "qrc:/icons/config.svg"
             onClicked: {
                 if (Global.settings.settingPassword === "") {
-                    settingDialog.open();
+                    //settingDialog.open();
+                    menuDialog.openDialog(Global.DialogType.Settings);
                 } else {
-                    passwordDialog.passtype = PasswordDialog.Type.Settings;
-                    passwordDialog.open();
+                    //passwordDialog.passtype = Global.DialogType.PassWordSettings;
+                    //passwordDialog.open();
+                    menuDialog.openDialog(Global.DialogType.PassWordSettings);
                 }
                 menuDialog.close();
             }
         }
-
         MyButton {
-            id: vol
-            height: parent.height
-            width: height
-            text: "\u266C"
+            width: parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: width
+            icon.source: "qrc:/icons/volume.svg"
             onClicked: {
-                volumeDialog.open();
+                //volumeDialog.open();
+                menuDialog.openDialog(Global.DialogType.Volume);
                 menuDialog.close();
             }
         }
         MyButton {
             id: language
-            height: parent.height
-            width: height
-            text: "语言"
+            width: parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: width
             onClicked: {
                 if (Global.settings.language === "zh_CN") {
                     Global.settings.language = "en_US";
@@ -84,5 +103,22 @@ Dialog {
                 Global.settings.sync();
             }
         }
+
+        MyButton {
+            width: parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: width
+            icon.source: "qrc:/icons/dark.svg"
+            onClicked: {
+                Global.settings.darkTheme = !Global.settings.darkTheme;
+                Global.settings.sync();
+            }
+        }
+    }
+    onOpened: countDownTimer.start()
+
+    onClosed: {
+        countDownTimer.stop();
+        during = 30;
     }
 }

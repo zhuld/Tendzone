@@ -8,11 +8,11 @@ Rectangle {
 
     gradient: Gradient {
         GradientStop {
-            position: 0.0
+            position: 1
             color: Qt.lighter(rootRect.bgColor, 1.5)
         }
         GradientStop {
-            position: 0.4
+            position: 0.6
             color: rootRect.bgColor
         }
     }

@@ -7,7 +7,7 @@ import "../button/"
 import "../others/"
 import "../"
 
-Dialog {
+Popup {
     id: rootPassword
 
     property int passtype
@@ -17,20 +17,17 @@ Dialog {
 
     property int during: 30
 
-    implicitWidth: parent.width * 0.6
+    implicitWidth: parent.width * 0.8
     implicitHeight: parent.height * 0.9
-
-    signal okPressed(var password)
-
-    enum Type {
-        Settings,
-        LockScreen
-    }
-
     anchors.centerIn: parent
 
+    signal passwordEnter(string password)
+
     modal: true
-    closePolicy: passtype === PasswordDialog.Type.Settings ? Popup.CloseOnPressOutside : Popup.NoAutoClose
+    focus: true
+
+    parent: Overlay.overlay
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     Overlay.modal: Rectangle {
         color: Global.overlayColor
@@ -66,7 +63,7 @@ Dialog {
         }
     }
     onOpened: {
-        if (passtype === PasswordDialog.Type.Settings) {
+        if (passtype === Global.DialogType.PassWordSettings) {
             countDownTimer.start();
         }
     }
@@ -184,7 +181,7 @@ Dialog {
                             password.text = password.text.slice(0, password.text.length - 1);
                             break;
                         case "\u23CE":
-                            rootPassword.okPressed(password.text);
+                            rootPassword.passwordEnter(password.text);
                             password.text = "";
                             break;
                         }

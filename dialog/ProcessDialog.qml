@@ -4,17 +4,19 @@ import QtQuick.Controls
 import "../others/"
 import "../js/tendzone.js" as Tendzone
 
-//导入Global.qml以使用全局设置
 import "../"
 
-Dialog {
+Popup {
     id: rootProcess
     anchors.centerIn: parent
     implicitWidth: parent.width * 0.7
     implicitHeight: parent.height * 0.6
 
     modal: true
-    closePolicy: Popup.NoAutoClose
+    focus: true
+
+    parent: Overlay.overlay
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     property alias processContent: processLabel.text
     property alias processTitle: processTitle.text
@@ -101,32 +103,29 @@ Dialog {
         interval: 1000
         onTriggered: {
             if (rootProcess.cmd_delay === rootProcess.timerCount) {
-                Tendzone.runCmd(
-                            Tendzone.Commands_List[rootProcess.operation]["Commands"][rootProcess.cmds_index].Name,
-                            Tendzone.Commands_List[rootProcess.operation]["Commands"][rootProcess.cmds_index].Value)
+                Tendzone.runCmd(Tendzone.Commands_List[rootProcess.operation]["Commands"][rootProcess.cmds_index].Name, Tendzone.Commands_List[rootProcess.operation]["Commands"][rootProcess.cmds_index].Value);
 
-                rootProcess.cmd_delay += Tendzone.Commands_List[rootProcess.operation]["Commands"][rootProcess.cmds_index].Delay
+                rootProcess.cmd_delay += Tendzone.Commands_List[rootProcess.operation]["Commands"][rootProcess.cmds_index].Delay;
 
-                rootProcess.cmds_index++
+                rootProcess.cmds_index++;
             }
-            rootProcess.timerCount++
-            if (rootProcess.cmds_index
-                    === Tendzone.Commands_List[rootProcess.operation]["Commands"].length) {
-                rootProcess.timerCount = 0
-                rootProcess.cmds_index = 0
-                rootProcess.cmd_delay = 0
+            rootProcess.timerCount++;
+            if (rootProcess.cmds_index === Tendzone.Commands_List[rootProcess.operation]["Commands"].length) {
+                rootProcess.timerCount = 0;
+                rootProcess.cmds_index = 0;
+                rootProcess.cmd_delay = 0;
 
-                processBar.processValue = 0
-                processTimer.stop()
-                rootProcess.accept()
+                processBar.processValue = 0;
+                processTimer.stop();
+                rootProcess.close();
             }
         }
     }
 
     onOpened: {
-        processBar.processValue = 0
-        duringSeconds = Tendzone.getCmdsDuring(operation)
-        processAnimation.start()
-        processTimer.start()
+        processBar.processValue = 0;
+        duringSeconds = Tendzone.getCmdsDuring(operation);
+        processAnimation.start();
+        processTimer.start();
     }
 }

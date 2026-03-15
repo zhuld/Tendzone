@@ -9,14 +9,16 @@ import "../js/tendzone.js" as Tendzone
 
 import QtQuick.Controls.Fusion
 
-Dialog {
+Popup {
     id: rootSetting
     anchors.centerIn: parent
     implicitWidth: parent.width * 0.9
     implicitHeight: parent.height * 0.9
 
     modal: true
+    focus: true
 
+    parent: Overlay.overlay
     closePolicy: Popup.NoAutoClose
 
     property alias settingTitle: settingTitle.text
@@ -139,9 +141,10 @@ Dialog {
                         regularExpression: /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/
                     }
                     color: acceptableInput ? Global.textColor : Global.warnColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                 }
@@ -165,9 +168,10 @@ Dialog {
                         top: 49151
                     }
                     color: acceptableInput ? Global.textColor : Global.warnColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                 }
@@ -243,11 +247,11 @@ Dialog {
                     checked: Global.settings.darkTheme
                     onClicked: {
                         if (checked) {
-                            Global.settings.darkTheme = true
+                            Global.settings.darkTheme = true;
                         } else {
-                            Global.settings.darkTheme = false
+                            Global.settings.darkTheme = false;
                         }
-                        Global.settings.sync()
+                        Global.settings.sync();
                     }
                 }
                 Text {
@@ -269,9 +273,10 @@ Dialog {
                         bottom: 0
                     }
                     color: Global.textColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                 }
@@ -295,9 +300,10 @@ Dialog {
                         top: 999999
                     }
                     color: acceptableInput ? Global.textColor : Global.warnColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                 }
@@ -321,9 +327,10 @@ Dialog {
                         top: 999999
                     }
                     color: acceptableInput ? Global.textColor : Global.warnColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                 }
@@ -347,9 +354,10 @@ Dialog {
                         top: 600
                     }
                     color: acceptableInput ? Global.textColor : Global.warnColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                 }
@@ -383,9 +391,10 @@ Dialog {
                         top: 49151
                     }
                     color: acceptableInput ? Global.textColor : Global.warnColor
+                    background: InputBackground {}
                     onFocusChanged: {
                         if (focus) {
-                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
                         }
                     }
                     enabled: webSocketServer.checked
@@ -421,8 +430,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector,
-                                                   Tendzone.val_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector, Tendzone.val_On)
                         font.pixelSize: height * 0.4
                         checked: Global.projectorPower === Tendzone.val_On
                     }
@@ -430,8 +438,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector,
-                                                   Tendzone.val_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector, Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                         checked: Global.projectorPower === Tendzone.val_Off
                     }
@@ -439,8 +446,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "外接开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension,
-                                                   Tendzone.val_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension, Tendzone.val_On)
                         font.pixelSize: height * 0.4
                         checked: Global.extensionPower === Tendzone.val_On
                     }
@@ -448,8 +454,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "外接关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension,
-                                                   Tendzone.val_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extension, Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                         checked: Global.extensionPower === Tendzone.val_Off
                     }
@@ -457,8 +462,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电锁开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock,
-                                                   Tendzone.val_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock, Tendzone.val_On)
                         font.pixelSize: height * 0.4
                         checked: Global.lockPower === Tendzone.val_On
                     }
@@ -466,8 +470,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电锁关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock,
-                                                   Tendzone.val_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Lock, Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                         checked: Global.lockPower === Tendzone.val_Off
                     }
@@ -475,8 +478,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "功放开"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp,
-                                                   Tendzone.val_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_On)
                         font.pixelSize: height * 0.4
                         checked: !Global.settings.volumeMute
                     }
@@ -484,8 +486,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "功放关"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp,
-                                                   Tendzone.val_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Amp, Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                         checked: Global.settings.volumeMute
                     }
@@ -493,8 +494,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "幕布升"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu,
-                                                   Tendzone.val_Up)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Up)
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Up
                     }
@@ -502,8 +502,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "幕布降"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu,
-                                                   Tendzone.val_Down)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Down)
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Down
                     }
@@ -511,8 +510,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "幕布停"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu,
-                                                   Tendzone.val_Stop)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Stop)
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Stop
                     }
@@ -526,8 +524,7 @@ Dialog {
                             font.pixelSize: parent.height * 0.4
                             anchors.centerIn: parent
                         }
-                        onActivated: Tendzone.runCmd(Tendzone.Command.reboot,
-                                                     null)
+                        onActivated: Tendzone.runCmd(Tendzone.Command.reboot, null)
                         onReleased: checked = false
                     }
                 }
@@ -558,36 +555,28 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影开"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Uart_1_Projector,
-                                       Tendzone.val_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_1_Projector, Tendzone.val_On)
                         font.pixelSize: height * 0.4
                     }
                     MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影开"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Uart_2_Projector,
-                                       Tendzone.val_On)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_2_Projector, Tendzone.val_On)
                         font.pixelSize: height * 0.4
                     }
                     MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影关"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Uart_1_Projector,
-                                       Tendzone.val_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_1_Projector, Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                     }
                     MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "投影关"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Uart_2_Projector,
-                                       Tendzone.val_Off)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Uart_2_Projector, Tendzone.val_Off)
                         font.pixelSize: height * 0.4
                     }
                     Text {
@@ -612,9 +601,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电脑"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Projector_HDMI,
-                                       Tendzone.val_PC)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_PC)
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_PC
                     }
@@ -622,9 +609,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "电脑"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Extender_HDMI,
-                                       Tendzone.val_PC)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_PC)
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_PC
                     }
@@ -632,9 +617,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入1"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Projector_HDMI,
-                                       Tendzone.val_Laptop)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_Laptop)
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_Laptop
                     }
@@ -642,9 +625,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入1"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Extender_HDMI,
-                                       Tendzone.val_Laptop)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_Laptop)
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_Laptop
                     }
@@ -652,9 +633,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入2"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Projector_HDMI,
-                                       Tendzone.val_Wireless)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_Wireless)
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_Wireless
                     }
@@ -662,9 +641,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "输入2"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Extender_HDMI,
-                                       Tendzone.val_Wireless)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_Wireless)
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_Wireless
                     }
@@ -672,9 +649,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "Camera"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Projector_HDMI,
-                                       Tendzone.val_Camera)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Projector_HDMI, Tendzone.val_Camera)
                         font.pixelSize: height * 0.4
                         checked: Global.projectorHDMI === Tendzone.val_Camera
                     }
@@ -682,9 +657,7 @@ Dialog {
                         width: parent.width * 0.45
                         height: width * 0.4
                         text: "Camera"
-                        onClicked: Tendzone.runCmd(
-                                       Tendzone.Command.Extender_HDMI,
-                                       Tendzone.val_Camera)
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Extender_HDMI, Tendzone.val_Camera)
                         font.pixelSize: height * 0.4
                         checked: Global.extendHDMI === Tendzone.val_Camera
                     }
@@ -693,56 +666,58 @@ Dialog {
         }
     }
 
-    onAccepted: {
-        Global.settings.ipAddress = ipAddress.text
-        Global.settings.ipPort = ipPort.text
-        Global.settings.projector = projector.currentIndex
-        Global.settings.whiteboard = whiteBoardSwitch.checked
-        Global.settings.wireless = wirelessSwitch.checked
-        Global.settings.fullscreen = fullscreen.checked
-        Global.settings.darkTheme = darkTheme.checked
-        Global.settings.settingPassword = settingPassword.text
-        Global.settings.lockPassword = lockPassword.text
-        Global.settings.socketError = socketError.text
-        Global.settings.webSocketServer = webSocketServer.checked
-        Global.settings.webSocketServerPort = webSocketServerPort.text
-        Global.settings.debugInfo = debugInfo.checked
-        Global.settings.phoneNumber = phoneNumber.text
-        Global.settings.sync()
+    function accept() {
+        Global.settings.ipAddress = ipAddress.text;
+        Global.settings.ipPort = ipPort.text;
+        Global.settings.projector = projector.currentIndex;
+        Global.settings.whiteboard = whiteBoardSwitch.checked;
+        Global.settings.wireless = wirelessSwitch.checked;
+        Global.settings.fullscreen = fullscreen.checked;
+        Global.settings.darkTheme = darkTheme.checked;
+        Global.settings.settingPassword = settingPassword.text;
+        Global.settings.lockPassword = lockPassword.text;
+        Global.settings.socketError = socketError.text;
+        Global.settings.webSocketServer = webSocketServer.checked;
+        Global.settings.webSocketServerPort = webSocketServerPort.text;
+        Global.settings.debugInfo = debugInfo.checked;
+        Global.settings.phoneNumber = phoneNumber.text;
+        Global.settings.sync();
+        rootSetting.close();
     }
 
-    onRejected: {
-        ipAddress.text = Global.settings.ipAddress
-        ipPort.text = Global.settings.ipPort
-        projector.currentIndex = Global.settings.projector
-        whiteBoardSwitch.checked = Global.settings.whiteboard
-        wirelessSwitch.checked = Global.settings.wireless
-        fullscreen.checked = Global.settings.fullscreen
-        darkTheme.checked = Global.settings.darkTheme
-        settingPassword.text = Global.settings.settingPassword
-        lockPassword.text = Global.settings.lockPassword
-        socketError.text = Global.settings.socketError
-        webSocketServer.checked = Global.settings.webSocketServer
-        webSocketServerPort.text = Global.settings.webSocketServerPort
-        debugInfo.checked = Global.settings.debugInfo
-        phoneNumber.text = Global.settings.phoneNumber
-        Global.settings.sync()
+    function reject() {
+        ipAddress.text = Global.settings.ipAddress;
+        ipPort.text = Global.settings.ipPort;
+        projector.currentIndex = Global.settings.projector;
+        whiteBoardSwitch.checked = Global.settings.whiteboard;
+        wirelessSwitch.checked = Global.settings.wireless;
+        fullscreen.checked = Global.settings.fullscreen;
+        darkTheme.checked = Global.settings.darkTheme;
+        settingPassword.text = Global.settings.settingPassword;
+        lockPassword.text = Global.settings.lockPassword;
+        socketError.text = Global.settings.socketError;
+        webSocketServer.checked = Global.settings.webSocketServer;
+        webSocketServerPort.text = Global.settings.webSocketServerPort;
+        debugInfo.checked = Global.settings.debugInfo;
+        phoneNumber.text = Global.settings.phoneNumber;
+        Global.settings.sync();
+        rootSetting.close();
     }
     function apply() {
-        Global.settings.ipAddress = ipAddress.text
-        Global.settings.ipPort = ipPort.text
-        Global.settings.projector = projector.currentIndex
-        Global.settings.whiteboard = whiteBoardSwitch.checked
-        Global.settings.wireless = wirelessSwitch.checked
-        Global.settings.fullscreen = fullscreen.checked
-        Global.settings.darkTheme = darkTheme.checked
-        Global.settings.settingPassword = settingPassword.text
-        Global.settings.lockPassword = lockPassword.text
-        Global.settings.socketError = socketError.text
-        Global.settings.webSocketServer = webSocketServer.checked
-        Global.settings.webSocketServerPort = webSocketServerPort.text
-        Global.settings.debugInfo = debugInfo.checked
-        Global.settings.phoneNumber = phoneNumber.text
-        Global.settings.sync()
+        Global.settings.ipAddress = ipAddress.text;
+        Global.settings.ipPort = ipPort.text;
+        Global.settings.projector = projector.currentIndex;
+        Global.settings.whiteboard = whiteBoardSwitch.checked;
+        Global.settings.wireless = wirelessSwitch.checked;
+        Global.settings.fullscreen = fullscreen.checked;
+        Global.settings.darkTheme = darkTheme.checked;
+        Global.settings.settingPassword = settingPassword.text;
+        Global.settings.lockPassword = lockPassword.text;
+        Global.settings.socketError = socketError.text;
+        Global.settings.webSocketServer = webSocketServer.checked;
+        Global.settings.webSocketServerPort = webSocketServerPort.text;
+        Global.settings.debugInfo = debugInfo.checked;
+        Global.settings.phoneNumber = phoneNumber.text;
+        Global.settings.sync();
     }
 }

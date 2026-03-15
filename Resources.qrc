@@ -6,5 +6,8 @@
         <file>pic/haishi.png</file>
         <file>pic/splash.jpg</file>
         <file>pic/tjhospital.png</file>
+        <file>icons/config.svg</file>
+        <file>icons/dark.svg</file>
+        <file>icons/volume.svg</file>
     </qresource>
 </RCC>

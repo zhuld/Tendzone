@@ -14,13 +14,13 @@ T.Button {
 
     property real radius: controlMyButton.height / 5
 
-    property color textColor: controlMyButton.checked
-                              || controlMyButton.pressed ? Global.buttonTextCheckedColor : Global.buttonTextColor
+    property color textColor: controlMyButton.checked || controlMyButton.pressed ? Global.buttonTextCheckedColor : Global.buttonTextColor
 
     implicitHeight: parent.height
     implicitWidth: parent.width
     font.pixelSize: height * 0.35
     opacity: enabled ? 1 : Global.disableOpacity
+
     Behavior on opacity {
         OpacityAnimator {
             duration: Global.durationDelay
@@ -33,13 +33,29 @@ T.Button {
         icon.color: controlMyButton.textColor
         icon.source: controlMyButton.icon.source
         text: controlMyButton.text
+        Behavior on color {
+            ColorAnimation {
+                duration: Global.durationDelay
+            }
+        }
+        Behavior on icon.color {
+            ColorAnimation {
+                duration: Global.durationDelay
+            }
+        }
     }
     background: Shape {
         id: back
         height: parent.height
         width: parent.width
-        y: controlMyButton.checked ? height / 40 : 0
+        y: controlMyButton.checked || controlMyButton.pressed ? Global.shadowHeight / 2 : 0
         Behavior on y {
+            NumberAnimation {
+                duration: Global.durationDelay
+            }
+        }
+        x: controlMyButton.checked || controlMyButton.pressed ? Global.shadowHeight / 2 : 0
+        Behavior on x {
             NumberAnimation {
                 duration: Global.durationDelay
             }
@@ -51,8 +67,7 @@ T.Button {
             shadowEnabled: true
             shadowColor: Global.buttonShadowColor
             shadowHorizontalOffset: shadowVerticalOffset
-            shadowVerticalOffset: controlMyButton.enabled ? (controlMyButton.checked
-                                                             || controlMyButton.pressed ? Global.shadowHeight / 2 : Global.shadowHeight) : Global.shadowHeight / 4
+            shadowVerticalOffset: controlMyButton.enabled ? (controlMyButton.checked || controlMyButton.pressed ? Global.shadowHeight / 2 : Global.shadowHeight) : Global.shadowHeight / 4
             Behavior on shadowHorizontalOffset {
                 NumberAnimation {
                     duration: Global.durationDelay
@@ -78,12 +93,7 @@ T.Button {
                 focalY: 0
                 GradientStop {
                     position: 0
-                    color: controlMyButton.checked
-                           || controlMyButton.pressed ? Qt.darker(
-                                                            controlMyButton.btnCheckColor,
-                                                            1.4) : Qt.darker(
-                                                            controlMyButton.btnColor,
-                                                            1.4)
+                    color: controlMyButton.checked || controlMyButton.pressed ? Qt.darker(controlMyButton.btnCheckColor, 1.4) : Qt.darker(controlMyButton.btnColor, 1.4)
                     Behavior on color {
                         ColorAnimation {
                             duration: Global.durationDelay
@@ -92,12 +102,7 @@ T.Button {
                 }
                 GradientStop {
                     position: 1
-                    color: controlMyButton.checked
-                           || controlMyButton.pressed ? Qt.lighter(
-                                                            controlMyButton.btnCheckColor,
-                                                            1.2) : Qt.lighter(
-                                                            controlMyButton.btnColor,
-                                                            1.2)
+                    color: controlMyButton.checked || controlMyButton.pressed ? Qt.lighter(controlMyButton.btnCheckColor, 1.2) : Qt.lighter(controlMyButton.btnColor, 1.2)
                     Behavior on color {
                         ColorAnimation {
                             duration: Global.durationDelay

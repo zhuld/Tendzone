@@ -6,14 +6,17 @@ import "../others/"
 import "../"
 import "../js/tendzone.js" as Tendzone
 
-Dialog {
+Popup {
     id: rootConfirm
     anchors.centerIn: parent
     implicitWidth: parent.width * 0.7
     implicitHeight: parent.height * 0.6
 
     modal: true
-    closePolicy: Popup.NoAutoClose
+    focus: true
+
+    parent: Overlay.overlay
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     property alias confirmContent: confirmLabel.text
     property alias confirmTitle: confirmTitle.text
@@ -24,6 +27,8 @@ Dialog {
     property int during: 30
     property string operation
     property string name
+
+    signal openProcessDialog(string operation, string name)
 
     Overlay.modal: Rectangle {
         color: Global.overlayColor
@@ -98,36 +103,38 @@ Dialog {
                 btnColor: Global.confirmColor
                 font.pixelSize: height * 0.4
             }
+        }
+    }
 
-            Timer {
-                id: countDownTimer
-                interval: 1000
-                repeat: true
-                triggeredOnStart: false
-                onTriggered: {
-                    rootConfirm.during--
-                    if (rootConfirm.during === 0) {
-                        rootConfirm.close()
-                    }
-                }
+    Timer {
+        id: countDownTimer
+        interval: 1000
+        repeat: true
+        triggeredOnStart: false
+        onTriggered: {
+            rootConfirm.during--;
+            if (rootConfirm.during === 0) {
+                rootConfirm.close();
             }
         }
     }
 
-    onAccepted: {
+    function accept() {
         if (Tendzone.Commands_List[operation]["Commands"].length > 1) {
-            processDialog.operation = operation
-            processDialog.name = name
-            processDialog.open()
+            rootConfirm.openProcessDialog(operation, name);
         } else if (Tendzone.Commands_List[operation]["Commands"].length === 1) {
-            Tendzone.runCmd(
-                        Tendzone.Commands_List[operation]["Commands"][0].Name)
+            Tendzone.runCmd(Tendzone.Commands_List[operation]["Commands"][0].Name);
         }
+        rootConfirm.close();
     }
+    function reject() {
+        rootConfirm.close();
+    }
+
     onOpened: countDownTimer.start()
 
     onClosed: {
-        countDownTimer.stop()
-        during = 30
+        countDownTimer.stop();
+        during = 30;
     }
 }

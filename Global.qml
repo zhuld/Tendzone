@@ -17,7 +17,7 @@ QtObject {
     readonly property color buttonTextCheckedColor: settings.darkTheme ? "#FF064063" : "#FFE6E6E6"
     readonly property color buttonShadowColor: settings.darkTheme ? "#FF2E2E4C" : "#FF666C75"
 
-    readonly property int durationDelay: 200
+    readonly property int durationDelay: 300
     readonly property real disableOpacity: 0.6
 
     readonly property real shadowHeight: 4
@@ -31,6 +31,13 @@ QtObject {
     property int lockPower
 
     property string roomName: ""
+
+    enum DialogType {
+        PassWordSettings,
+        PassWordLockScreen,
+        Settings,
+        Volume
+    }
 
     property var settings: Settings {
         property bool darkTheme: false

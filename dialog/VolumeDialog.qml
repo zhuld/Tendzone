@@ -12,7 +12,7 @@ import "../js/tendzone.js" as Tendzone
 
 import QtQuick.Controls.Fusion
 
-Dialog {
+Popup {
     id: rootVolume
     implicitHeight: parent.height * 0.9
     implicitWidth: parent.width * 0.6
@@ -26,8 +26,11 @@ Dialog {
     property alias volumeIPLabel: volumeIPLabel.text
 
     anchors.centerIn: parent
-
     modal: true
+    focus: true
+
+    parent: Overlay.overlay
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     background: DialogBackground {
         titleHeight: 0.11
