@@ -16,7 +16,7 @@ Popup {
     focus: true
 
     parent: Overlay.overlay
-    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    closePolicy: Popup.NoAutoClose
 
     property alias processContent: processLabel.text
     property alias processTitle: processTitle.text
