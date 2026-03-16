@@ -6,6 +6,7 @@ import "../"
 
 Popup {
     id: menuDialog
+    property bool webSocketOpened: false
 
     implicitHeight: parent.height
     implicitWidth: parent.width * 0.12
@@ -68,11 +69,8 @@ Popup {
             icon.source: "qrc:/icons/config.svg"
             onClicked: {
                 if (Global.settings.settingPassword === "") {
-                    //settingDialog.open();
                     menuDialog.openDialog(Global.DialogType.Settings);
                 } else {
-                    //passwordDialog.passtype = Global.DialogType.PassWordSettings;
-                    //passwordDialog.open();
                     menuDialog.openDialog(Global.DialogType.PassWordSettings);
                 }
                 menuDialog.close();
@@ -84,10 +82,10 @@ Popup {
             height: width
             icon.source: "qrc:/icons/volume.svg"
             onClicked: {
-                //volumeDialog.open();
                 menuDialog.openDialog(Global.DialogType.Volume);
                 menuDialog.close();
             }
+            enabled: menuDialog.webSocketOpened
         }
         MyButton {
             id: language

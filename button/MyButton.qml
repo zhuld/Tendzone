@@ -48,13 +48,13 @@ T.Button {
         id: back
         height: parent.height
         width: parent.width
-        y: controlMyButton.checked || controlMyButton.pressed ? Global.shadowHeight / 2 : 0
+        y: controlMyButton.checked || controlMyButton.pressed || !controlMyButton.enabled ? Global.shadowHeight / 2 : 0
         Behavior on y {
             NumberAnimation {
                 duration: Global.durationDelay
             }
         }
-        x: controlMyButton.checked || controlMyButton.pressed ? Global.shadowHeight / 2 : 0
+        x: controlMyButton.checked || controlMyButton.pressed || !controlMyButton.enabled ? Global.shadowHeight / 2 : 0
         Behavior on x {
             NumberAnimation {
                 duration: Global.durationDelay

@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 
@@ -189,15 +191,48 @@ Popup {
                     font.pixelSize: height * 0.7
                     model: Tendzone.Projectors
                     currentIndex: Global.settings.projector
+                    delegate: ItemDelegate {
+                        id: delegate
+
+                        required property var model
+                        required property int index
+
+                        width: projector.width
+                        contentItem: Text {
+                            text: delegate.model[projector.textRole]
+                            color: Global.textColor
+                            font: projector.font
+                            elide: Text.ElideRight
+                        }
+                        highlighted: projector.highlightedIndex === index
+                        background: Rectangle {
+                            color: delegate.highlighted ? Global.buttonColor : "transparent"
+                        }
+                    }
+                    contentItem: Text {
+                        leftPadding: 4
+                        text: projector.displayText
+                        font: projector.font
+                        color: Global.buttonTextColor
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                    background: InputBackground {}
                     popup: Popup {
                         y: projector.height
                         width: projector.width
                         font.pixelSize: parent.height * 0.7
                         contentItem: ListView {
+                            id: listView
                             clip: true
                             implicitHeight: contentHeight
-                            model: projector.popup.visible ? projector.delegateModel : null
+                            model: projector.delegateModel
                             currentIndex: Global.settings.projector
+                        }
+                        background: Rectangle {
+                            color: Global.bgColor
+                            border.color: Global.textColor
+                            radius: 4
                         }
                     }
                 }
@@ -208,8 +243,10 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-                Switch {
+                MySwitch {
                     id: whiteBoardSwitch
+                    width: parent.width * 0.1
+                    height: width * 0.5
                     checked: Global.settings.whiteboard
                 }
 
@@ -220,8 +257,10 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-                Switch {
+                MySwitch {
                     id: wirelessSwitch
+                    width: parent.width * 0.1
+                    height: width * 0.5
                     checked: Global.settings.wireless
                 }
                 Text {
@@ -231,8 +270,10 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-                Switch {
+                MySwitch {
                     id: fullscreen
+                    width: parent.width * 0.1
+                    height: width * 0.5
                     checked: Global.settings.fullscreen
                 }
                 Text {
@@ -242,8 +283,10 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-                Switch {
+                MySwitch {
                     id: darkTheme
+                    width: parent.width * 0.1
+                    height: width * 0.5
                     checked: Global.settings.darkTheme
                     onClicked: {
                         if (checked) {
@@ -368,8 +411,10 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-                Switch {
+                MySwitch {
                     id: webSocketServer
+                    width: parent.width * 0.1
+                    height: width * 0.5
                     checked: Global.settings.webSocketServer
                 }
                 Text {
@@ -406,8 +451,10 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-                Switch {
+                MySwitch {
                     id: debugInfo
+                    width: parent.width * 0.1
+                    height: width * 0.5
                     checked: Global.settings.debugInfo
                 }
                 Text {

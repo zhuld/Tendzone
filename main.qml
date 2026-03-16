@@ -80,6 +80,7 @@ ApplicationWindow {
     }
     MenuDialog {
         id: menuDialog
+        webSocketOpened: wsClient.status === WebSocket.Open
         onOpenDialog: type => {
             switch (type) {
             case Global.DialogType.Settings:
@@ -98,10 +99,13 @@ ApplicationWindow {
 
     WSServer {
         id: wsServer
+        port: Global.settings.webSocketServerPort
+        listen: Global.settings.webSocketServer ? true : false
+
         onBinReceived: message => info.text = "Received:" + message
         onTextReceived: message => {
             Tendzone.controlMessageCheck(message);
-            info.text = "Received:" + message;
+        //info.text = "Received:" + message;
         }
     }
 
