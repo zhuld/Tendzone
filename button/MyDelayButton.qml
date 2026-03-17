@@ -7,7 +7,7 @@ import QtQuick.Templates as T
 
 import "../"
 
-T.Button {
+T.DelayButton {
     id: controlMyButton
     property bool switched: controlMyButton.checked || controlMyButton.pressed
     property color btnColor: Global.buttonColor
@@ -15,16 +15,21 @@ T.Button {
 
     property real radius: controlMyButton.height / 5
 
-    property color textColor: switched ? Global.buttonTextCheckedColor : Global.buttonTextColor
+    property color textColor: controlMyButton.progress === 1 ? Global.buttonTextCheckedColor : Global.buttonTextColor
 
     implicitHeight: parent.height
     implicitWidth: parent.width
     font.pixelSize: height * 0.35
     opacity: enabled ? 1 : Global.disableOpacity
-
     Behavior on opacity {
         OpacityAnimator {
             duration: Global.durationDelay
+        }
+    }
+
+    transition: Transition {
+        NumberAnimation {
+            duration: controlMyButton.delay * (controlMyButton.pressed ? 1 - controlMyButton.progress : controlMyButton.progress * 0.5)
         }
     }
     contentItem: MyIconLabel {
@@ -55,7 +60,6 @@ T.Button {
                 duration: Global.durationDelay
             }
         }
-
         containsMode: Shape.FillContains
         layer.enabled: true
         layer.samples: 16
@@ -81,20 +85,14 @@ T.Button {
                 width: back.width
                 height: back.height
             }
-
             fillGradient: RadialGradient {
                 id: gradient
-                property real pos: controlMyButton.switched ? 1.2 : 0
                 centerX: back.width * 0.5
                 centerY: back.height * 0.5
                 focalX: back.width * 0.5
                 focalY: back.height
                 centerRadius: Math.max(back.width, back.height)
-                Behavior on pos {
-                    NumberAnimation {
-                        duration: Global.durationDelay
-                    }
-                }
+                property real pos: controlMyButton.progress * 1.2
                 GradientStop {
                     position: -1.2 + gradient.pos
                     color: controlMyButton.btnCheckColor

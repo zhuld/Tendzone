@@ -111,9 +111,7 @@ Popup {
             id: scrollView
             width: parent.width
             height: parent.height * 0.8
-            contentWidth: parent.width * 0.9
-            anchors.margins: height / 20
-
+            contentWidth: parent.width * 0.97
             Behavior on ScrollBar.vertical.position {
                 NumberAnimation {
                     duration: Global.durationDelay
@@ -123,7 +121,8 @@ Popup {
             Grid {
                 width: parent.width
                 columns: 2
-                spacing: parent.parent.height * 0.05
+                spacing: parent.width * 0.02
+                bottomPadding: spacing
                 Text {
                     text: "中控IP地址"
                     width: parent.width * 0.5
@@ -191,6 +190,11 @@ Popup {
                     font.pixelSize: height * 0.7
                     model: Tendzone.Projectors
                     currentIndex: Global.settings.projector
+                    onFocusChanged: {
+                        if (focus) {
+                            scrollView.ScrollBar.vertical.position = y / scrollView.contentHeight;
+                        }
+                    }
                     delegate: ItemDelegate {
                         id: delegate
 
@@ -219,6 +223,7 @@ Popup {
                     }
                     background: InputBackground {}
                     popup: Popup {
+                        id: popup
                         y: projector.height
                         width: projector.width
                         font.pixelSize: parent.height * 0.7
@@ -234,6 +239,31 @@ Popup {
                             border.color: Global.textColor
                             radius: 4
                         }
+                        enter: Transition {
+                            NumberAnimation {
+                                property: "opacity"
+                                from: 0
+                                to: 1
+                                duration: Global.durationDelay
+                            }
+                        }
+
+                        exit: Transition {
+                            NumberAnimation {
+                                property: "opacity"
+                                from: 1
+                                to: 0
+                                duration: Global.durationDelay
+                            }
+                        }
+                    }
+                    indicator: MyIconLabel {
+                        icon.source: projector.down ? "qrc:/icons/down2" : "qrc:/icons/down"
+                        icon.color: Global.buttonTextColor
+                        width: parent.height
+                        height: parent.height
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
                     }
                 }
                 Text {
@@ -561,18 +591,15 @@ Popup {
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Stop
                     }
-                    DelayButton {
+                    MyDelayButton {
+                        id: delayButton
                         width: parent.width * 0.45
                         height: width * 0.4
                         delay: 1000
-                        Text {
-                            text: "系统重启"
-                            color: Global.warnColor
-                            font.pixelSize: parent.height * 0.4
-                            anchors.centerIn: parent
-                        }
-                        onActivated: Tendzone.runCmd(Tendzone.Command.reboot, null)
+                        textColor: Global.warnColor
+                        onActivated: Tendzone.runCmd(Tendzone.Command.reboot, true)
                         onReleased: checked = false
+                        text: "系统重启"
                     }
                 }
 

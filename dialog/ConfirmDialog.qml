@@ -83,7 +83,7 @@ Popup {
         Row {
             id: confirmButtons
             width: parent.width
-            height: parent.height * 0.24
+            height: parent.height * 0.22
             spacing: width * 0.05
             layoutDirection: Qt.RightToLeft
             MyButton {

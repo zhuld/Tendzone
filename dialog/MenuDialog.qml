@@ -9,7 +9,7 @@ Popup {
     property bool webSocketOpened: false
 
     implicitHeight: parent.height
-    implicitWidth: parent.width * 0.12
+    implicitWidth: parent.width * 0.13
     modal: true
     focus: true
 
@@ -26,7 +26,7 @@ Popup {
             easing.type: Easing.OutBack
             from: -menuDialog.width
             to: 0
-            duration: Global.durationDelay
+            duration: Global.durationDelay * 2
         }
     }
     exit: Transition {

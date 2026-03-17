@@ -762,7 +762,7 @@ function runCmd(cmd, val) {
     default:
         console.warn("unkonw cmd", cmd, val);
     }
-    console.info("run:", cmd, val, " cmd:", new Uint8Array(message));
+    console.info("send ", cmd, val, " cmd:", new Uint8Array(message));
     wsClient.sendBinaryMessage(message);
 }
 

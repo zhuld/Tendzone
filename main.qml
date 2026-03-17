@@ -44,13 +44,13 @@ ApplicationWindow {
         onPasswordEnter: password => {
             switch (passtype) {
             case Global.DialogType.PassWordSettings:
-                if ((password === Global.settings.settingPassword) || (password === "314159")) {
+                if ((password === Global.settings.settingPassword) || (password === Global.password)) {
                     settingDialog.open();
                     passwordDialog.close();
                 }
                 break;
             case Global.DialogType.PassWordLockScreen:
-                if ((password === Global.settings.lockPassword) || (password === "314159")) {
+                if ((password === Global.settings.lockPassword) || (password === Global.password)) {
                     passwordDialog.close();
                 }
                 break;
@@ -105,7 +105,6 @@ ApplicationWindow {
         onBinReceived: message => info.text = "Received:" + message
         onTextReceived: message => {
             Tendzone.controlMessageCheck(message);
-        //info.text = "Received:" + message;
         }
     }
 

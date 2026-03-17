@@ -51,6 +51,9 @@ qt_add_qml_module(Tendzone
     QML_FILES others/DialogBackground.qml
     QML_FILES others/InputBackground.qml
     QML_FILES button/MySwitch.qml
+    QML_FILES button/MyDelayButton.qml
+    QML_FILES
+    RESOURCES
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

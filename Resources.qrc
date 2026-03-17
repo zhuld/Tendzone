@@ -9,5 +9,7 @@
         <file>icons/config.svg</file>
         <file>icons/dark.svg</file>
         <file>icons/volume.svg</file>
+        <file>icons/down.svg</file>
+        <file>icons/down2.svg</file>
     </qresource>
 </RCC>
