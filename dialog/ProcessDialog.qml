@@ -79,19 +79,25 @@ Popup {
         }
 
         Rectangle {
-            id: processBar
-            property real processValue: 0
-            width: parent.width * processValue
+            width: parent.width
             height: parent.height * 0.04
-            color: Qt.lighter(Global.textColor, 2)
+            color: Qt.darker(Global.buttonColor, 1.5)
             radius: height * 0.3
-            PropertyAnimation {
-                id: processAnimation
-                target: processBar
-                property: "processValue"
-                from: 0.0
-                to: 1.0
-                duration: rootProcess.duringSeconds * 1000
+            Rectangle {
+                id: processBar
+                property real processValue: 0
+                width: parent.width * processValue
+                height: parent.height
+                color: Global.buttonCheckedColor//Qt.lighter(Global.textColor, 2)
+                radius: parent.radius
+                PropertyAnimation {
+                    id: processAnimation
+                    target: processBar
+                    property: "processValue"
+                    from: 0.0
+                    to: 1.0
+                    duration: rootProcess.duringSeconds * 1000
+                }
             }
         }
     }

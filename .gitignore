@@ -52,3 +52,6 @@ deploy/
 # protobuf source files
 *.pb.h
 *.pb.cc
+
+# output directory
+output/

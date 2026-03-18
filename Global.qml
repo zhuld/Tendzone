@@ -7,7 +7,7 @@ QtObject {
     readonly property color textColor: settings.darkTheme ? "#FFCFD2EC" : "#FF0C2B5D"
     readonly property color splitterColor: settings.darkTheme ? "#5A70A8" : "#AEB8C7"
     readonly property color warnColor: settings.darkTheme ? "darkRed" : "orangered"
-    readonly property color confirmColor: settings.darkTheme ? "darkGreen" : "green"
+    readonly property color confirmColor: settings.darkTheme ? "green" : "greenyellow"
     readonly property color overlayColor: settings.darkTheme ? "#C0000000" : "#C0000000"
 
     readonly property color buttonColor: settings.darkTheme ? "#FF0B79BD" : "#FF81D7FC"

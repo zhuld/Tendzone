@@ -71,8 +71,8 @@ T.Button {
             }
         }
         ShapePath {
-            strokeWidth: 0
-            strokeColor: "transparent"
+            strokeWidth: Math.ceil(controlMyButton.width * 0.004)
+            strokeColor: Qt.darker(controlMyButton.btnColor, 1.5)
             PathRectangle {
                 id: pathRect
                 x: 0
@@ -84,7 +84,7 @@ T.Button {
 
             fillGradient: RadialGradient {
                 id: gradient
-                property real pos: controlMyButton.switched ? 1.2 : 0
+                property real pos: controlMyButton.switched ? 1 : 0
                 centerX: back.width * 0.5
                 centerY: back.height * 0.5
                 focalX: back.width * 0.5
@@ -96,7 +96,7 @@ T.Button {
                     }
                 }
                 GradientStop {
-                    position: -1.2 + gradient.pos
+                    position: -0.8 + gradient.pos
                     color: controlMyButton.btnCheckColor
                 }
                 GradientStop {

@@ -130,7 +130,6 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-
                 TextField {
                     id: ipAddress
                     width: parent.width * 0.5
@@ -149,6 +148,7 @@ Popup {
                         }
                     }
                 }
+
                 Text {
                     text: "中控端口"
                     width: parent.width * 0.5
@@ -156,7 +156,6 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-
                 TextField {
                     id: ipPort
                     width: parent.width * 0.5
@@ -176,6 +175,7 @@ Popup {
                         }
                     }
                 }
+
                 Text {
                     text: "投影机品牌"
                     width: parent.width * 0.5
@@ -266,6 +266,7 @@ Popup {
                         anchors.right: parent.right
                     }
                 }
+
                 Text {
                     text: "显示白板上课按钮"
                     width: parent.width * 0.5
@@ -293,6 +294,7 @@ Popup {
                     height: width * 0.5
                     checked: Global.settings.wireless
                 }
+
                 Text {
                     text: "全屏显示"
                     width: parent.width * 0.5
@@ -306,6 +308,7 @@ Popup {
                     height: width * 0.5
                     checked: Global.settings.fullscreen
                 }
+
                 Text {
                     text: Global.settings.darkTheme ? "暗色主题" : "亮色主题"
                     width: parent.width * 0.5
@@ -327,6 +330,7 @@ Popup {
                         Global.settings.sync();
                     }
                 }
+
                 Text {
                     text: "报修电话"
                     width: parent.width * 0.5
@@ -334,7 +338,6 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-
                 TextField {
                     id: phoneNumber
                     width: parent.width * 0.5
@@ -353,6 +356,7 @@ Popup {
                         }
                     }
                 }
+
                 Text {
                     text: "系统设置密码"
                     width: parent.width * 0.5
@@ -360,7 +364,6 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-
                 TextField {
                     id: settingPassword
                     width: parent.width * 0.5
@@ -380,6 +383,7 @@ Popup {
                         }
                     }
                 }
+
                 Text {
                     text: "系统锁屏密码"
                     width: parent.width * 0.5
@@ -387,7 +391,6 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-
                 TextField {
                     id: lockPassword
                     width: parent.width * 0.5
@@ -407,6 +410,7 @@ Popup {
                         }
                     }
                 }
+
                 Text {
                     text: "网络重连时间(10~600s)"
                     width: parent.width * 0.5
@@ -414,7 +418,6 @@ Popup {
                     font.pixelSize: height * 0.7
                     color: Global.textColor
                 }
-
                 TextField {
                     id: socketError
                     width: parent.width * 0.5
@@ -434,6 +437,7 @@ Popup {
                         }
                     }
                 }
+
                 Text {
                     text: "自带WebSocket服务器"
                     width: parent.width * 0.5
@@ -447,6 +451,7 @@ Popup {
                     height: width * 0.5
                     checked: Global.settings.webSocketServer
                 }
+
                 Text {
                     text: "WebSocket服务器端口"
                     width: parent.width * 0.5
@@ -474,6 +479,7 @@ Popup {
                     }
                     enabled: webSocketServer.checked
                 }
+
                 Text {
                     text: "显示调试信息"
                     width: parent.width * 0.5
@@ -487,22 +493,29 @@ Popup {
                     height: width * 0.5
                     checked: Global.settings.debugInfo
                 }
-                Text {
-                    text: "控制指令测试"
-                    width: parent.width * 0.5
-                    height: width * 0.1
-                    font.pixelSize: height * 0.7
-                    color: Global.textColor
-                }
-                Text {
-                    width: parent.width * 0.5
-                    height: width * 0.1
-                    font.pixelSize: height * 0.7
-                }
+
                 Grid {
                     width: parent.width * 0.5
                     columns: 2
                     spacing: width * 0.05
+                    Text {
+                        width: parent.width * 0.45
+                        height: width * 0.4
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: Global.textColor
+                        text: "控制指令测试"
+                        font.pixelSize: height * 0.4
+                    }
+                    Text {
+                        width: parent.width * 0.45
+                        height: width * 0.4
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: Global.textColor
+                        text: "电源开关"
+                        font.pixelSize: height * 0.4
+                    }
                     MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
@@ -567,6 +580,15 @@ Popup {
                         font.pixelSize: height * 0.4
                         checked: Global.settings.volumeMute
                     }
+                    Text {
+                        width: parent.width * 0.45
+                        height: width * 0.4
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: Global.textColor
+                        text: "幕布控制"
+                        font.pixelSize: height * 0.4
+                    }
                     MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
@@ -578,25 +600,24 @@ Popup {
                     MyButton {
                         width: parent.width * 0.45
                         height: width * 0.4
-                        text: "幕布降"
-                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Down)
-                        font.pixelSize: height * 0.4
-                        checked: Global.mubuPower === Tendzone.val_Down
-                    }
-                    MyButton {
-                        width: parent.width * 0.45
-                        height: width * 0.4
                         text: "幕布停"
                         onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Stop)
                         font.pixelSize: height * 0.4
                         checked: Global.mubuPower === Tendzone.val_Stop
+                    }
+                    MyButton {
+                        width: parent.width * 0.45
+                        height: width * 0.4
+                        text: "幕布降"
+                        onClicked: Tendzone.runCmd(Tendzone.Command.Mubu, Tendzone.val_Down)
+                        font.pixelSize: height * 0.4
+                        checked: Global.mubuPower === Tendzone.val_Down
                     }
                     MyDelayButton {
                         id: delayButton
                         width: parent.width * 0.45
                         height: width * 0.4
                         delay: 1000
-                        textColor: Global.warnColor
                         onActivated: Tendzone.runCmd(Tendzone.Command.reboot, true)
                         onReleased: checked = false
                         text: "系统重启"
@@ -614,7 +635,7 @@ Popup {
                         verticalAlignment: Text.AlignVCenter
                         color: Global.textColor
                         text: "串口1"
-                        font.pixelSize: height * 0.5
+                        font.pixelSize: height * 0.4
                     }
                     Text {
                         width: parent.width * 0.45
@@ -623,7 +644,7 @@ Popup {
                         verticalAlignment: Text.AlignVCenter
                         color: Global.textColor
                         text: "串口2"
-                        font.pixelSize: height * 0.5
+                        font.pixelSize: height * 0.4
                     }
                     MyButton {
                         width: parent.width * 0.45
@@ -660,7 +681,7 @@ Popup {
                         verticalAlignment: Text.AlignVCenter
                         color: Global.textColor
                         text: "投影机信号"
-                        font.pixelSize: height * 0.5
+                        font.pixelSize: height * 0.4
                     }
                     Text {
                         width: parent.width * 0.45
@@ -669,7 +690,7 @@ Popup {
                         verticalAlignment: Text.AlignVCenter
                         color: Global.textColor
                         text: "扩展信号"
-                        font.pixelSize: height * 0.5
+                        font.pixelSize: height * 0.4
                     }
                     MyButton {
                         width: parent.width * 0.45

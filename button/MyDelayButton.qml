@@ -75,8 +75,8 @@ T.DelayButton {
             }
         }
         ShapePath {
-            strokeWidth: 0
-            strokeColor: "transparent"
+            strokeWidth: Math.ceil(controlMyButton.width * 0.004)
+            strokeColor: Qt.darker(controlMyButton.btnColor, 1.5)
             PathRectangle {
                 id: pathRect
                 x: 0

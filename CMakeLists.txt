@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 6.10 COMPONENTS Quick REQUIRED)
 
 set_source_files_properties(
     Global.qml
@@ -19,9 +19,6 @@ qt_add_executable(Tendzone
 qt_add_qml_module(Tendzone
     URI Tendzone
     VERSION 1.0
-    RESOURCES
-    RESOURCES
-    RESOURCES
     QML_FILES main.qml
     QML_FILES dialog/ConfirmDialog.qml
     QML_FILES dialog/PasswordDialog.qml
@@ -35,7 +32,6 @@ qt_add_qml_module(Tendzone
 
     QML_FILES websocket/WSServer.qml
     QML_FILES websocket/WSClient.qml
-    QML_FILES
 
     QML_FILES Global.qml
 
@@ -43,17 +39,11 @@ qt_add_qml_module(Tendzone
     QML_FILES js/tendzone.js
     QML_FILES button/MyButton.qml
     QML_FILES button/MyIconLabel.qml
-    RESOURCES
     RESOURCES Resources.qrc
-    QML_FILES
-    QML_FILES
-    QML_FILES
     QML_FILES others/DialogBackground.qml
     QML_FILES others/InputBackground.qml
     QML_FILES button/MySwitch.qml
     QML_FILES button/MyDelayButton.qml
-    QML_FILES
-    RESOURCES
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -64,9 +54,7 @@ set_target_properties(Tendzone PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
-)
-set_property(TARGET Tendzone
-    APPEND PROPERTY  QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
+    QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
 )
 
 target_link_libraries(Tendzone
