@@ -8,8 +8,8 @@ Popup {
     id: menuDialog
     property bool webSocketOpened: false
 
-    implicitHeight: parent.height
-    implicitWidth: parent.width * 0.13
+    implicitHeight: Overlay.overlay.height
+    implicitWidth: Overlay.overlay.width * 0.13
     modal: true
     focus: true
 

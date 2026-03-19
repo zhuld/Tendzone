@@ -22,36 +22,28 @@ Item {
         fillMode: Image.PreserveAspectCrop
         source: "qrc:/pic/splash.jpg"
     }
-
     Rectangle {
-        id: processBar
-        property real processValue: 0
-        width: parent.width * processValue * 0.8
-        height: parent.height * 0.01
+        width: parent.width * 0.8
+        height: parent.height * 0.02
         x: parent.width * 0.1
         y: parent.height * 0.9
-        gradient: Gradient {
-            GradientStop {
-                position: 0.6
-                color: splash.processColor
+        color: Qt.darker(Global.buttonColor, 1.5)
+        radius: height * 0.3
+        Rectangle {
+            id: processBar
+            property real processValue: 0
+            width: parent.width * processValue * 0.8
+            height: parent.height
+            color: Global.buttonCheckedColor
+            NumberAnimation {
+                id: processAnimation
+                target: processBar
+                property: "processValue"
+                from: 0.0
+                to: 1.0
+                duration: 3000
+                onFinished: splash.visible = false
             }
-            GradientStop {
-                position: 1.0
-                color: Qt.lighter(splash.processColor, 1.2)
-            }
-            GradientStop {
-                position: 0.0
-                color: Qt.lighter(splash.processColor, 1.4)
-            }
-        }
-        NumberAnimation {
-            id: processAnimation
-            target: processBar
-            property: "processValue"
-            from: 0.0
-            to: 1.0
-            duration: 3000
-            onFinished: splash.visible = false
         }
     }
     Text {
@@ -72,7 +64,7 @@ Item {
 
     onVisibleChanged: {
         if (visible === false) {
-            closed()
+            closed();
         }
     }
 }

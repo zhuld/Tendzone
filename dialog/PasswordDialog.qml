@@ -17,9 +17,9 @@ Popup {
 
     property int during: 30
 
-    implicitWidth: parent.width * 0.8
-    implicitHeight: parent.height * 0.9
-    anchors.centerIn: parent
+    implicitWidth: Overlay.overlay.width * 0.8
+    implicitHeight: Overlay.overlay.height * 0.9
+    anchors.centerIn: Overlay.overlay
 
     signal passwordEnter(string password)
 

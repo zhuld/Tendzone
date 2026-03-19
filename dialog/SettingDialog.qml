@@ -13,9 +13,9 @@ import QtQuick.Controls.Fusion
 
 Popup {
     id: rootSetting
-    anchors.centerIn: parent
-    implicitWidth: parent.width * 0.9
-    implicitHeight: parent.height * 0.9
+    anchors.centerIn: Overlay.overlay
+    implicitWidth: Overlay.overlay.width * 0.9
+    implicitHeight: Overlay.overlay.height * 0.9
 
     modal: true
     focus: true

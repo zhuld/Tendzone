@@ -14,8 +14,9 @@ import QtQuick.Controls.Fusion
 
 Popup {
     id: rootVolume
-    implicitHeight: parent.height * 0.9
-    implicitWidth: parent.width * 0.6
+    anchors.centerIn: Overlay.overlay
+    implicitHeight: Overlay.overlay.height * 0.9
+    implicitWidth: Overlay.overlay.width * 0.6
 
     readonly property int minVolume: -30
     readonly property int maxVolume: 5
@@ -25,7 +26,6 @@ Popup {
     property alias volumeLabel: volumeGlobalLabel.text
     property alias volumeIPLabel: volumeIPLabel.text
 
-    anchors.centerIn: parent
     modal: true
     focus: true
 

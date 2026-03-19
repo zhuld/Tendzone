@@ -8,9 +8,9 @@ import "../js/tendzone.js" as Tendzone
 
 Popup {
     id: rootConfirm
-    anchors.centerIn: parent
-    implicitWidth: parent.width * 0.7
-    implicitHeight: parent.height * 0.6
+    anchors.centerIn: Overlay.overlay
+    implicitWidth: Overlay.overlay.width * 0.7
+    implicitHeight: Overlay.overlay.height * 0.6
 
     modal: true
     focus: true
